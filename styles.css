@@ -169,13 +169,16 @@ html {
   object-fit: contain;
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
   transform: scale(0.86);
-  transition: opacity 180ms ease, transform 220ms ease;
+  transition: opacity 180ms ease, transform 220ms ease, visibility 0ms linear 220ms;
 }
 
 #revealImage.show {
   opacity: 1;
+  visibility: visible;
   transform: scale(1);
+  transition-delay: 0ms;
 }
 
 #rain {

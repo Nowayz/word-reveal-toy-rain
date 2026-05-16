@@ -2,10 +2,6 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
-#ifdef MKL8GON_USE_CUDA
-#include "visibility_cuda.h"
-#endif
-
 #ifdef _OPENMP
 #include <omp.h>
 #endif
@@ -43,8 +39,8 @@
 
 namespace mkl8gon {
 
-constexpr int K = 8;
-constexpr int FRUITLESS_ROUND_PATIENCE = 10;
+constexpr int K = 16;
+constexpr int FRUITLESS_ROUND_PATIENCE = 20;
 constexpr double PI = 3.141592653589793238462643383279502884;
 constexpr double INF = 1.0e100;
 
@@ -99,17 +95,16 @@ struct Options {
     double minGainPct = 0.05;
     double pointGainPct = 0.1;
     double gaMutation = 3.0;
-    int maxPoints = 24;
+    int maxPoints = K;
     int gaPopulation = 96;
     int gaGenerations = 80;
     int pointCandidates = 128;
     int minPoints = 3;
-    int pointPatience = 5;
+    int pointPatience = 10;
     int cpuThreads = 0;
     bool autoPoints = false;
     bool genetic = false;
     bool pointVisibility = false;
-    bool useCuda = true;
     bool fastClearances = false;
     bool polish = true;
     bool verbose = true;
@@ -673,7 +668,7 @@ static Poly8 supportOctagonStart(
     std::array<Vec2, K> n{};
     std::array<double, K> h{};
     for (int i = 0; i < K; ++i) {
-        const double a = angle + static_cast<double>(i) * PI / 4.0;
+        const double a = angle + static_cast<double>(i) * (2.0 * PI / static_cast<double>(K));
         n[i] = {std::cos(a), std::sin(a)};
         h[i] = -INF;
         for (Vec2 p : points) h[i] = std::max(h[i], dot(n[i], p));
@@ -961,28 +956,6 @@ static VisibilityGraph buildVisibilityGraph(const std::vector<Vec2>& candidates,
     graph.n = static_cast<int>(candidates.size());
     graph.visible.assign(static_cast<size_t>(graph.n) * static_cast<size_t>(graph.n), 0);
 
-#ifdef MKL8GON_USE_CUDA
-    if (opt.useCuda && graph.n >= 16) {
-        std::vector<double> xy(static_cast<size_t>(graph.n) * 2u);
-        for (int i = 0; i < graph.n; ++i) {
-            xy[static_cast<size_t>(i) * 2u + 0u] = candidates[i].x;
-            xy[static_cast<size_t>(i) * 2u + 1u] = candidates[i].y;
-        }
-        const int rc = mkl8gon_build_visibility_cuda(
-            xy.data(),
-            graph.n,
-            img.sdf.sdf.data(),
-            img.sdf.w,
-            img.sdf.h,
-            opt.finalClearance,
-            opt.denseEdgeStep,
-            graph.visible.data()
-        );
-        if (rc == 0) return graph;
-        if (opt.verbose) std::cerr << "CUDA visibility failed rc=" << rc << "; falling back to CPU\n";
-    }
-#endif
-
     #ifdef _OPENMP
     #pragma omp parallel for schedule(dynamic)
     #endif
@@ -1026,56 +999,7 @@ static std::optional<PolyN> solveVisibilityPointPolygonK(
     double bestArea = INF;
     PolyN bestPoly;
     const int anchorStep = std::max(1, n / std::min(n, 48));
-    bool cudaDpAttempted = false;
 
-#ifdef MKL8GON_USE_CUDA
-    if (opt.useCuda && n <= 160 && vertices <= 16) {
-        cudaDpAttempted = true;
-        std::vector<double> xy(static_cast<size_t>(n) * 2u);
-        for (int i = 0; i < n; ++i) {
-            xy[static_cast<size_t>(i) * 2u + 0u] = candidates[i].x;
-            xy[static_cast<size_t>(i) * 2u + 1u] = candidates[i].y;
-        }
-        const int maxCudaCandidates = std::min(64, std::max(1, (n + anchorStep - 1) / anchorStep));
-        std::vector<double> outXy(static_cast<size_t>(maxCudaCandidates) * static_cast<size_t>(vertices) * 2u);
-        std::vector<double> rawTwiceArea(static_cast<size_t>(maxCudaCandidates), INF);
-        int cudaCandidateCount = 0;
-        const int rc = mkl8gon_solve_visibility_dp_cuda(
-            xy.data(),
-            graph.visible.data(),
-            n,
-            vertices,
-            anchorStep,
-            maxCudaCandidates,
-            outXy.data(),
-            rawTwiceArea.data(),
-            &cudaCandidateCount
-        );
-        if (rc == 0) {
-            for (int ci = 0; ci < cudaCandidateCount; ++ci) {
-                PolyN candidate;
-                candidate.v.reserve(vertices);
-                for (int i = 0; i < vertices; ++i) {
-                    const size_t base = (static_cast<size_t>(ci) * static_cast<size_t>(vertices) + static_cast<size_t>(i)) * 2u;
-                    candidate.v.push_back({outXy[base + 0u], outXy[base + 1u]});
-                }
-                candidate = ensureCCW(candidate);
-                std::optional<PolyN> repaired = growPointPolygonUntilValid(candidate, img, opt);
-                if (repaired) candidate = *repaired;
-                Validation validation = validateDense(candidate, img, opt.finalClearance, opt.denseEdgeStep);
-                if (validation.simple && validation.contains && validation.edgeClear && validation.area < bestArea) {
-                    bestArea = validation.area;
-                    bestPoly = candidate;
-                }
-            }
-        } else if (opt.verbose) {
-            std::cerr << "CUDA DP failed rc=" << rc << "; ";
-        }
-    }
-#endif
-
-    if (!cudaDpAttempted || bestArea >= INF / 2.0) {
-        if (cudaDpAttempted && opt.verbose) std::cerr << "using fallback candidate path\n";
     std::vector<int> anchors;
     for (int anchor = 0; anchor < n; anchor += anchorStep) anchors.push_back(anchor);
 
@@ -1157,7 +1081,6 @@ static std::optional<PolyN> solveVisibilityPointPolygonK(
             bestArea = localBestArea;
             bestPoly = localBestPoly;
         }
-    }
     }
     }
 
@@ -1312,7 +1235,7 @@ struct ResidualContext {
 };
 
 static int residualCount(const ResidualContext& ctx) {
-    const int nonAdjacentPairs = 20; // C(8,2) - 8 adjacent - 1 wrap? For this loop below it is 20.
+            const int nonAdjacentPairs = K * (K - 3) / 2;
     return 1 + static_cast<int>(ctx.activeObject.size()) +
            K * ctx.edgeSamplesPerEdge + static_cast<int>(ctx.activeEdge.size()) +
            nonAdjacentPairs + K;
@@ -2231,8 +2154,8 @@ static std::optional<Poly8> optimizeSupportAngles(
     const int rotationSamples = opt.fastClearances ? 192 : 384;
     for (int r = 0; r < rotationSamples; ++r) {
         std::array<double, K> angles{};
-        const double base = (PI / 4.0) * static_cast<double>(r) / static_cast<double>(rotationSamples);
-        for (int i = 0; i < K; ++i) angles[i] = base + static_cast<double>(i) * PI / 4.0;
+        const double base = (2.0 * PI / static_cast<double>(K)) * static_cast<double>(r) / static_cast<double>(rotationSamples);
+        for (int i = 0; i < K; ++i) angles[i] = base + static_cast<double>(i) * (2.0 * PI / static_cast<double>(K));
         acceptCandidate(angles, bestScore, bestPoly, bestAngles);
     }
 
@@ -2698,7 +2621,7 @@ static void updateProgressUi(
         mklResult
     );
     labels.insert(labels.begin(), "Phase: " + phase);
-    ui->update(makeOverlay(img, p), progress, "8-gon optimization progress", std::move(labels));
+            ui->update(makeOverlay(img, p), progress, "polygon optimization progress", std::move(labels));
 }
 
 static SolveResult solve8gon(const ImageData& img, const Options& opt, ProgressUi* ui, const std::string& jobName) {
@@ -2713,7 +2636,7 @@ static SolveResult solve8gon(const ImageData& img, const Options& opt, ProgressU
         ui->update(
             makeBasePreview(img),
             0.0,
-            "8-gon optimization progress",
+            "polygon optimization progress",
             {
                 "Phase: loaded image",
                 "Job: " + jobName,
@@ -2819,7 +2742,7 @@ static SolveResult solve8gon(const ImageData& img, const Options& opt, ProgressU
         }
     }
 
-    if (!globalBest) throw std::runtime_error("No valid 8-gon found; increase starts/margins or relax clearance");
+    if (!globalBest) throw std::runtime_error("No valid polygon found; increase starts/margins or relax clearance");
     int finalFruitless = 0;
     double previousBestArea = globalBest->validation.area;
     for (int round = 0; finalFruitless < FRUITLESS_ROUND_PATIENCE; ++round) {
@@ -2858,7 +2781,7 @@ static SolveResult solve8gon(const ImageData& img, const Options& opt, ProgressU
                 "Min SDF on edges: " + formatDouble(globalBest->validation.minSdfOnEdges, 3),
                 "Outside pixels: " + std::to_string(globalBest->validation.outsideObjectCount)
             };
-            ui->update(makeOverlay(img, globalBest->poly), 0.99, "8-gon optimization progress", std::move(labels));
+            ui->update(makeOverlay(img, globalBest->poly), 0.99, "polygon optimization progress", std::move(labels));
         }
 
         if (opt.verbose) {
@@ -2878,7 +2801,7 @@ static void printUsage(const char* argv0) {
               << "  " << argv0 << " input.png overlay.png [--starts N] [--alpha T] [--seed S]\n"
               << "Options:\n"
               << "  --fast            use cheaper preview settings for much faster iteration\n"
-              << "  --starts N        number of rotated support-octagon starts; default 48\n"
+              << "  --starts N        number of rotated support-polygon starts; default 48\n"
               << "  --alpha T         alpha threshold; default 10\n"
               << "  --seed S          deterministic sampling seed; default 1\n"
               << "  --max-active N    maximum active object samples; default 1400\n"
@@ -2890,13 +2813,12 @@ static void printUsage(const char* argv0) {
               << "  --min-gain-pct V  stop shrink rounds when area gain falls below V percent; default 0.05\n"
               << "  --auto-points     keep adding polygon points while area improves enough\n"
               << "  --point-gain-pct V stop adding points when best added-point gain is below V percent; default 0.1\n"
-              << "  --max-points N    maximum auto-points polygon vertices; default 24\n"
+              << "  --max-points N    maximum auto-points polygon vertices; default 16\n"
               << "  --point-visibility use contour-point visibility graph / DP solver\n"
               << "  --point-candidates N contour samples for point visibility; default 128\n"
               << "  --min-points N    first point count tested by visibility solver; default 3\n"
-              << "  --point-patience N stop visibility point growth after N low-gain counts; default 5\n"
-              << "  --no-cuda         disable CUDA visibility graph offload\n"
-              << "  --cpu-threads N   CPU worker threads; default 2 with CUDA, all cores without CUDA\n"
+              << "  --point-patience N stop visibility point growth after N low-gain counts; default 10\n"
+              << "  --cpu-threads N   CPU worker threads; default all hardware cores\n"
               << "  --genetic         run genetic valid-polygon search after local SDF-safe shrink\n"
               << "  --ga-pop N        genetic population size; default 96\n"
               << "  --ga-gen N        genetic generations; default 80\n"
@@ -2963,7 +2885,6 @@ static Options parseOptions(int argc, char** argv, std::string& inPath, std::str
         else if (a == "--point-candidates") opt.pointCandidates = std::stoi(needValue(a));
         else if (a == "--min-points") opt.minPoints = std::stoi(needValue(a));
         else if (a == "--point-patience") opt.pointPatience = std::stoi(needValue(a));
-        else if (a == "--no-cuda") opt.useCuda = false;
         else if (a == "--cpu-threads") opt.cpuThreads = std::stoi(needValue(a));
         else if (a == "--genetic") opt.genetic = true;
         else if (a == "--ga-pop") opt.gaPopulation = std::stoi(needValue(a));
@@ -2984,6 +2905,10 @@ static Options parseOptions(int argc, char** argv, std::string& inPath, std::str
             }
         }
     }
+    opt.minPoints = std::max(3, opt.minPoints);
+    opt.maxPoints = std::max(opt.minPoints, opt.maxPoints);
+    opt.maxPoints = std::min(opt.maxPoints, K);
+    opt.pointPatience = std::max(1, opt.pointPatience);
     return opt;
 }
 
@@ -2997,7 +2922,7 @@ int main(int argc, char** argv) {
 
         int workerThreads = opt.cpuThreads;
         if (workerThreads <= 0) {
-            workerThreads = opt.useCuda ? 2 : std::max(1, static_cast<int>(std::thread::hardware_concurrency()));
+            workerThreads = std::max(1, static_cast<int>(std::thread::hardware_concurrency()));
         }
         workerThreads = std::max(1, workerThreads);
         mkl_set_num_threads_local(workerThreads);
@@ -3032,21 +2957,32 @@ int main(int argc, char** argv) {
             }
             std::sort(sprites.begin(), sprites.end());
 
-            int ok = 0;
-            int fail = 0;
-            for (int i = 0; i < static_cast<int>(sprites.size()); ++i) {
-                const std::filesystem::path& spritePath = sprites[i];
+            std::atomic<int> completed{0};
+            std::atomic<int> ok{0};
+            std::atomic<int> fail{0};
+            const int batchThreads = 1;
+            const int solverThreads = workerThreads;
+
+            auto processSprite = [&](int i) {
+                const std::filesystem::path spritePath = sprites[i];
                 const std::string stem = spritePath.stem().string();
                 const std::filesystem::path overlayPath = std::filesystem::path(outputPath) / (stem + ".png");
                 const std::filesystem::path jsonPath = std::filesystem::path(outputPath) / (stem + ".json");
+                mkl8gon::Options spriteOpt = opt;
+                spriteOpt.cpuThreads = solverThreads;
+                mkl_set_num_threads_local(solverThreads);
+                #ifdef _OPENMP
+                omp_set_num_threads(solverThreads);
+                #endif
                 try {
-                    mkl8gon::ImageData batchImg = mkl8gon::loadImage(spritePath.string(), opt.alphaThreshold);
+                    mkl8gon::ImageData batchImg = mkl8gon::loadImage(spritePath.string(), spriteOpt.alphaThreshold);
                     auto onFeasible = [&](int vertices, const mkl8gon::PolyN& candidate, double area, double bestArea) {
                         if (!progressUiPtr) return;
                         cv::Mat overlay = mkl8gon::makeOverlay(batchImg, candidate);
-                        const double local = static_cast<double>(vertices - std::max(3, opt.minPoints) + 1) /
-                            static_cast<double>(std::max(std::max(3, opt.minPoints), opt.maxPoints) - std::max(3, opt.minPoints) + 1);
-                        const double progress = (static_cast<double>(i) + 0.85 * local) / std::max(1.0, static_cast<double>(sprites.size()));
+                        const double local = static_cast<double>(vertices - std::max(3, spriteOpt.minPoints) + 1) /
+                            static_cast<double>(std::max(std::max(3, spriteOpt.minPoints), spriteOpt.maxPoints) - std::max(3, spriteOpt.minPoints) + 1);
+                        const double progress = (static_cast<double>(completed.load()) + 0.85 * local) /
+                            std::max(1.0, static_cast<double>(sprites.size()));
                         progressUi.update(
                             overlay,
                             progress,
@@ -3059,16 +2995,18 @@ int main(int argc, char** argv) {
                                 "Vertices: " + std::to_string(vertices),
                                 "Area: " + mkl8gon::formatDouble(area, 3),
                                 "Best area: " + mkl8gon::formatDouble(bestArea, 3),
-                                "Succeeded: " + std::to_string(ok),
-                                "Failed: " + std::to_string(fail)
+                                "Running workers: " + std::to_string(batchThreads),
+                                "Threads per sprite: " + std::to_string(solverThreads),
+                                "Succeeded: " + std::to_string(ok.load()),
+                                "Failed: " + std::to_string(fail.load())
                             }
                         );
                     };
 
-                    mkl8gon::PolyN poly = opt.pointVisibility
-                        ? mkl8gon::solveVisibilityPointPolygon(batchImg, opt, onFeasible)
-                        : mkl8gon::toPolyN(mkl8gon::solve8gon(batchImg, opt, nullptr, spritePath.string()).poly);
-                    mkl8gon::Validation validation = mkl8gon::validateDense(poly, batchImg, opt.finalClearance, opt.denseEdgeStep);
+                    mkl8gon::PolyN poly = spriteOpt.pointVisibility
+                        ? mkl8gon::solveVisibilityPointPolygon(batchImg, spriteOpt, onFeasible)
+                        : mkl8gon::toPolyN(mkl8gon::solve8gon(batchImg, spriteOpt, nullptr, spritePath.string()).poly);
+                    mkl8gon::Validation validation = mkl8gon::validateDense(poly, batchImg, spriteOpt.finalClearance, spriteOpt.denseEdgeStep);
                     cv::Mat overlay = mkl8gon::makeOverlay(batchImg, poly);
                     cv::imwrite(overlayPath.string(), overlay);
 
@@ -3083,11 +3021,12 @@ int main(int argc, char** argv) {
                     js << "  ]\n";
                     js << "}\n";
                     ++ok;
+                    const int done = ++completed;
 
                     if (progressUiPtr) {
                         progressUi.update(
                             overlay,
-                            static_cast<double>(i + 1) / std::max(1.0, static_cast<double>(sprites.size())),
+                            static_cast<double>(done) / std::max(1.0, static_cast<double>(sprites.size())),
                             "batch point visibility optimization",
                             {
                                 "Phase: sprite complete",
@@ -3096,22 +3035,45 @@ int main(int argc, char** argv) {
                                 "Batch: " + std::to_string(i + 1) + " / " + std::to_string(sprites.size()),
                                 "Area: " + mkl8gon::formatDouble(validation.area, 3),
                                 "Vertices: " + std::to_string(poly.v.size()),
-                                "Succeeded: " + std::to_string(ok),
-                                "Failed: " + std::to_string(fail)
+                                "Running workers: " + std::to_string(batchThreads),
+                                "Threads per sprite: " + std::to_string(solverThreads),
+                                "Succeeded: " + std::to_string(ok.load()),
+                                "Failed: " + std::to_string(fail.load())
                             }
                         );
                     }
                 } catch (const std::exception& e) {
                     ++fail;
+                    ++completed;
                     std::ofstream log(std::filesystem::path(outputPath) / (stem + ".error.txt"));
                     log << e.what() << "\n";
                 }
+            };
+
+            if (progressUiPtr) {
+                progressUi.update(
+                    cv::Mat(),
+                    0.0,
+                    "batch point visibility optimization",
+                    {
+                        "Phase: starting batch",
+                        "Input: " + inputPath,
+                        "Output: " + outputPath,
+                        "Sprites: " + std::to_string(sprites.size()),
+                        "Running workers: " + std::to_string(batchThreads),
+                        "Threads per sprite: " + std::to_string(solverThreads)
+                    }
+                );
             }
-            std::cerr << "Batch complete ok=" << ok << " fail=" << fail << " out=" << outputPath << "\n";
+
+            for (int i = 0; i < static_cast<int>(sprites.size()); ++i) {
+                processSprite(i);
+            }
+            std::cerr << "Batch complete ok=" << ok.load() << " fail=" << fail.load() << " out=" << outputPath << "\n";
             if (progressUiPtr) {
                 progressUi.waitUntilClosed();
             }
-            return fail == 0 ? 0 : 1;
+            return fail.load() == 0 ? 0 : 1;
         }
 
         mkl8gon::ImageData img = mkl8gon::loadImage(inputPath, opt.alphaThreshold);
@@ -3243,7 +3205,7 @@ int main(int argc, char** argv) {
             progressUi.update(
                 overlay,
                 1.0,
-                "8-gon optimization complete",
+                "polygon optimization complete",
                 {
                     "Phase: complete",
                     "Job: " + inputPath,

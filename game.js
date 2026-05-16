@@ -42,28 +42,10 @@ const MAX_FRAME_DELTA = 100;
 const MAX_WORD_FONT_SIZE = 136;
 const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
+const EMPTY_IMAGE =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 const MatterApi = () => window.Matter;
-
-function letterNameForSpoken(letter) {
-  const normalized = letter.trim().toLowerCase();
-  if (!normalized) return "";
-  if (normalized.length === 1 && normalized >= "a" && normalized <= "z") {
-    return `Letter ${normalized.toUpperCase()}`;
-  }
-  if (/[0-9]/.test(normalized)) {
-    return `Number ${normalized}`;
-  }
-  return normalized;
-}
-
-function speakLetter(letter) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(letterNameForSpoken(letter));
-  utterance.rate = 1;
-  window.speechSynthesis.speak(utterance);
-}
 
 function getLetterAudio(letter) {
   const normalized = letter.trim().toLowerCase();
@@ -84,14 +66,11 @@ function preloadLetterAudio(word) {
 
 function playLetterAudio(letter) {
   const audio = getLetterAudio(letter);
-  if (!audio) {
-    speakLetter(letter);
-    return;
-  }
+  if (!audio) return;
 
   audio.pause();
   audio.currentTime = 0;
-  audio.play().catch(() => speakLetter(letter));
+  audio.play().catch(() => {});
 }
 
 function activateLetter(letter, letterCell) {
@@ -358,7 +337,7 @@ function showCard() {
   clearPhysics();
   rebuildWalls();
   imageEl.classList.remove("show");
-  imageEl.removeAttribute("src");
+  imageEl.src = EMPTY_IMAGE;
   imageEl.alt = "";
   renderWord(item.word);
   spriteImage = new Image();

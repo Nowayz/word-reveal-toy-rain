@@ -17,27 +17,12 @@ else()
 endif()
 find_package(OpenCV REQUIRED COMPONENTS core imgcodecs imgproc)
 find_package(OpenMP)
-include(CheckLanguage)
-check_language(CUDA)
-if (CMAKE_CUDA_COMPILER)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler")
-    enable_language(CUDA)
-endif()
 
 add_executable(mkl_sdf_8gon src/main.cpp)
 target_link_libraries(mkl_sdf_8gon PRIVATE MKL::MKL ${OpenCV_LIBS})
 target_include_directories(mkl_sdf_8gon PRIVATE ${OpenCV_INCLUDE_DIRS})
 if (OpenMP_CXX_FOUND)
     target_link_libraries(mkl_sdf_8gon PRIVATE OpenMP::OpenMP_CXX)
-endif()
-if (CMAKE_CUDA_COMPILER)
-    target_sources(mkl_sdf_8gon PRIVATE src/visibility_cuda.cu)
-    target_compile_definitions(mkl_sdf_8gon PRIVATE MKL8GON_USE_CUDA=1)
-    set_target_properties(mkl_sdf_8gon PROPERTIES
-        CUDA_STANDARD 17
-        CUDA_STANDARD_REQUIRED ON
-        CUDA_ARCHITECTURES 120
-    )
 endif()
 
 if (MSVC)

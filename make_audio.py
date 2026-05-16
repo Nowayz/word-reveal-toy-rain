@@ -16,6 +16,7 @@ QWEN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
 PREFERRED_SPEAKERS = ("vivian", "sohee", "serena", "ono_anna")
 INSTRUCTION = "Speak clearly and slowly, sounding each word out carefully, as if teaching it to a child."
 SENTENCE_TEMPLATE = "It's a {item}"
+LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
 
 def device_name():
@@ -37,6 +38,7 @@ def pick_female_speaker(tts: Qwen3TTSModel) -> str:
 
 def parse_args():
     force = False
+    letters = False
     speaker = None
     targets = set()
     args = sys.argv[1:]
@@ -44,6 +46,9 @@ def parse_args():
     while i < len(args):
         if args[i] == "--force":
             force = True
+            i += 1
+        elif args[i] == "--letters":
+            letters = True
             i += 1
         elif args[i] == "--speaker":
             if i + 1 >= len(args):
@@ -53,7 +58,7 @@ def parse_args():
         else:
             targets.add(args[i])
             i += 1
-    return force, speaker, targets
+    return force, letters, speaker, targets
 
 
 def encode_opus(wav_path, opus_path):
@@ -80,13 +85,26 @@ def build_sentence(word: str) -> str:
     return SENTENCE_TEMPLATE.format(item=word)
 
 
+def generate_audio(tts, text: str, speaker: str, wav_path: Path, opus_path: Path):
+    wavs, sample_rate = tts.generate_custom_voice(
+        text=text,
+        speaker=speaker,
+        language="English",
+        instruct=INSTRUCTION,
+        temperature=0.65,
+    )
+    sf.write(str(wav_path), wavs[0], sample_rate)
+    encode_opus(wav_path, opus_path)
+    wav_path.unlink(missing_ok=True)
+
+
 def main():
     if not shutil.which("ffmpeg"):
         raise RuntimeError("ffmpeg is required to encode Opus files.")
 
     AUDIO_DIR.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    force, forced_speaker, targets = parse_args()
+    force, letters_only, forced_speaker, targets = parse_args()
     device = device_name()
     dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float32
     model_kwargs = {"device_map": device, "dtype": dtype}
@@ -106,6 +124,18 @@ def main():
         speaker = pick_female_speaker(tts)
     print(f"Using speaker: {speaker}")
 
+    if letters_only:
+        selected_letters = [letter for letter in LETTERS if not targets or letter in targets or letter.upper() in targets]
+        for i, letter in enumerate(selected_letters, start=1):
+            wav_path = AUDIO_DIR / f"{letter}.wav"
+            opus_path = AUDIO_DIR / f"{letter}.opus"
+            if force or not opus_path.exists():
+                text = f"Letter {letter.upper()}"
+                print(f"[{i}/{len(selected_letters)}] {text}")
+                generate_audio(tts, text, speaker, wav_path, opus_path)
+        print(f"Generated/linked {len(selected_letters)} letter Opus files in {AUDIO_DIR}.")
+        return
+
     for i, item in enumerate(manifest, start=1):
         slug = Path(item["image"]).stem
         wav_path = AUDIO_DIR / f"{slug}.wav"
@@ -115,16 +145,7 @@ def main():
         if selected and (force or not opus_path.exists()):
             text = build_sentence(item["word"])
             print(f"[{i}/{len(manifest)}] {text}")
-            wavs, sample_rate = tts.generate_custom_voice(
-                text=text,
-                speaker=speaker,
-                language="English",
-                instruct=INSTRUCTION,
-                temperature=0.65,
-            )
-            sf.write(str(wav_path), wavs[0], sample_rate)
-            encode_opus(wav_path, opus_path)
-            wav_path.unlink(missing_ok=True)
+            generate_audio(tts, text, speaker, wav_path, opus_path)
 
         item["audio"] = str(opus_path).replace("\\", "/")
 
