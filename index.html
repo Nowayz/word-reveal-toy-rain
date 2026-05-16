@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Reveal Toy Rain</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game">
+      <section class="stage" aria-live="polite">
+        <div class="progress">
+          <span id="roundText">1 / 100</span>
+          <span id="scoreText">Score 0</span>
+        </div>
+        <div id="word" class="word">Loading</div>
+        <div class="image-wrap">
+          <img id="revealImage" alt="" draggable="false" />
+        </div>
+        <canvas id="rain"></canvas>
+      </section>
+
+      <section class="controls">
+        <button id="revealButton" class="primary">Reveal</button>
+        <button id="missButton">IDK</button>
+        <button id="nextButton" hidden>Next</button>
+      </section>
+
+      <section id="done" class="done" hidden>
+        <h1>Final score</h1>
+        <p id="finalScore">0 out of 100</p>
+        <button id="restartButton">Play again</button>
+      </section>
+    </main>
+    <script src="vendor/matter.min.js"></script>
+    <script src="game.js"></script>
+  </body>
+</html>

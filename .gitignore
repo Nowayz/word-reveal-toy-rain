@@ -1,0 +1,9 @@
+mkl_sdf_8gon/build/
+*.user
+*.suo
+*.pdb
+*.ilk
+*.obj
+*.tlog
+*.log
+__pycache__/
