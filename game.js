@@ -11,7 +11,6 @@ const finalScore = document.querySelector("#finalScore");
 const stageEl = document.querySelector(".stage");
 const canvas = document.querySelector("#rain");
 const ctx = canvas.getContext("2d");
-const wordAudio = new Audio();
 
 let deck = [];
 let index = 0;
@@ -33,7 +32,7 @@ let cardVersion = 0;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
-const letterAudioCache = new Map();
+const audioPools = new Map();
 const wordMeasureEl = document.createElement("div");
 wordMeasureEl.className = "word word-measure";
 wordMeasureEl.setAttribute("aria-hidden", "true");
@@ -44,35 +43,77 @@ const MAX_FRAME_DELTA = 100;
 const MAX_WORD_FONT_SIZE = 136;
 const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
+const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 const MatterApi = () => window.Matter;
 
-function getLetterAudio(letter) {
-  const normalized = letter.trim().toLowerCase();
-  if (!/^[a-z]$/.test(normalized)) return null;
-  if (!letterAudioCache.has(normalized)) {
-    const audio = new Audio(`assets/audio/${normalized}.opus`);
-    audio.preload = "auto";
-    letterAudioCache.set(normalized, audio);
+function createAudio(src) {
+  const audio = new Audio(src);
+  audio.preload = "auto";
+  audio.load();
+  return audio;
+}
+
+function getAudioPool(src, size = 1) {
+  if (!src) return [];
+  if (!audioPools.has(src)) {
+    audioPools.set(src, []);
   }
-  return letterAudioCache.get(normalized);
+  const pool = audioPools.get(src);
+  while (pool.length < size) {
+    pool.push(createAudio(src));
+  }
+  return pool;
+}
+
+function preloadAudio(src, size = 1) {
+  getAudioPool(src, size);
+}
+
+function playAudio(src, size = 1) {
+  const pool = getAudioPool(src, size);
+  if (!pool.length) return Promise.resolve(false);
+
+  const audio = pool.find((candidate) => candidate.paused || candidate.ended) || pool[0];
+  audio.pause();
+  try {
+    audio.currentTime = 0;
+  } catch {
+    audio.load();
+  }
+  return audio.play().then(
+    () => true,
+    () => false
+  );
+}
+
+function waitForImageLoad(image) {
+  if (image.complete && image.naturalWidth) return Promise.resolve();
+  return new Promise((resolve) => {
+    image.addEventListener("load", resolve, { once: true });
+    image.addEventListener("error", resolve, { once: true });
+  });
+}
+
+function delay(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function letterAudioSrc(letter) {
+  const normalized = letter.trim().toLowerCase();
+  return /^[a-z]$/.test(normalized) ? `assets/audio/${normalized}.opus` : null;
 }
 
 function preloadLetterAudio(word) {
   for (const letter of Array.from(word)) {
-    getLetterAudio(letter);
+    preloadAudio(letterAudioSrc(letter), 3);
   }
 }
 
 function playLetterAudio(letter) {
-  const audio = getLetterAudio(letter);
-  if (!audio) return;
-
-  audio.pause();
-  audio.currentTime = 0;
-  audio.play().catch(() => {});
+  playAudio(letterAudioSrc(letter), 3);
 }
 
 function activateLetter(letter, letterCell) {
@@ -229,10 +270,7 @@ function fitAndSyncWord() {
 function preloadAsset(src, kind = "image") {
   if (!src) return;
   if (kind === "audio") {
-    const audio = new Audio();
-    audio.preload = "auto";
-    audio.src = src;
-    audio.load();
+    preloadAudio(src);
     return;
   }
   const image = new Image();
@@ -349,6 +387,7 @@ function showCard() {
   cardVersion += 1;
   const item = current();
   revealed = false;
+  preloadCard(item);
   clearPhysics();
   rebuildWalls();
   imageEl.classList.remove("show");
@@ -371,31 +410,29 @@ function reveal(missed = false) {
   if (!missed) score += 1;
   const item = current();
   const revealVersion = cardVersion;
-  let spritesStarted = false;
-  const startSprites = () => {
-    if (spritesStarted || revealVersion !== cardVersion || !revealed) return;
-    spritesStarted = true;
-    explodeSprites(revealVersion);
-  };
-  playWordAudio(item);
-  imageEl.addEventListener("load", startSprites, { once: true });
   imageEl.src = item.image;
   imageEl.alt = item.word;
-  requestAnimationFrame(() => imageEl.classList.add("show"));
   revealButton.disabled = true;
   missButton.disabled = true;
   nextButton.hidden = false;
   nextButton.disabled = true;
   updateHud();
-  if (imageEl.complete && imageEl.naturalWidth) requestAnimationFrame(startSprites);
+
+  Promise.all([
+    waitForImageLoad(imageEl),
+    Promise.race([playWordAudio(item), delay(AUDIO_VISUAL_SYNC_FALLBACK_MS)]),
+  ]).then(() => {
+    if (revealVersion !== cardVersion || !revealed) return;
+    requestAnimationFrame(() => {
+      imageEl.classList.add("show");
+      explodeSprites(revealVersion);
+    });
+  });
 }
 
 function playWordAudio(item) {
-  if (!item.audio) return;
-  wordAudio.pause();
-  wordAudio.currentTime = 0;
-  wordAudio.src = item.audio;
-  wordAudio.play().catch(() => {});
+  if (!item.audio) return Promise.resolve(false);
+  return playAudio(item.audio);
 }
 
 function setupPhysics() {
