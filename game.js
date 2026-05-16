@@ -8,6 +8,7 @@ const nextButton = document.querySelector("#nextButton");
 const restartButton = document.querySelector("#restartButton");
 const done = document.querySelector("#done");
 const finalScore = document.querySelector("#finalScore");
+const stageEl = document.querySelector(".stage");
 const canvas = document.querySelector("#rain");
 const ctx = canvas.getContext("2d");
 const wordAudio = new Audio();
@@ -29,6 +30,7 @@ let physicsAccumulator = 0;
 let releasingSprites = false;
 let releaseComplete = null;
 let cardVersion = 0;
+let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
 const letterAudioCache = new Map();
@@ -98,11 +100,11 @@ function renderWord(word) {
     wordEl.style.setProperty("--word-font-size", `${cached.fontSize}px`);
   }
   requestAnimationFrame(() => {
-    fitWord();
-    requestAnimationFrame(fitWord);
+    fitAndSyncWord();
+    requestAnimationFrame(fitAndSyncWord);
   });
   if (document.fonts) {
-    document.fonts.ready.then(fitWord);
+    document.fonts.ready.then(fitAndSyncWord);
   }
 }
 
@@ -163,10 +165,10 @@ function renderWordInto(container, word) {
 }
 
 function fitWord(container = wordEl) {
-  const stage = document.querySelector(".stage");
-  if (!stage || !container.clientWidth || !container.children.length) return MIN_WORD_FONT_SIZE;
+  if (!stageEl || !container.clientWidth || !container.children.length) return MIN_WORD_FONT_SIZE;
 
-  const stageRect = stage.getBoundingClientRect();
+  const stageRect = stageEl.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
   const wordRect = container.getBoundingClientRect();
   const styles = window.getComputedStyle(container);
   const horizontalPadding =
@@ -187,7 +189,10 @@ function fitWord(container = wordEl) {
     for (const token of container.querySelectorAll(".word-token")) {
       const rect = token.getBoundingClientRect();
       if (rect.width * activeScaleBuffer > availableWidth) return false;
-      if (rect.left < stageRect.left + 16 || rect.right > stageRect.right - 16) {
+      if (
+        rect.left < containerRect.left + parseFloat(styles.paddingLeft) - 1 ||
+        rect.right > containerRect.right - parseFloat(styles.paddingRight) + 1
+      ) {
         return false;
       }
     }
@@ -213,6 +218,12 @@ function fitWord(container = wordEl) {
 
   container.style.setProperty("--word-font-size", `${best}px`);
   return best;
+}
+
+function fitAndSyncWord() {
+  const fontSize = fitWord();
+  scheduleCanvasResize();
+  return fontSize;
 }
 
 function preloadAsset(src, kind = "image") {
@@ -298,10 +309,20 @@ function shuffle(items) {
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
   const ratio = window.devicePixelRatio || 1;
-  canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-  canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+  const width = Math.max(1, Math.floor(rect.width * ratio));
+  const height = Math.max(1, Math.floor(rect.height * ratio));
+  if (canvas.width !== width) canvas.width = width;
+  if (canvas.height !== height) canvas.height = height;
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   rebuildWalls();
+}
+
+function scheduleCanvasResize() {
+  if (canvasResizeRaf) return;
+  canvasResizeRaf = requestAnimationFrame(() => {
+    canvasResizeRaf = 0;
+    resizeCanvas();
+  });
 }
 
 function current() {
@@ -673,12 +694,17 @@ bindTouchButton(missButton, () => reveal(true));
 bindTouchButton(nextButton, () => nextCard());
 restartButton.addEventListener("click", restart);
 window.addEventListener("resize", resizeCanvas);
-window.addEventListener("resize", fitWord);
+window.addEventListener("resize", fitAndSyncWord);
 window.addEventListener("keydown", (event) => {
   if (event.key === " " || event.key === "Enter") {
     event.preventDefault();
     revealed ? nextCard() : reveal(false);
   }
 });
+
+if (window.ResizeObserver && stageEl) {
+  const stageResizeObserver = new ResizeObserver(scheduleCanvasResize);
+  stageResizeObserver.observe(stageEl);
+}
 
 init();
