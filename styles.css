@@ -22,6 +22,24 @@ body {
     #f5f1e8;
   background-size: 34px 34px;
   -webkit-touch-callout: none;
+  touch-action: auto;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+  -ms-touch-action: none;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: auto;
+  overscroll-behavior: none;
+  -ms-touch-action: auto;
 }
 
 .game {
@@ -58,13 +76,83 @@ body {
 .word {
   z-index: 2;
   width: 100%;
-  padding: 16px 10px 8px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 16px 24px 8px;
   text-align: center;
-  font-size: clamp(3.5rem, 12vw, 8.5rem);
+  font-size: var(--word-font-size, 136px);
   line-height: 1;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  row-gap: 0.08em;
+  overflow: visible;
+}
+
+.word-token {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.word-measure {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
+  width: min(940px, 100vw);
+}
+
+.letter-cell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-glyph {
+  position: relative;
+  z-index: 1;
+  transition: transform 130ms ease, color 130ms ease, text-shadow 130ms ease;
+  line-height: 1;
+}
+
+.letter-cell.active .letter-glyph {
+  transform: scale(1.25);
+  color: #c84a4a;
+  text-shadow: 0 0 0.25em rgba(200, 74, 74, 0.55);
+}
+
+.letter-target {
+  position: absolute;
+  z-index: 3;
+  inset: -0.22em -0.08em;
+  cursor: pointer;
+  border-radius: 0.15em;
+  opacity: 0;
+  background: transparent;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.letter-target:focus-visible,
+.letter-target:active {
+  outline: none;
+  background: transparent;
+}
+
+.letter-space {
+  display: inline-block;
+  flex: 0 0 0.6em;
+  width: 0.6em;
 }
 
 .image-wrap {
@@ -116,6 +204,8 @@ button {
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 6px 0 #21313a;
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
 button:active {
