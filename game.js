@@ -135,20 +135,22 @@ function renderWordInto(container, word) {
       glyph.textContent = letter;
 
       if (container === wordEl) {
-        const onActivate = (event) => {
+        target.addEventListener("pointerdown", (event) => {
           event.preventDefault();
+          // Capture pointer so dragging off the letter still activates it
+          target.setPointerCapture(event.pointerId);
           activateLetter(letter, letterCell);
-        };
-
-        target.addEventListener("pointerup", onActivate);
-        target.addEventListener("click", onActivate);
+        });
+        target.addEventListener("click", (event) => {
+          event.preventDefault();
+        });
         target.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " ") {
-            onActivate(event);
+            event.preventDefault();
+            activateLetter(letter, letterCell);
           }
         });
       }
-
       letterCell.appendChild(glyph);
       letterCell.appendChild(target);
       wordToken.appendChild(letterCell);
@@ -273,20 +275,12 @@ function blockNonPrimaryPointer(event) {
 
 window.addEventListener("contextmenu", blockContextMenu, { capture: true });
 window.addEventListener("auxclick", blockContextMenu, { capture: true });
-window.addEventListener("mousedown", blockNonPrimaryPointer, { capture: true });
 window.addEventListener("pointerdown", blockNonPrimaryPointer, { capture: true, passive: false });
-window.addEventListener("pointerup", blockNonPrimaryPointer, { capture: true, passive: false });
-window.addEventListener("pointercancel", blockContextMenu, { capture: true, passive: false });
 window.addEventListener("selectstart", blockContextMenu, { capture: true });
 window.addEventListener("dragstart", (event) => event.preventDefault());
 
 document.addEventListener("contextmenu", blockContextMenu, { capture: true });
 document.addEventListener("auxclick", blockContextMenu, { capture: true });
-document.addEventListener("mousedown", blockNonPrimaryPointer, { capture: true });
-document.addEventListener("pointerdown", blockNonPrimaryPointer, { capture: true, passive: false });
-document.addEventListener("pointerup", blockNonPrimaryPointer, { capture: true, passive: false });
-document.addEventListener("pointercancel", blockContextMenu, { capture: true, passive: false });
-document.addEventListener("selectstart", blockContextMenu, { capture: true });
 
 window.oncontextmenu = blockContextMenu;
 document.body && (document.body.oncontextmenu = blockContextMenu);
