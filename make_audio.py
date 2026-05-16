@@ -38,6 +38,7 @@ def pick_female_speaker(tts: Qwen3TTSModel) -> str:
 def parse_args():
     force = False
     speaker = None
+    targets = set()
     args = sys.argv[1:]
     i = 0
     while i < len(args):
@@ -50,8 +51,9 @@ def parse_args():
             speaker = args[i + 1]
             i += 2
         else:
+            targets.add(args[i])
             i += 1
-    return force, speaker
+    return force, speaker, targets
 
 
 def encode_opus(wav_path, opus_path):
@@ -84,7 +86,7 @@ def main():
 
     AUDIO_DIR.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    force, forced_speaker = parse_args()
+    force, forced_speaker, targets = parse_args()
     device = device_name()
     dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float32
     model_kwargs = {"device_map": device, "dtype": dtype}
@@ -108,8 +110,9 @@ def main():
         slug = Path(item["image"]).stem
         wav_path = AUDIO_DIR / f"{slug}.wav"
         opus_path = AUDIO_DIR / f"{slug}.opus"
+        selected = not targets or slug in targets or item["word"] in targets
 
-        if force or not opus_path.exists():
+        if selected and (force or not opus_path.exists()):
             text = build_sentence(item["word"])
             print(f"[{i}/{len(manifest)}] {text}")
             wavs, sample_rate = tts.generate_custom_voice(

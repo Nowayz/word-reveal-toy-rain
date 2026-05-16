@@ -31,6 +31,7 @@ let releaseComplete = null;
 let cardVersion = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
+const letterAudioCache = new Map();
 const wordMeasureEl = document.createElement("div");
 wordMeasureEl.className = "word word-measure";
 wordMeasureEl.setAttribute("aria-hidden", "true");
@@ -64,6 +65,35 @@ function speakLetter(letter) {
   window.speechSynthesis.speak(utterance);
 }
 
+function getLetterAudio(letter) {
+  const normalized = letter.trim().toLowerCase();
+  if (!/^[a-z]$/.test(normalized)) return null;
+  if (!letterAudioCache.has(normalized)) {
+    const audio = new Audio(`assets/audio/${normalized}.opus`);
+    audio.preload = "auto";
+    letterAudioCache.set(normalized, audio);
+  }
+  return letterAudioCache.get(normalized);
+}
+
+function preloadLetterAudio(word) {
+  for (const letter of Array.from(word)) {
+    getLetterAudio(letter);
+  }
+}
+
+function playLetterAudio(letter) {
+  const audio = getLetterAudio(letter);
+  if (!audio) {
+    speakLetter(letter);
+    return;
+  }
+
+  audio.pause();
+  audio.currentTime = 0;
+  audio.play().catch(() => speakLetter(letter));
+}
+
 function activateLetter(letter, letterCell) {
   const state = letterActivationState.get(letterCell) || { locked: false };
   if (state.locked) return;
@@ -78,11 +108,12 @@ function activateLetter(letter, letterCell) {
   }, 1000);
   letterActivationState.set(letterCell, state);
 
-  speakLetter(letter);
+  playLetterAudio(letter);
 }
 
 function renderWord(word) {
   renderWordInto(wordEl, word);
+  preloadLetterAudio(word);
   const cached = preloadCache.get(word);
   if (cached && cached.fontSize) {
     wordEl.style.setProperty("--word-font-size", `${cached.fontSize}px`);
@@ -226,6 +257,7 @@ function preloadCard(card) {
   preloadAsset(card.image);
   preloadAsset(card.sprite);
   preloadAsset(card.audio, "audio");
+  preloadLetterAudio(card.word);
 
   requestAnimationFrame(() => {
     renderWordInto(wordMeasureEl, card.word);
