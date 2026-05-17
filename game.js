@@ -666,10 +666,10 @@ function explodeSprites(expectedVersion) {
       y: y + point.y,
     }));
     const body = Bodies.fromVertices(x, y, [Vertices.clockwiseSort(vertices)], {
-      restitution: 0.55,
+      restitution: 0.9,
       friction: 0.5,
       frictionStatic: 0.85,
-      frictionAir: 0.016,
+      frictionAir: 0.0,
       density: 0.0018,
     });
     Body.setInertia(body, body.inertia * 2.5);
