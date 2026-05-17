@@ -29,10 +29,6 @@ let physicsAccumulator = 0;
 let releasingSprites = false;
 let releaseComplete = null;
 let cardVersion = 0;
-let accelEnabled = false;
-let accelSmoothX = 0;
-let accelSmoothY = 0;
-let accelPermissionStarted = false;
 let orientationEnabled = false;
 let orientationPermissionStarted = false;
 let orientationBeta = 90;
@@ -54,7 +50,6 @@ const MAX_WORD_FONT_SIZE = 136;
 const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
 const BASE_GRAVITY_Y = 0.8;
-const ACCEL_FORCE_SCALE = 0.0045;
 const ORIENTED_GRAVITY_SCALE = 0.8;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
@@ -147,7 +142,6 @@ function unlockAudio() {
 
 function unlockInputFeatures() {
   unlockAudio();
-  setupAccelerometer();
   setupOrientation();
 }
 
@@ -513,38 +507,15 @@ function setupPhysics() {
   rebuildWalls();
 }
 
-function handleMotion(event) {
-  const acc = event.acceleration;
-  if (!acc || !Number.isFinite(acc.x) || !Number.isFinite(acc.y)) return;
-
-  const smoothing = 0.15;
-  accelSmoothX += (acc.x - accelSmoothX) * smoothing;
-  accelSmoothY += (acc.y - accelSmoothY) * smoothing;
-}
-
 function handleOrientation(event) {
   if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
 
   const heading =
     Number.isFinite(event.webkitCompassHeading) ? event.webkitCompassHeading : event.alpha;
-  if (!orientationHasTilt) {
-    orientationBeta = event.beta;
-    orientationGamma = event.gamma;
-    if (Number.isFinite(heading)) orientationHeading = heading;
-    orientationHasTilt = true;
-    return;
-  }
-
-  const smoothing = 0.16;
-  orientationBeta += (event.beta - orientationBeta) * smoothing;
-  orientationGamma += (event.gamma - orientationGamma) * smoothing;
-
-  if (Number.isFinite(heading)) {
-    let delta = heading - orientationHeading;
-    while (delta > 180) delta -= 360;
-    while (delta < -180) delta += 360;
-    orientationHeading = (orientationHeading + delta * smoothing + 360) % 360;
-  }
+  orientationBeta = event.beta;
+  orientationGamma = event.gamma;
+  if (Number.isFinite(heading)) orientationHeading = heading;
+  orientationHasTilt = true;
 }
 
 function getOrientedGravity() {
@@ -558,61 +529,6 @@ function getOrientedGravity() {
   const y = clamp(Math.sin(beta), -1, 1) * ORIENTED_GRAVITY_SCALE;
 
   return { x, y };
-}
-
-function getOrientedAccelerationForce(stepMs) {
-  const frameScale = stepMs / FIXED_TIMESTEP;
-  const heading = (orientationHeading * Math.PI) / 180;
-  const sourceX = -accelSmoothX;
-  const sourceY = accelSmoothY;
-  const rotateByHeading = orientationEnabled && Number.isFinite(orientationHeading);
-  const x = rotateByHeading
-    ? sourceX * Math.cos(heading) - sourceY * Math.sin(heading)
-    : sourceX;
-  const y = rotateByHeading
-    ? sourceX * Math.sin(heading) + sourceY * Math.cos(heading)
-    : sourceY;
-
-  return {
-    x: clamp(x, -1, 1) * ACCEL_FORCE_SCALE * frameScale,
-    y: clamp(y, -1, 1) * ACCEL_FORCE_SCALE * frameScale,
-  };
-}
-
-function applyAccelerometerForces(stepMs) {
-  if (!accelEnabled || !bodies.length || !MatterApi()) return;
-  const { Body } = MatterApi();
-  const force = getOrientedAccelerationForce(stepMs);
-
-  for (const entry of bodies) {
-    Body.applyForce(entry.body, entry.body.position, {
-      x: force.x * entry.body.mass,
-      y: force.y * entry.body.mass,
-    });
-  }
-}
-
-function setupAccelerometer() {
-  if (accelEnabled || accelPermissionStarted || !("DeviceMotionEvent" in window)) return;
-  accelPermissionStarted = true;
-
-  const enableMotion = () => {
-    if (accelEnabled) return;
-    window.addEventListener("devicemotion", handleMotion);
-    accelEnabled = true;
-  };
-
-  if (typeof DeviceMotionEvent.requestPermission === "function") {
-    DeviceMotionEvent.requestPermission()
-      .then((response) => {
-        if (response === "granted") enableMotion();
-      })
-      .catch(() => {
-        accelPermissionStarted = false;
-      });
-  } else {
-    enableMotion();
-  }
 }
 
 function setupOrientation() {
@@ -829,7 +745,6 @@ function renderPhysics(now) {
     const gravity = getOrientedGravity();
     physics.gravity.x = gravity.x;
     physics.gravity.y = gravity.y;
-    applyAccelerometerForces(FIXED_TIMESTEP);
     Engine.update(physics, FIXED_TIMESTEP);
     for (const entry of bodies) {
       entry.current.x = entry.body.position.x;
