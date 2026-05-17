@@ -18,6 +18,7 @@ let revealed = false;
 let manifest = [];
 let spriteImage = new Image();
 let bodies = [];
+const expiredBodies = [];
 let raf = 0;
 let physics;
 let walls = [];
@@ -289,6 +290,8 @@ class WebGLSpriteRenderer {
     if (count <= this.instanceCapacity) return;
     this.instanceCapacity = Math.max(count, this.instanceCapacity * 2, 128);
     this.instanceData = new Float32Array(this.instanceCapacity * 4);
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.instanceBuffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER, this.instanceData.byteLength, this.gl.DYNAMIC_DRAW);
   }
 
   render(entries, alpha, sprite) {
@@ -311,11 +314,7 @@ class WebGLSpriteRenderer {
     gl.useProgram(this.program);
     gl.bindVertexArray(this.vao);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.instanceBuffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      this.instanceData.subarray(0, entries.length * 4),
-      gl.DYNAMIC_DRAW
-    );
+    gl.bufferSubData(gl.ARRAY_BUFFER, 0, this.instanceData, 0, entries.length * 4);
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, this.texture);
     gl.uniform1i(this.uniforms.sprite, 0);
@@ -1231,10 +1230,20 @@ function renderPhysics(now) {
   const alpha = physicsAccumulator / FIXED_TIMESTEP;
   spriteRenderer.render(bodies, alpha, spriteImage);
 
-  const expired = bodies.filter((entry) => entry.body.position.y > h + 220);
-  if (expired.length) {
-    Composite.remove(physics.world, expired.map((entry) => entry.body));
-    bodies = bodies.filter((entry) => !expired.includes(entry));
+  expiredBodies.length = 0;
+  let writeIndex = 0;
+  for (let readIndex = 0; readIndex < bodies.length; readIndex++) {
+    const entry = bodies[readIndex];
+    if (entry.body.position.y > h + 220) {
+      expiredBodies.push(entry.body);
+    } else {
+      bodies[writeIndex] = entry;
+      writeIndex++;
+    }
+  }
+  if (expiredBodies.length) {
+    bodies.length = writeIndex;
+    Composite.remove(physics.world, expiredBodies);
   }
 
   if (bodies.length) raf = requestAnimationFrame(renderPhysics);
