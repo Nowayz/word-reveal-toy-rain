@@ -162,7 +162,7 @@
     <main>
       <header>
         <h1>Accelerometer Debug</h1>
-        <p class="version">v2026.05.16.1953</p>
+        <p class="version">v2026.05.16.2000</p>
       </header>
 
       <section class="panel">
@@ -271,9 +271,9 @@
       }
 
       function handleMotion(event) {
-        const acc = event.accelerationIncludingGravity || event.acceleration;
+        const acc = event.acceleration;
         if (!acc) {
-          log("Motion event fired without acceleration data.");
+          log("Motion event fired without event.acceleration data.");
           return;
         }
 
