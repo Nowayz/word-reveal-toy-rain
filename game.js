@@ -486,7 +486,7 @@ function setupPhysics() {
   if (!MatterApi()) return;
   const { Engine } = MatterApi();
   physics = Engine.create();
-  physics.gravity.y = 1.15;
+  physics.gravity.y = 0.8;
   rebuildWalls();
 }
 
@@ -595,23 +595,23 @@ function explodeSprites(expectedVersion) {
       y: y + point.y,
     }));
     const body = Bodies.fromVertices(x, y, [Vertices.clockwiseSort(vertices)], {
-      restitution: 0.98,
-      friction: 0.32,
-      frictionStatic: 0.72,
-      frictionAir: 0.014,
+      restitution: 0.55,
+      friction: 0.5,
+      frictionStatic: 0.85,
+      frictionAir: 0.04,
       density: 0.0018,
     });
-    Body.setInertia(body, body.inertia * 1.8);
-    const speed = 12 + Math.random() * 13;
+    Body.setInertia(body, body.inertia * 2.5);
+    const speed = 8 + Math.random() * 8;
     Body.setVelocity(body, {
       x: Math.cos(angle) * speed,
       y: Math.sin(angle) * speed - 7 - Math.random() * 5,
     });
-    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.35);
+    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.15);
     return {
       body,
       size,
-      torque: (Math.random() - 0.5) * 0.00018,
+      torque: (Math.random() - 0.5) * 0.00006,
       previous: { x: body.position.x, y: body.position.y, angle: body.angle },
       current: { x: body.position.x, y: body.position.y, angle: body.angle },
     };
@@ -683,7 +683,7 @@ function renderPhysics(now) {
   const alpha = physicsAccumulator / FIXED_TIMESTEP;
 
   for (const entry of bodies) {
-    if (elapsed < 1100) entry.body.torque += entry.torque;
+    if (elapsed < 600) entry.body.torque += entry.torque;
     const x = lerp(entry.previous.x, entry.current.x, alpha);
     const y = lerp(entry.previous.y, entry.current.y, alpha);
     const angle = lerpAngle(entry.previous.angle, entry.current.angle, alpha);
