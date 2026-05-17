@@ -34,6 +34,11 @@ let orientationPermissionStarted = false;
 let orientationBeta = 90;
 let orientationGamma = 0;
 let orientationHasTilt = false;
+let motionGravityX = 0;
+let motionGravityY = 0;
+let motionGravityZ = 0;
+let motionHasGravity = false;
+let motionGravityEnabled = false;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
@@ -50,6 +55,7 @@ const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
 const BASE_GRAVITY_Y = 0.8;
 const ORIENTED_GRAVITY_SCALE = 0.8;
+const MIN_GRAVITY_SENSOR_MAGNITUDE = 0.1;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -855,6 +861,38 @@ function handleOrientation(event) {
   orientationHasTilt = true;
 }
 
+function handleMotion(event) {
+  const includingGravity = event.accelerationIncludingGravity;
+  if (
+    !includingGravity ||
+    !Number.isFinite(includingGravity.x) ||
+    !Number.isFinite(includingGravity.y) ||
+    !Number.isFinite(includingGravity.z)
+  ) {
+    return;
+  }
+
+  let x = includingGravity.x;
+  let y = includingGravity.y;
+  let z = includingGravity.z;
+  const acceleration = event.acceleration;
+  if (
+    acceleration &&
+    Number.isFinite(acceleration.x) &&
+    Number.isFinite(acceleration.y) &&
+    Number.isFinite(acceleration.z)
+  ) {
+    x -= acceleration.x;
+    y -= acceleration.y;
+    z -= acceleration.z;
+  }
+
+  motionGravityX = x;
+  motionGravityY = y;
+  motionGravityZ = z;
+  motionHasGravity = true;
+}
+
 function getScreenOrientationAngle() {
   if (
     typeof screen !== "undefined" &&
@@ -869,55 +907,120 @@ function getScreenOrientationAngle() {
   return 0;
 }
 
-function getOrientedGravity() {
-  if (!orientationHasTilt) {
-    return { x: 0, y: BASE_GRAVITY_Y };
-  }
-
-  const beta = (clamp(orientationBeta, -90, 90) * Math.PI) / 180;
-  const gamma = (clamp(orientationGamma, -90, 90) * Math.PI) / 180;
-  const deviceX = Math.sin(gamma);
-  const deviceY = Math.sin(beta) * Math.cos(gamma);
+function rotateNaturalGravityToScreen(naturalX, naturalY) {
   const screenAngle = (getScreenOrientationAngle() * Math.PI) / 180;
   const cos = Math.cos(screenAngle);
   const sin = Math.sin(screenAngle);
-  // DeviceOrientation is reported in the device's natural axes; rotate the tilt
-  // vector back into the current screen axes so the lower screen edge is downhill.
-  const screenX = deviceX * cos + deviceY * sin;
-  const screenY = -deviceX * sin + deviceY * cos;
-  const x = clamp(screenX, -1, 1) * ORIENTED_GRAVITY_SCALE;
-  const y = clamp(screenY, -1, 1) * ORIENTED_GRAVITY_SCALE;
+  const screenX = naturalX * cos + naturalY * sin;
+  const screenY = -naturalX * sin + naturalY * cos;
 
-  return { x, y };
+  return {
+    x: clamp(screenX, -1, 1) * ORIENTED_GRAVITY_SCALE,
+    y: clamp(screenY, -1, 1) * ORIENTED_GRAVITY_SCALE,
+  };
+}
+
+function getMotionGravityProjection() {
+  if (!motionHasGravity) return null;
+
+  const magnitude = Math.hypot(motionGravityX, motionGravityY, motionGravityZ);
+  if (magnitude < MIN_GRAVITY_SENSOR_MAGNITUDE) return null;
+
+  return {
+    // accelerationIncludingGravity is proper acceleration, opposite physical
+    // gravity. CSS x follows device x, while CSS y is opposite device y.
+    naturalX: clamp(-motionGravityX / magnitude, -1, 1),
+    naturalY: clamp(motionGravityY / magnitude, -1, 1),
+  };
+}
+
+function getOrientationGravityProjection() {
+  if (!orientationHasTilt) return null;
+
+  const beta = (orientationBeta * Math.PI) / 180;
+  const gamma = (clamp(orientationGamma, -90, 90) * Math.PI) / 180;
+
+  return {
+    // This is the physical gravity vector projected onto the natural screen
+    // plane from the W3C Z-X'-Y'' beta/gamma rotation sequence. Do not clamp
+    // beta to +/-90; the sign of cos(beta) matters near face-down poses.
+    naturalX: Math.cos(beta) * Math.sin(gamma),
+    naturalY: Math.sin(beta),
+  };
+}
+
+function getOrientedGravity() {
+  const projection = getMotionGravityProjection() || getOrientationGravityProjection();
+  if (!projection) {
+    return { x: 0, y: BASE_GRAVITY_Y };
+  }
+
+  return rotateNaturalGravityToScreen(projection.naturalX, projection.naturalY);
 }
 
 function setupOrientation() {
-  if (
-    orientationEnabled ||
-    orientationPermissionStarted ||
-    !("DeviceOrientationEvent" in window)
-  ) {
+  if (orientationPermissionStarted) {
     return;
   }
+
+  const canUseOrientation = "DeviceOrientationEvent" in window;
+  const canUseMotionGravity = "DeviceMotionEvent" in window;
+  if (!canUseOrientation && !canUseMotionGravity) return;
+
   orientationPermissionStarted = true;
 
   const enableOrientation = () => {
-    if (orientationEnabled) return;
+    if (orientationEnabled || !canUseOrientation) return;
     window.addEventListener("deviceorientationabsolute", handleOrientation);
     window.addEventListener("deviceorientation", handleOrientation);
     orientationEnabled = true;
   };
 
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
+  const enableMotionGravity = () => {
+    if (motionGravityEnabled || !canUseMotionGravity) return;
+    window.addEventListener("devicemotion", handleMotion);
+    motionGravityEnabled = true;
+  };
+
+  let permissionRequested = false;
+  if (
+    canUseOrientation &&
+    typeof DeviceOrientationEvent.requestPermission === "function"
+  ) {
+    permissionRequested = true;
     DeviceOrientationEvent.requestPermission()
       .then((response) => {
         if (response === "granted") enableOrientation();
       })
       .catch(() => {
-        orientationPermissionStarted = false;
+        if (!orientationEnabled && !motionGravityEnabled) {
+          orientationPermissionStarted = false;
+        }
       });
   } else {
     enableOrientation();
+  }
+
+  if (
+    canUseMotionGravity &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    permissionRequested = true;
+    DeviceMotionEvent.requestPermission()
+      .then((response) => {
+        if (response === "granted") enableMotionGravity();
+      })
+      .catch(() => {
+        if (!orientationEnabled && !motionGravityEnabled) {
+          orientationPermissionStarted = false;
+        }
+      });
+  } else {
+    enableMotionGravity();
+  }
+
+  if (!permissionRequested) {
+    orientationPermissionStarted = orientationEnabled || motionGravityEnabled;
   }
 }
 
