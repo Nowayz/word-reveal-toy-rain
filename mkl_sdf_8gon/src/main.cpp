@@ -39,7 +39,7 @@
 
 namespace mkl8gon {
 
-constexpr int K = 16;
+constexpr int K = 18;
 constexpr int FRUITLESS_ROUND_PATIENCE = 20;
 constexpr double PI = 3.141592653589793238462643383279502884;
 constexpr double INF = 1.0e100;
@@ -2813,7 +2813,7 @@ static void printUsage(const char* argv0) {
               << "  --min-gain-pct V  stop shrink rounds when area gain falls below V percent; default 0.05\n"
               << "  --auto-points     keep adding polygon points while area improves enough\n"
               << "  --point-gain-pct V stop adding points when best added-point gain is below V percent; default 0.1\n"
-              << "  --max-points N    maximum auto-points polygon vertices; default 16\n"
+              << "  --max-points N    maximum auto-points polygon vertices; default 18\n"
               << "  --point-visibility use contour-point visibility graph / DP solver\n"
               << "  --point-candidates N contour samples for point visibility; default 128\n"
               << "  --min-points N    first point count tested by visibility solver; default 3\n"
