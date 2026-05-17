@@ -33,6 +33,12 @@ let accelEnabled = false;
 let accelSmoothX = 0;
 let accelSmoothY = 0;
 let accelPermissionStarted = false;
+let orientationEnabled = false;
+let orientationPermissionStarted = false;
+let orientationBeta = 90;
+let orientationGamma = 0;
+let orientationHeading = 0;
+let orientationHasTilt = false;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
@@ -49,6 +55,7 @@ const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
 const BASE_GRAVITY_Y = 0.8;
 const ACCEL_FORCE_SCALE = 0.0045;
+const ORIENTED_GRAVITY_SCALE = 0.8;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -56,6 +63,10 @@ const EMPTY_IMAGE =
 const MatterApi = () => window.Matter;
 const AudioContextApi = () => window.AudioContext || window.webkitAudioContext;
 let audioContext = null;
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
 
 function getAudioContext() {
   if (audioContext || !AudioContextApi()) return audioContext;
@@ -137,6 +148,7 @@ function unlockAudio() {
 function unlockInputFeatures() {
   unlockAudio();
   setupAccelerometer();
+  setupOrientation();
 }
 
 function waitForImageLoad(image) {
@@ -510,17 +522,72 @@ function handleMotion(event) {
   accelSmoothY += (acc.y - accelSmoothY) * smoothing;
 }
 
+function handleOrientation(event) {
+  if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
+
+  const heading =
+    Number.isFinite(event.webkitCompassHeading) ? event.webkitCompassHeading : event.alpha;
+  if (!orientationHasTilt) {
+    orientationBeta = event.beta;
+    orientationGamma = event.gamma;
+    if (Number.isFinite(heading)) orientationHeading = heading;
+    orientationHasTilt = true;
+    return;
+  }
+
+  const smoothing = 0.16;
+  orientationBeta += (event.beta - orientationBeta) * smoothing;
+  orientationGamma += (event.gamma - orientationGamma) * smoothing;
+
+  if (Number.isFinite(heading)) {
+    let delta = heading - orientationHeading;
+    while (delta > 180) delta -= 360;
+    while (delta < -180) delta += 360;
+    orientationHeading = (orientationHeading + delta * smoothing + 360) % 360;
+  }
+}
+
+function getOrientedGravity() {
+  if (!orientationHasTilt) {
+    return { x: 0, y: BASE_GRAVITY_Y };
+  }
+
+  const beta = (clamp(orientationBeta, -90, 90) * Math.PI) / 180;
+  const gamma = (clamp(orientationGamma, -90, 90) * Math.PI) / 180;
+  const x = clamp(Math.sin(gamma), -1, 1) * ORIENTED_GRAVITY_SCALE;
+  const y = clamp(Math.sin(beta), -1, 1) * ORIENTED_GRAVITY_SCALE;
+
+  return { x, y };
+}
+
+function getOrientedAccelerationForce(stepMs) {
+  const frameScale = stepMs / FIXED_TIMESTEP;
+  const heading = (orientationHeading * Math.PI) / 180;
+  const sourceX = -accelSmoothX;
+  const sourceY = accelSmoothY;
+  const rotateByHeading = orientationEnabled && Number.isFinite(orientationHeading);
+  const x = rotateByHeading
+    ? sourceX * Math.cos(heading) - sourceY * Math.sin(heading)
+    : sourceX;
+  const y = rotateByHeading
+    ? sourceX * Math.sin(heading) + sourceY * Math.cos(heading)
+    : sourceY;
+
+  return {
+    x: clamp(x, -1, 1) * ACCEL_FORCE_SCALE * frameScale,
+    y: clamp(y, -1, 1) * ACCEL_FORCE_SCALE * frameScale,
+  };
+}
+
 function applyAccelerometerForces(stepMs) {
   if (!accelEnabled || !bodies.length || !MatterApi()) return;
   const { Body } = MatterApi();
-  const frameScale = stepMs / FIXED_TIMESTEP;
-  const xForce = Math.max(-1, Math.min(1, -accelSmoothX)) * ACCEL_FORCE_SCALE * frameScale;
-  const yForce = Math.max(-1, Math.min(1, accelSmoothY)) * ACCEL_FORCE_SCALE * frameScale;
+  const force = getOrientedAccelerationForce(stepMs);
 
   for (const entry of bodies) {
     Body.applyForce(entry.body, entry.body.position, {
-      x: xForce * entry.body.mass,
-      y: yForce * entry.body.mass,
+      x: force.x * entry.body.mass,
+      y: force.y * entry.body.mass,
     });
   }
 }
@@ -545,6 +612,36 @@ function setupAccelerometer() {
       });
   } else {
     enableMotion();
+  }
+}
+
+function setupOrientation() {
+  if (
+    orientationEnabled ||
+    orientationPermissionStarted ||
+    !("DeviceOrientationEvent" in window)
+  ) {
+    return;
+  }
+  orientationPermissionStarted = true;
+
+  const enableOrientation = () => {
+    if (orientationEnabled) return;
+    window.addEventListener("deviceorientationabsolute", handleOrientation);
+    window.addEventListener("deviceorientation", handleOrientation);
+    orientationEnabled = true;
+  };
+
+  if (typeof DeviceOrientationEvent.requestPermission === "function") {
+    DeviceOrientationEvent.requestPermission()
+      .then((response) => {
+        if (response === "granted") enableOrientation();
+      })
+      .catch(() => {
+        orientationPermissionStarted = false;
+      });
+  } else {
+    enableOrientation();
   }
 }
 
@@ -729,8 +826,9 @@ function renderPhysics(now) {
       entry.previous.y = entry.current.y;
       entry.previous.angle = entry.current.angle;
     }
-    physics.gravity.x = 0;
-    physics.gravity.y = BASE_GRAVITY_Y;
+    const gravity = getOrientedGravity();
+    physics.gravity.x = gravity.x;
+    physics.gravity.y = gravity.y;
     applyAccelerometerForces(FIXED_TIMESTEP);
     Engine.update(physics, FIXED_TIMESTEP);
     for (const entry of bodies) {
