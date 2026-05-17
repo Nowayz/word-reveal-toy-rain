@@ -29,6 +29,10 @@ let physicsAccumulator = 0;
 let releasingSprites = false;
 let releaseComplete = null;
 let cardVersion = 0;
+let accelEnabled = false;
+let accelSmoothX = 0;
+let accelSmoothY = 0;
+let accelPermissionStarted = false;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
@@ -126,6 +130,11 @@ async function playAudio(src) {
 
 function unlockAudio() {
   resumeAudioContext();
+}
+
+function unlockInputFeatures() {
+  unlockAudio();
+  setupAccelerometer();
 }
 
 function waitForImageLoad(image) {
@@ -370,8 +379,8 @@ function blockNonPrimaryPointer(event) {
 window.addEventListener("contextmenu", blockContextMenu, { capture: true });
 window.addEventListener("auxclick", blockContextMenu, { capture: true });
 window.addEventListener("pointerdown", blockNonPrimaryPointer, { capture: true, passive: false });
-window.addEventListener("pointerdown", unlockAudio, { capture: true });
-window.addEventListener("keydown", unlockAudio, { capture: true });
+window.addEventListener("pointerdown", unlockInputFeatures, { capture: true });
+window.addEventListener("keydown", unlockInputFeatures, { capture: true });
 window.addEventListener("selectstart", blockContextMenu, { capture: true });
 window.addEventListener("dragstart", (event) => event.preventDefault());
 
@@ -490,6 +499,38 @@ function setupPhysics() {
   rebuildWalls();
 }
 
+function handleMotion(event) {
+  const acc = event.accelerationIncludingGravity;
+  if (!acc || !Number.isFinite(acc.x) || !Number.isFinite(acc.y)) return;
+
+  const smoothing = 0.15;
+  accelSmoothX += (acc.x - accelSmoothX) * smoothing;
+  accelSmoothY += (acc.y - accelSmoothY) * smoothing;
+}
+
+function setupAccelerometer() {
+  if (accelEnabled || accelPermissionStarted || !("DeviceMotionEvent" in window)) return;
+  accelPermissionStarted = true;
+
+  const enableMotion = () => {
+    if (accelEnabled) return;
+    window.addEventListener("devicemotion", handleMotion);
+    accelEnabled = true;
+  };
+
+  if (typeof DeviceMotionEvent.requestPermission === "function") {
+    DeviceMotionEvent.requestPermission()
+      .then((response) => {
+        if (response === "granted") enableMotion();
+      })
+      .catch(() => {
+        accelPermissionStarted = false;
+      });
+  } else {
+    enableMotion();
+  }
+}
+
 function shrinkBoundingBox(points, insetPx) {
   const inset = Math.max(0, insetPx);
   if (!points.length || !inset) {
@@ -598,7 +639,7 @@ function explodeSprites(expectedVersion) {
       restitution: 0.55,
       friction: 0.5,
       frictionStatic: 0.85,
-      frictionAir: 0.04,
+      frictionAir: 0.016,
       density: 0.0018,
     });
     Body.setInertia(body, body.inertia * 2.5);
@@ -670,6 +711,13 @@ function renderPhysics(now) {
       entry.previous.x = entry.current.x;
       entry.previous.y = entry.current.y;
       entry.previous.angle = entry.current.angle;
+    }
+    if (accelEnabled && bodies.length) {
+      physics.gravity.x = Math.max(-0.35, Math.min(0.35, -accelSmoothX * 0.015));
+      physics.gravity.y = Math.max(0.45, Math.min(1.15, 0.8 + accelSmoothY * 0.015));
+    } else {
+      physics.gravity.x = 0;
+      physics.gravity.y = 0.8;
     }
     Engine.update(physics, FIXED_TIMESTEP);
     for (const entry of bodies) {
