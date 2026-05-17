@@ -854,7 +854,7 @@ function bindTouchButton(button, handler) {
 async function init() {
   resizeCanvas();
   setupPhysics();
-  const response = await fetch("assets/manifest.json");
+  const response = await fetch("assets/manifest.json", { cache: "no-store" });
   manifest = await response.json();
   restart();
 }

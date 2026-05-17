@@ -3478,63 +3478,35 @@
     "audio": "assets/audio/turtle.opus",
     "hitbox": [
       {
-        "x": 0.010557,
-        "y": -0.330207
+        "x": -0.2209,
+        "y": -0.2442
       },
       {
-        "x": 0.180694,
-        "y": -0.287585
+        "x": 0.1744,
+        "y": -0.2907
       },
       {
-        "x": 0.371114,
-        "y": -0.159492
+        "x": 0.3837,
+        "y": -0.1279
       },
       {
-        "x": 0.434374,
-        "y": 0.031394
+        "x": 0.5,
+        "y": 0.1977
       },
       {
-        "x": 0.496443,
-        "y": 0.200388
+        "x": 0.3837,
+        "y": 0.314
       },
       {
-        "x": 0.349217,
-        "y": 0.327741
+        "x": -0.3372,
+        "y": 0.314
       },
       {
-        "x": 0.159745,
-        "y": 0.308483
-      },
-      {
-        "x": 0.010664,
-        "y": 0.226037
-      },
-      {
-        "x": -0.117429,
-        "y": 0.308797
-      },
-      {
-        "x": -0.307289,
-        "y": 0.328023
-      },
-      {
-        "x": -0.433949,
-        "y": 0.17954
-      },
-      {
-        "x": -0.496874,
-        "y": 0.031374
-      },
-      {
-        "x": -0.35053,
-        "y": -0.117265
-      },
-      {
-        "x": -0.181007,
-        "y": -0.266563
+        "x": -0.5,
+        "y": 0.1047
       }
     ],
-    "hitboxSource": "assets/sprite-pointvis-10/collision-polygons.json"
+    "hitboxSource": "generated-sprite-outline"
   },
   {
     "word": "butterfly",
@@ -5414,5 +5386,3668 @@
       }
     ],
     "hitboxSource": "assets/sprite-pointvis-10/collision-polygons.json"
+  },
+  {
+    "word": "elephant",
+    "image": "assets/large/elephant.png",
+    "sprite": "assets/sprites/elephant.png",
+    "audio": "assets/audio/elephant.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2907
+      },
+      {
+        "x": -0.3837,
+        "y": -0.407
+      },
+      {
+        "x": 0.2209,
+        "y": -0.407
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.5,
+        "y": 0.407
+      },
+      {
+        "x": -0.314,
+        "y": 0.407
+      },
+      {
+        "x": -0.5,
+        "y": 0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "whale",
+    "image": "assets/large/whale.png",
+    "sprite": "assets/sprites/whale.png",
+    "audio": "assets/audio/whale.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.314
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": 0.2907,
+        "y": -0.5
+      },
+      {
+        "x": 0.4767,
+        "y": -0.1047
+      },
+      {
+        "x": 0.407,
+        "y": 0.4767
+      },
+      {
+        "x": -0.4302,
+        "y": 0.4535
+      },
+      {
+        "x": -0.4767,
+        "y": 0.0814
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "shark",
+    "image": "assets/large/shark.png",
+    "sprite": "assets/sprites/shark.png",
+    "audio": "assets/audio/shark.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.3372
+      },
+      {
+        "x": 0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.5,
+        "y": 0.1047
+      },
+      {
+        "x": 0.314,
+        "y": 0.3372
+      },
+      {
+        "x": -0.1279,
+        "y": 0.5
+      },
+      {
+        "x": -0.4767,
+        "y": -0.0814
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "owl",
+    "image": "assets/large/owl.png",
+    "sprite": "assets/sprites/owl.png",
+    "audio": "assets/audio/owl.opus",
+    "hitbox": [
+      {
+        "x": -0.3721,
+        "y": -0.5
+      },
+      {
+        "x": 0.3953,
+        "y": -0.5
+      },
+      {
+        "x": 0.3953,
+        "y": 0.1512
+      },
+      {
+        "x": 0.2093,
+        "y": 0.5
+      },
+      {
+        "x": -0.186,
+        "y": 0.5
+      },
+      {
+        "x": -0.3721,
+        "y": 0.1744
+      },
+      {
+        "x": -0.3953,
+        "y": 0.0349
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "fox",
+    "image": "assets/large/fox.png",
+    "sprite": "assets/sprites/fox.png",
+    "audio": "assets/audio/fox.opus",
+    "hitbox": [
+      {
+        "x": -0.2209,
+        "y": -0.5
+      },
+      {
+        "x": 0.2209,
+        "y": -0.5
+      },
+      {
+        "x": 0.4767,
+        "y": 0.1047
+      },
+      {
+        "x": 0.3837,
+        "y": 0.3372
+      },
+      {
+        "x": 0.1047,
+        "y": 0.5
+      },
+      {
+        "x": -0.314,
+        "y": 0.407
+      },
+      {
+        "x": -0.4767,
+        "y": 0.1977
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "squirrel",
+    "image": "assets/large/squirrel.png",
+    "sprite": "assets/sprites/squirrel.png",
+    "audio": "assets/audio/squirrel.opus",
+    "hitbox": [
+      {
+        "x": -0.1977,
+        "y": -0.4884
+      },
+      {
+        "x": 0.4302,
+        "y": -0.4884
+      },
+      {
+        "x": 0.5,
+        "y": -0.4419
+      },
+      {
+        "x": 0.5,
+        "y": 0.4186
+      },
+      {
+        "x": 0.407,
+        "y": 0.4884
+      },
+      {
+        "x": -0.314,
+        "y": 0.4884
+      },
+      {
+        "x": -0.5,
+        "y": -0.1163
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "horse",
+    "image": "assets/large/horse.png",
+    "sprite": "assets/sprites/horse.png",
+    "audio": "assets/audio/horse.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.2674
+      },
+      {
+        "x": -0.1279,
+        "y": -0.4767
+      },
+      {
+        "x": 0.1279,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.0814
+      },
+      {
+        "x": 0.5,
+        "y": 0.4535
+      },
+      {
+        "x": -0.1977,
+        "y": 0.4767
+      },
+      {
+        "x": -0.5,
+        "y": 0.1977
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "cow",
+    "image": "assets/large/cow.png",
+    "sprite": "assets/sprites/cow.png",
+    "audio": "assets/audio/cow.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.4302
+      },
+      {
+        "x": 0.1512,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.4302
+      },
+      {
+        "x": 0.3605,
+        "y": 0.2907
+      },
+      {
+        "x": 0.2674,
+        "y": 0.407
+      },
+      {
+        "x": -0.0581,
+        "y": 0.5
+      },
+      {
+        "x": -0.3605,
+        "y": 0.2674
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "pig",
+    "image": "assets/large/pig.png",
+    "sprite": "assets/sprites/pig.png",
+    "audio": "assets/audio/pig.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2907
+      },
+      {
+        "x": -0.3372,
+        "y": -0.4535
+      },
+      {
+        "x": 0.3605,
+        "y": -0.4535
+      },
+      {
+        "x": 0.5,
+        "y": -0.314
+      },
+      {
+        "x": 0.4535,
+        "y": 0.1744
+      },
+      {
+        "x": -0.0349,
+        "y": 0.4535
+      },
+      {
+        "x": -0.4535,
+        "y": 0.1512
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "sheep",
+    "image": "assets/large/sheep.png",
+    "sprite": "assets/sprites/sheep.png",
+    "audio": "assets/audio/sheep.opus",
+    "hitbox": [
+      {
+        "x": -0.3837,
+        "y": -0.4767
+      },
+      {
+        "x": -0.1744,
+        "y": -0.5
+      },
+      {
+        "x": 0.407,
+        "y": -0.2209
+      },
+      {
+        "x": 0.5,
+        "y": -0.1279
+      },
+      {
+        "x": 0.5,
+        "y": 0.5
+      },
+      {
+        "x": -0.1744,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": -0.1744
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "goat",
+    "image": "assets/large/goat.png",
+    "sprite": "assets/sprites/goat.png",
+    "audio": "assets/audio/goat.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.3721
+      },
+      {
+        "x": -0.0581,
+        "y": -0.4651
+      },
+      {
+        "x": 0.4302,
+        "y": -0.2326
+      },
+      {
+        "x": 0.5,
+        "y": 0.2326
+      },
+      {
+        "x": 0.4767,
+        "y": 0.4651
+      },
+      {
+        "x": -0.2209,
+        "y": 0.4651
+      },
+      {
+        "x": -0.5,
+        "y": -0.186
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "camel",
+    "image": "assets/large/camel.png",
+    "sprite": "assets/sprites/camel.png",
+    "audio": "assets/audio/camel.opus",
+    "hitbox": [
+      {
+        "x": -0.314,
+        "y": -0.4767
+      },
+      {
+        "x": -0.1279,
+        "y": -0.5
+      },
+      {
+        "x": 0.3372,
+        "y": -0.2907
+      },
+      {
+        "x": 0.5,
+        "y": -0.0814
+      },
+      {
+        "x": 0.4767,
+        "y": 0.5
+      },
+      {
+        "x": -0.1744,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": -0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "giraffe",
+    "image": "assets/large/giraffe.png",
+    "sprite": "assets/sprites/giraffe.png",
+    "audio": "assets/audio/giraffe.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.5
+      },
+      {
+        "x": -0.2674,
+        "y": -0.5
+      },
+      {
+        "x": 0.4302,
+        "y": 0.1279
+      },
+      {
+        "x": 0.4767,
+        "y": 0.314
+      },
+      {
+        "x": 0.3837,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.5
+      },
+      {
+        "x": -0.4767,
+        "y": -0.314
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "zebra",
+    "image": "assets/large/zebra.png",
+    "sprite": "assets/sprites/zebra.png",
+    "audio": "assets/audio/zebra.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.314,
+        "y": -0.3605
+      },
+      {
+        "x": 0.5,
+        "y": -0.2209
+      },
+      {
+        "x": 0.5,
+        "y": 0.3372
+      },
+      {
+        "x": 0.3837,
+        "y": 0.5
+      },
+      {
+        "x": -0.1279,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": -0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "wolf",
+    "image": "assets/large/wolf.png",
+    "sprite": "assets/sprites/wolf.png",
+    "audio": "assets/audio/wolf.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.0581
+      },
+      {
+        "x": -0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": 0.0349
+      },
+      {
+        "x": 0.4535,
+        "y": 0.2907
+      },
+      {
+        "x": 0.1047,
+        "y": 0.5
+      },
+      {
+        "x": -0.4302,
+        "y": 0.314
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "otter",
+    "image": "assets/large/otter.png",
+    "sprite": "assets/sprites/otter.png",
+    "audio": "assets/audio/otter.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2674
+      },
+      {
+        "x": 0.1512,
+        "y": -0.4535
+      },
+      {
+        "x": 0.5,
+        "y": -0.2209
+      },
+      {
+        "x": 0.5,
+        "y": 0.2442
+      },
+      {
+        "x": 0.3372,
+        "y": 0.4302
+      },
+      {
+        "x": -0.2209,
+        "y": 0.4535
+      },
+      {
+        "x": -0.5,
+        "y": 0.2209
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "dolphin",
+    "image": "assets/large/dolphin.png",
+    "sprite": "assets/sprites/dolphin.png",
+    "audio": "assets/audio/dolphin.opus",
+    "hitbox": [
+      {
+        "x": -0.3953,
+        "y": -0.2442
+      },
+      {
+        "x": -0.186,
+        "y": -0.5
+      },
+      {
+        "x": 0.3953,
+        "y": -0.5
+      },
+      {
+        "x": 0.3953,
+        "y": 0.0349
+      },
+      {
+        "x": 0.3256,
+        "y": 0.1744
+      },
+      {
+        "x": 0.186,
+        "y": 0.2907
+      },
+      {
+        "x": -0.2791,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "seal",
+    "image": "assets/large/seal.png",
+    "sprite": "assets/sprites/seal.png",
+    "audio": "assets/audio/seal.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2093
+      },
+      {
+        "x": -0.3837,
+        "y": -0.3488
+      },
+      {
+        "x": -0.1977,
+        "y": -0.3721
+      },
+      {
+        "x": 0.4767,
+        "y": -0.3023
+      },
+      {
+        "x": 0.5,
+        "y": 0.0465
+      },
+      {
+        "x": 0.2209,
+        "y": 0.3721
+      },
+      {
+        "x": -0.5,
+        "y": 0.3721
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "crab",
+    "image": "assets/large/crab.png",
+    "sprite": "assets/sprites/crab.png",
+    "audio": "assets/audio/crab.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.1163
+      },
+      {
+        "x": -0.1744,
+        "y": -0.4419
+      },
+      {
+        "x": 0.1977,
+        "y": -0.4419
+      },
+      {
+        "x": 0.5,
+        "y": -0.093
+      },
+      {
+        "x": 0.3605,
+        "y": 0.3721
+      },
+      {
+        "x": -0.1512,
+        "y": 0.4419
+      },
+      {
+        "x": -0.5,
+        "y": 0.1395
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "snail",
+    "image": "assets/large/snail.png",
+    "sprite": "assets/sprites/snail.png",
+    "audio": "assets/audio/snail.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.5
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": 0.314,
+        "y": -0.3372
+      },
+      {
+        "x": 0.5,
+        "y": -0.1047
+      },
+      {
+        "x": 0.4767,
+        "y": 0.5
+      },
+      {
+        "x": -0.3372,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.3372
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "worm",
+    "image": "assets/large/worm.png",
+    "sprite": "assets/sprites/worm.png",
+    "audio": "assets/audio/worm.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.1512
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": 0.3372,
+        "y": -0.3605
+      },
+      {
+        "x": 0.4535,
+        "y": -0.2209
+      },
+      {
+        "x": 0.407,
+        "y": 0.4767
+      },
+      {
+        "x": 0.3372,
+        "y": 0.5
+      },
+      {
+        "x": -0.3605,
+        "y": 0.0814
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "spider",
+    "image": "assets/large/spider.png",
+    "sprite": "assets/sprites/spider.png",
+    "audio": "assets/audio/spider.opus",
+    "hitbox": [
+      {
+        "x": -0.3721,
+        "y": -0.5
+      },
+      {
+        "x": 0.3488,
+        "y": -0.5
+      },
+      {
+        "x": 0.4884,
+        "y": -0.314
+      },
+      {
+        "x": 0.4884,
+        "y": 0.2907
+      },
+      {
+        "x": 0.3488,
+        "y": 0.5
+      },
+      {
+        "x": -0.3721,
+        "y": 0.5
+      },
+      {
+        "x": -0.4884,
+        "y": 0.314
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "ant",
+    "image": "assets/large/ant.png",
+    "sprite": "assets/sprites/ant.png",
+    "audio": "assets/audio/ant.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.5
+      },
+      {
+        "x": -0.3837,
+        "y": -0.5
+      },
+      {
+        "x": 0.3837,
+        "y": -0.0116
+      },
+      {
+        "x": 0.5,
+        "y": 0.3372
+      },
+      {
+        "x": 0.314,
+        "y": 0.5
+      },
+      {
+        "x": -0.314,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.1744
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "scorpion",
+    "image": "assets/large/scorpion.png",
+    "sprite": "assets/sprites/scorpion.png",
+    "audio": "assets/audio/scorpion.opus",
+    "hitbox": [
+      {
+        "x": -0.4651,
+        "y": 0.1977
+      },
+      {
+        "x": -0.2791,
+        "y": -0.3837
+      },
+      {
+        "x": 0.0233,
+        "y": -0.4767
+      },
+      {
+        "x": 0.3721,
+        "y": -0.1279
+      },
+      {
+        "x": 0.4651,
+        "y": 0.1977
+      },
+      {
+        "x": 0.3953,
+        "y": 0.5
+      },
+      {
+        "x": -0.3953,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "parrot",
+    "image": "assets/large/parrot.png",
+    "sprite": "assets/sprites/parrot.png",
+    "audio": "assets/audio/parrot.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.3372
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": -0.0116,
+        "y": -0.4302
+      },
+      {
+        "x": 0.4302,
+        "y": 0.1977
+      },
+      {
+        "x": 0.1047,
+        "y": 0.5
+      },
+      {
+        "x": -0.2907,
+        "y": 0.5
+      },
+      {
+        "x": -0.4302,
+        "y": 0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "eagle",
+    "image": "assets/large/eagle.png",
+    "sprite": "assets/sprites/eagle.png",
+    "audio": "assets/audio/eagle.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.1395
+      },
+      {
+        "x": -0.0116,
+        "y": -0.3488
+      },
+      {
+        "x": 0.5,
+        "y": -0.3488
+      },
+      {
+        "x": 0.3605,
+        "y": 0.3256
+      },
+      {
+        "x": 0.1279,
+        "y": 0.3488
+      },
+      {
+        "x": -0.314,
+        "y": 0.3023
+      },
+      {
+        "x": -0.5,
+        "y": 0.0465
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "swan",
+    "image": "assets/large/swan.png",
+    "sprite": "assets/sprites/swan.png",
+    "audio": "assets/audio/swan.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.3333
+      },
+      {
+        "x": -0.2619,
+        "y": -0.4762
+      },
+      {
+        "x": 0.5,
+        "y": -0.119
+      },
+      {
+        "x": 0.4286,
+        "y": 0.3333
+      },
+      {
+        "x": 0.1905,
+        "y": 0.4762
+      },
+      {
+        "x": -0.2381,
+        "y": 0.4762
+      },
+      {
+        "x": -0.4286,
+        "y": 0.2143
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "orange",
+    "image": "assets/large/orange.png",
+    "sprite": "assets/sprites/orange.png",
+    "audio": "assets/audio/orange.opus",
+    "hitbox": [
+      {
+        "x": -0.4186,
+        "y": 0.0814
+      },
+      {
+        "x": -0.3256,
+        "y": -0.5
+      },
+      {
+        "x": -0.093,
+        "y": -0.5
+      },
+      {
+        "x": 0.3721,
+        "y": -0.1279
+      },
+      {
+        "x": 0.4186,
+        "y": 0.1744
+      },
+      {
+        "x": 0.2791,
+        "y": 0.407
+      },
+      {
+        "x": -0.093,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "lemon",
+    "image": "assets/large/lemon.png",
+    "sprite": "assets/sprites/lemon.png",
+    "audio": "assets/audio/lemon.opus",
+    "hitbox": [
+      {
+        "x": -0.314,
+        "y": -0.5
+      },
+      {
+        "x": 0.1977,
+        "y": -0.4302
+      },
+      {
+        "x": 0.407,
+        "y": -0.2674
+      },
+      {
+        "x": 0.5,
+        "y": 0.1744
+      },
+      {
+        "x": 0.1977,
+        "y": 0.5
+      },
+      {
+        "x": -0.1744,
+        "y": 0.2907
+      },
+      {
+        "x": -0.5,
+        "y": -0.3837
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "peach",
+    "image": "assets/large/peach.png",
+    "sprite": "assets/sprites/peach.png",
+    "audio": "assets/audio/peach.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.0814
+      },
+      {
+        "x": -0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": 0.1047
+      },
+      {
+        "x": 0.2442,
+        "y": 0.407
+      },
+      {
+        "x": -0.1279,
+        "y": 0.4767
+      },
+      {
+        "x": -0.4302,
+        "y": 0.2209
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "pear",
+    "image": "assets/large/pear.png",
+    "sprite": "assets/sprites/pear.png",
+    "audio": "assets/audio/pear.opus",
+    "hitbox": [
+      {
+        "x": -0.1977,
+        "y": -0.5
+      },
+      {
+        "x": 0.0581,
+        "y": -0.407
+      },
+      {
+        "x": 0.407,
+        "y": -0.0349
+      },
+      {
+        "x": 0.4535,
+        "y": 0.2209
+      },
+      {
+        "x": 0.1977,
+        "y": 0.5
+      },
+      {
+        "x": -0.2209,
+        "y": 0.2907
+      },
+      {
+        "x": -0.4535,
+        "y": -0.407
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "melon",
+    "image": "assets/large/melon.png",
+    "sprite": "assets/sprites/melon.png",
+    "audio": "assets/audio/melon.opus",
+    "hitbox": [
+      {
+        "x": -0.3837,
+        "y": -0.5
+      },
+      {
+        "x": -0.0814,
+        "y": -0.5
+      },
+      {
+        "x": 0.2907,
+        "y": -0.2209
+      },
+      {
+        "x": 0.407,
+        "y": -0.0116
+      },
+      {
+        "x": 0.3605,
+        "y": 0.2907
+      },
+      {
+        "x": -0.0116,
+        "y": 0.5
+      },
+      {
+        "x": -0.407,
+        "y": 0.1977
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "carrot",
+    "image": "assets/large/carrot.png",
+    "sprite": "assets/sprites/carrot.png",
+    "audio": "assets/audio/carrot.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.3837
+      },
+      {
+        "x": -0.2209,
+        "y": -0.2907
+      },
+      {
+        "x": 0.1512,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.2907,
+        "y": 0.2209
+      },
+      {
+        "x": -0.3837,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "corn",
+    "image": "assets/large/corn.png",
+    "sprite": "assets/sprites/corn.png",
+    "audio": "assets/audio/corn.opus",
+    "hitbox": [
+      {
+        "x": -0.3023,
+        "y": -0.1512
+      },
+      {
+        "x": -0.0233,
+        "y": -0.407
+      },
+      {
+        "x": 0.2791,
+        "y": -0.5
+      },
+      {
+        "x": 0.3721,
+        "y": 0.1744
+      },
+      {
+        "x": 0.0698,
+        "y": 0.407
+      },
+      {
+        "x": -0.3023,
+        "y": 0.4535
+      },
+      {
+        "x": -0.3721,
+        "y": 0.1744
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "peas",
+    "image": "assets/large/peas.png",
+    "sprite": "assets/sprites/peas.png",
+    "audio": "assets/audio/peas.opus",
+    "hitbox": [
+      {
+        "x": -0.314,
+        "y": -0.0814
+      },
+      {
+        "x": 0.0581,
+        "y": -0.4302
+      },
+      {
+        "x": 0.4302,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.1279,
+        "y": 0.314
+      },
+      {
+        "x": -0.4302,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.4302
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "broccoli",
+    "image": "assets/large/broccoli.png",
+    "sprite": "assets/sprites/broccoli.png",
+    "audio": "assets/audio/broccoli.opus",
+    "hitbox": [
+      {
+        "x": -0.3256,
+        "y": -0.3837
+      },
+      {
+        "x": 0.186,
+        "y": -0.5
+      },
+      {
+        "x": 0.4419,
+        "y": -0.0349
+      },
+      {
+        "x": 0.3721,
+        "y": 0.2209
+      },
+      {
+        "x": -0.1628,
+        "y": 0.5
+      },
+      {
+        "x": -0.3488,
+        "y": 0.407
+      },
+      {
+        "x": -0.4419,
+        "y": -0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "mushroom",
+    "image": "assets/large/mushroom.png",
+    "sprite": "assets/sprites/mushroom.png",
+    "audio": "assets/audio/mushroom.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1279
+      },
+      {
+        "x": -0.1047,
+        "y": -0.5
+      },
+      {
+        "x": 0.2674,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": 0.1279
+      },
+      {
+        "x": 0.1744,
+        "y": 0.5
+      },
+      {
+        "x": -0.1744,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "potato",
+    "image": "assets/large/potato.png",
+    "sprite": "assets/sprites/potato.png",
+    "audio": "assets/audio/potato.opus",
+    "hitbox": [
+      {
+        "x": -0.4186,
+        "y": -0.0349
+      },
+      {
+        "x": 0.0,
+        "y": -0.5
+      },
+      {
+        "x": 0.4419,
+        "y": -0.2674
+      },
+      {
+        "x": 0.4419,
+        "y": -0.0349
+      },
+      {
+        "x": 0.1395,
+        "y": 0.4535
+      },
+      {
+        "x": -0.1395,
+        "y": 0.5
+      },
+      {
+        "x": -0.4186,
+        "y": 0.2674
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "onion",
+    "image": "assets/large/onion.png",
+    "sprite": "assets/sprites/onion.png",
+    "audio": "assets/audio/onion.opus",
+    "hitbox": [
+      {
+        "x": -0.093,
+        "y": -0.5
+      },
+      {
+        "x": 0.093,
+        "y": -0.5
+      },
+      {
+        "x": 0.4186,
+        "y": -0.0349
+      },
+      {
+        "x": 0.3488,
+        "y": 0.2907
+      },
+      {
+        "x": 0.0698,
+        "y": 0.5
+      },
+      {
+        "x": -0.3023,
+        "y": 0.3372
+      },
+      {
+        "x": -0.4186,
+        "y": 0.0581
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "bread",
+    "image": "assets/large/bread.png",
+    "sprite": "assets/sprites/bread.png",
+    "audio": "assets/audio/bread.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2791
+      },
+      {
+        "x": -0.0116,
+        "y": -0.4884
+      },
+      {
+        "x": 0.5,
+        "y": -0.2558
+      },
+      {
+        "x": 0.4767,
+        "y": 0.2791
+      },
+      {
+        "x": 0.0116,
+        "y": 0.4884
+      },
+      {
+        "x": -0.3837,
+        "y": 0.3721
+      },
+      {
+        "x": -0.4767,
+        "y": 0.2326
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "cheese",
+    "image": "assets/large/cheese.png",
+    "sprite": "assets/sprites/cheese.png",
+    "audio": "assets/audio/cheese.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.1047
+      },
+      {
+        "x": -0.0581,
+        "y": -0.4767
+      },
+      {
+        "x": 0.0814,
+        "y": -0.5
+      },
+      {
+        "x": 0.4535,
+        "y": -0.2907
+      },
+      {
+        "x": 0.4535,
+        "y": 0.2907
+      },
+      {
+        "x": -0.3372,
+        "y": 0.5
+      },
+      {
+        "x": -0.4535,
+        "y": 0.4535
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "egg",
+    "image": "assets/large/egg.png",
+    "sprite": "assets/sprites/egg.png",
+    "audio": "assets/audio/egg.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.1279
+      },
+      {
+        "x": -0.1047,
+        "y": -0.5
+      },
+      {
+        "x": 0.1047,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.1279
+      },
+      {
+        "x": 0.3605,
+        "y": 0.2442
+      },
+      {
+        "x": -0.0814,
+        "y": 0.5
+      },
+      {
+        "x": -0.3605,
+        "y": 0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "butter",
+    "image": "assets/large/butter.png",
+    "sprite": "assets/sprites/butter.png",
+    "audio": "assets/audio/butter.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.1163
+      },
+      {
+        "x": 0.1047,
+        "y": -0.3256
+      },
+      {
+        "x": 0.3837,
+        "y": -0.186
+      },
+      {
+        "x": 0.5,
+        "y": -0.0233
+      },
+      {
+        "x": 0.4767,
+        "y": 0.0698
+      },
+      {
+        "x": -0.0581,
+        "y": 0.3256
+      },
+      {
+        "x": -0.5,
+        "y": 0.1395
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "honey",
+    "image": "assets/large/honey.png",
+    "sprite": "assets/sprites/honey.png",
+    "audio": "assets/audio/honey.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.314
+      },
+      {
+        "x": 0.1512,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.2907
+      },
+      {
+        "x": 0.4302,
+        "y": 0.0349
+      },
+      {
+        "x": 0.2674,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.5
+      },
+      {
+        "x": -0.4302,
+        "y": 0.0116
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "cake",
+    "image": "assets/large/cake.png",
+    "sprite": "assets/sprites/cake.png",
+    "audio": "assets/audio/cake.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.1047
+      },
+      {
+        "x": -0.0581,
+        "y": -0.5
+      },
+      {
+        "x": 0.4535,
+        "y": -0.3605
+      },
+      {
+        "x": 0.5,
+        "y": 0.2209
+      },
+      {
+        "x": 0.4535,
+        "y": 0.2674
+      },
+      {
+        "x": -0.3605,
+        "y": 0.5
+      },
+      {
+        "x": -0.4767,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "donut",
+    "image": "assets/large/donut.png",
+    "sprite": "assets/sprites/donut.png",
+    "audio": "assets/audio/donut.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.1977
+      },
+      {
+        "x": -0.2674,
+        "y": -0.4302
+      },
+      {
+        "x": 0.1279,
+        "y": -0.5
+      },
+      {
+        "x": 0.4302,
+        "y": -0.1744
+      },
+      {
+        "x": 0.3605,
+        "y": 0.314
+      },
+      {
+        "x": 0.1047,
+        "y": 0.5
+      },
+      {
+        "x": -0.314,
+        "y": 0.3837
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "popcorn",
+    "image": "assets/large/popcorn.png",
+    "sprite": "assets/sprites/popcorn.png",
+    "audio": "assets/audio/popcorn.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.1279
+      },
+      {
+        "x": -0.2442,
+        "y": -0.3372
+      },
+      {
+        "x": 0.0581,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.1279
+      },
+      {
+        "x": 0.2907,
+        "y": 0.4535
+      },
+      {
+        "x": 0.2442,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "candy",
+    "image": "assets/large/candy.png",
+    "sprite": "assets/sprites/candy.png",
+    "audio": "assets/audio/candy.opus",
+    "hitbox": [
+      {
+        "x": -0.3837,
+        "y": -0.4302
+      },
+      {
+        "x": -0.1279,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": 0.1279
+      },
+      {
+        "x": 0.4302,
+        "y": 0.407
+      },
+      {
+        "x": 0.1512,
+        "y": 0.5
+      },
+      {
+        "x": -0.2442,
+        "y": 0.2209
+      },
+      {
+        "x": -0.5,
+        "y": -0.1512
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "lollipop",
+    "image": "assets/large/lollipop.png",
+    "sprite": "assets/sprites/lollipop.png",
+    "audio": "assets/audio/lollipop.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.3372
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": 0.1279,
+        "y": -0.407
+      },
+      {
+        "x": 0.5,
+        "y": 0.407
+      },
+      {
+        "x": 0.407,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.1977
+      },
+      {
+        "x": -0.5,
+        "y": -0.0581
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "pretzel",
+    "image": "assets/large/pretzel.png",
+    "sprite": "assets/sprites/pretzel.png",
+    "audio": "assets/audio/pretzel.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1395
+      },
+      {
+        "x": -0.2442,
+        "y": -0.4186
+      },
+      {
+        "x": 0.2442,
+        "y": -0.4186
+      },
+      {
+        "x": 0.5,
+        "y": -0.186
+      },
+      {
+        "x": 0.5,
+        "y": 0.2326
+      },
+      {
+        "x": -0.1279,
+        "y": 0.4186
+      },
+      {
+        "x": -0.5,
+        "y": 0.2093
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "noodles",
+    "image": "assets/large/noodles.png",
+    "sprite": "assets/sprites/noodles.png",
+    "audio": "assets/audio/noodles.opus",
+    "hitbox": [
+      {
+        "x": -0.4651,
+        "y": -0.0116
+      },
+      {
+        "x": -0.1628,
+        "y": -0.4535
+      },
+      {
+        "x": 0.4651,
+        "y": -0.5
+      },
+      {
+        "x": 0.3953,
+        "y": 0.1512
+      },
+      {
+        "x": 0.2093,
+        "y": 0.5
+      },
+      {
+        "x": -0.2791,
+        "y": 0.5
+      },
+      {
+        "x": -0.4651,
+        "y": 0.1512
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "rice",
+    "image": "assets/large/rice.png",
+    "sprite": "assets/sprites/rice.png",
+    "audio": "assets/audio/rice.opus",
+    "hitbox": [
+      {
+        "x": -0.4651,
+        "y": -0.1744
+      },
+      {
+        "x": -0.1163,
+        "y": -0.5
+      },
+      {
+        "x": 0.1395,
+        "y": -0.5
+      },
+      {
+        "x": 0.4884,
+        "y": -0.1512
+      },
+      {
+        "x": 0.4884,
+        "y": 0.2442
+      },
+      {
+        "x": 0.2326,
+        "y": 0.5
+      },
+      {
+        "x": -0.4186,
+        "y": 0.3372
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "soup",
+    "image": "assets/large/soup.png",
+    "sprite": "assets/sprites/soup.png",
+    "audio": "assets/audio/soup.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.0814
+      },
+      {
+        "x": -0.1744,
+        "y": -0.407
+      },
+      {
+        "x": 0.1744,
+        "y": -0.407
+      },
+      {
+        "x": 0.4767,
+        "y": -0.1279
+      },
+      {
+        "x": 0.4767,
+        "y": 0.0814
+      },
+      {
+        "x": 0.1744,
+        "y": 0.407
+      },
+      {
+        "x": -0.1977,
+        "y": 0.3837
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "salad",
+    "image": "assets/large/salad.png",
+    "sprite": "assets/sprites/salad.png",
+    "audio": "assets/audio/salad.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1977
+      },
+      {
+        "x": -0.0581,
+        "y": -0.4767
+      },
+      {
+        "x": 0.5,
+        "y": -0.2209
+      },
+      {
+        "x": 0.5,
+        "y": 0.1977
+      },
+      {
+        "x": 0.1977,
+        "y": 0.4767
+      },
+      {
+        "x": -0.1744,
+        "y": 0.4767
+      },
+      {
+        "x": -0.4302,
+        "y": 0.314
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "hot dog",
+    "image": "assets/large/hot-dog.png",
+    "sprite": "assets/sprites/hot-dog.png",
+    "audio": "assets/audio/hot-dog.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": 0.0116
+      },
+      {
+        "x": 0.0349,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.0581
+      },
+      {
+        "x": 0.2674,
+        "y": 0.2674
+      },
+      {
+        "x": -0.0581,
+        "y": 0.5
+      },
+      {
+        "x": -0.4302,
+        "y": 0.3837
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "taco",
+    "image": "assets/large/taco.png",
+    "sprite": "assets/sprites/taco.png",
+    "audio": "assets/audio/taco.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.0581
+      },
+      {
+        "x": -0.407,
+        "y": -0.1744
+      },
+      {
+        "x": 0.0581,
+        "y": -0.3605
+      },
+      {
+        "x": 0.3372,
+        "y": -0.2674
+      },
+      {
+        "x": 0.5,
+        "y": -0.0814
+      },
+      {
+        "x": 0.3837,
+        "y": 0.3605
+      },
+      {
+        "x": -0.3837,
+        "y": 0.3605
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "gloves",
+    "image": "assets/large/gloves.png",
+    "sprite": "assets/sprites/gloves.png",
+    "audio": "assets/audio/gloves.opus",
+    "hitbox": [
+      {
+        "x": -0.1512,
+        "y": -0.4767
+      },
+      {
+        "x": 0.1279,
+        "y": -0.4767
+      },
+      {
+        "x": 0.407,
+        "y": -0.2442
+      },
+      {
+        "x": 0.407,
+        "y": 0.2907
+      },
+      {
+        "x": -0.0116,
+        "y": 0.5
+      },
+      {
+        "x": -0.1279,
+        "y": 0.4535
+      },
+      {
+        "x": -0.407,
+        "y": -0.1512
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "scarf",
+    "image": "assets/large/scarf.png",
+    "sprite": "assets/sprites/scarf.png",
+    "audio": "assets/audio/scarf.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.2907
+      },
+      {
+        "x": -0.0814,
+        "y": -0.5
+      },
+      {
+        "x": 0.1977,
+        "y": -0.4535
+      },
+      {
+        "x": 0.5,
+        "y": 0.0116
+      },
+      {
+        "x": 0.5,
+        "y": 0.314
+      },
+      {
+        "x": -0.2442,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.4535
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "boots",
+    "image": "assets/large/boots.png",
+    "sprite": "assets/sprites/boots.png",
+    "audio": "assets/audio/boots.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.4767
+      },
+      {
+        "x": -0.4767,
+        "y": -0.5
+      },
+      {
+        "x": 0.0349,
+        "y": -0.5
+      },
+      {
+        "x": 0.0814,
+        "y": -0.4535
+      },
+      {
+        "x": 0.5,
+        "y": 0.314
+      },
+      {
+        "x": 0.5,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "sandals",
+    "image": "assets/large/sandals.png",
+    "sprite": "assets/sprites/sandals.png",
+    "audio": "assets/audio/sandals.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1977
+      },
+      {
+        "x": -0.2907,
+        "y": -0.2209
+      },
+      {
+        "x": 0.1744,
+        "y": -0.1512
+      },
+      {
+        "x": 0.3605,
+        "y": -0.0814
+      },
+      {
+        "x": 0.5,
+        "y": 0.1047
+      },
+      {
+        "x": 0.4302,
+        "y": 0.2209
+      },
+      {
+        "x": -0.4767,
+        "y": 0.2209
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "tie",
+    "image": "assets/large/tie.png",
+    "sprite": "assets/sprites/tie.png",
+    "audio": "assets/audio/tie.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.3372
+      },
+      {
+        "x": -0.314,
+        "y": -0.5
+      },
+      {
+        "x": 0.314,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.3605
+      },
+      {
+        "x": 0.5,
+        "y": 0.4302
+      },
+      {
+        "x": -0.407,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.407
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "mask",
+    "image": "assets/large/mask.png",
+    "sprite": "assets/sprites/mask.png",
+    "audio": "assets/audio/mask.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1279
+      },
+      {
+        "x": -0.1512,
+        "y": -0.5
+      },
+      {
+        "x": 0.4302,
+        "y": -0.314
+      },
+      {
+        "x": 0.5,
+        "y": 0.1512
+      },
+      {
+        "x": 0.3372,
+        "y": 0.407
+      },
+      {
+        "x": -0.1279,
+        "y": 0.5
+      },
+      {
+        "x": -0.4302,
+        "y": 0.2907
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "glasses",
+    "image": "assets/large/glasses.png",
+    "sprite": "assets/sprites/glasses.png",
+    "audio": "assets/audio/glasses.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.1977
+      },
+      {
+        "x": 0.5,
+        "y": -0.1977
+      },
+      {
+        "x": 0.4767,
+        "y": 0.0581
+      },
+      {
+        "x": 0.3605,
+        "y": 0.1977
+      },
+      {
+        "x": -0.3372,
+        "y": 0.1977
+      },
+      {
+        "x": -0.4535,
+        "y": 0.0814
+      },
+      {
+        "x": -0.5,
+        "y": -0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "helmet",
+    "image": "assets/large/helmet.png",
+    "sprite": "assets/sprites/helmet.png",
+    "audio": "assets/audio/helmet.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": 0.0349
+      },
+      {
+        "x": -0.3605,
+        "y": -0.2907
+      },
+      {
+        "x": 0.1047,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.2907
+      },
+      {
+        "x": 0.4535,
+        "y": 0.0581
+      },
+      {
+        "x": 0.2442,
+        "y": 0.407
+      },
+      {
+        "x": -0.1047,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "watch",
+    "image": "assets/large/watch.png",
+    "sprite": "assets/sprites/watch.png",
+    "audio": "assets/audio/watch.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.1279
+      },
+      {
+        "x": -0.2674,
+        "y": -0.5
+      },
+      {
+        "x": 0.2209,
+        "y": -0.5
+      },
+      {
+        "x": 0.4535,
+        "y": 0.0581
+      },
+      {
+        "x": 0.2209,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.5
+      },
+      {
+        "x": -0.4535,
+        "y": 0.1047
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "purse",
+    "image": "assets/large/purse.png",
+    "sprite": "assets/sprites/purse.png",
+    "audio": "assets/audio/purse.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.1977
+      },
+      {
+        "x": -0.0814,
+        "y": -0.4302
+      },
+      {
+        "x": 0.3605,
+        "y": -0.2907
+      },
+      {
+        "x": 0.5,
+        "y": 0.2209
+      },
+      {
+        "x": 0.3605,
+        "y": 0.3837
+      },
+      {
+        "x": -0.1977,
+        "y": 0.4302
+      },
+      {
+        "x": -0.4767,
+        "y": 0.2674
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "mirror",
+    "image": "assets/large/mirror.png",
+    "sprite": "assets/sprites/mirror.png",
+    "audio": "assets/audio/mirror.opus",
+    "hitbox": [
+      {
+        "x": -0.3721,
+        "y": -0.1977
+      },
+      {
+        "x": -0.0698,
+        "y": -0.5
+      },
+      {
+        "x": 0.0698,
+        "y": -0.5
+      },
+      {
+        "x": 0.3721,
+        "y": -0.1977
+      },
+      {
+        "x": 0.3721,
+        "y": 0.1977
+      },
+      {
+        "x": -0.0698,
+        "y": 0.5
+      },
+      {
+        "x": -0.3721,
+        "y": 0.1977
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "vase",
+    "image": "assets/large/vase.png",
+    "sprite": "assets/sprites/vase.png",
+    "audio": "assets/audio/vase.opus",
+    "hitbox": [
+      {
+        "x": -0.3256,
+        "y": -0.314
+      },
+      {
+        "x": -0.1395,
+        "y": -0.5
+      },
+      {
+        "x": 0.1395,
+        "y": -0.5
+      },
+      {
+        "x": 0.3256,
+        "y": -0.314
+      },
+      {
+        "x": 0.2791,
+        "y": 0.0814
+      },
+      {
+        "x": 0.1395,
+        "y": 0.5
+      },
+      {
+        "x": -0.1395,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "candle",
+    "image": "assets/large/candle.png",
+    "sprite": "assets/sprites/candle.png",
+    "audio": "assets/audio/candle.opus",
+    "hitbox": [
+      {
+        "x": -0.2442,
+        "y": -0.1279
+      },
+      {
+        "x": -0.0349,
+        "y": -0.5
+      },
+      {
+        "x": 0.0349,
+        "y": -0.5
+      },
+      {
+        "x": 0.2442,
+        "y": -0.0814
+      },
+      {
+        "x": 0.1977,
+        "y": 0.4302
+      },
+      {
+        "x": 0.1512,
+        "y": 0.5
+      },
+      {
+        "x": -0.1977,
+        "y": 0.4767
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "broom",
+    "image": "assets/large/broom.png",
+    "sprite": "assets/sprites/broom.png",
+    "audio": "assets/audio/broom.opus",
+    "hitbox": [
+      {
+        "x": -0.4186,
+        "y": 0.4535
+      },
+      {
+        "x": 0.3023,
+        "y": -0.4535
+      },
+      {
+        "x": 0.3488,
+        "y": -0.5
+      },
+      {
+        "x": 0.4186,
+        "y": -0.4302
+      },
+      {
+        "x": 0.0698,
+        "y": 0.3837
+      },
+      {
+        "x": -0.0465,
+        "y": 0.5
+      },
+      {
+        "x": -0.3953,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "bucket",
+    "image": "assets/large/bucket.png",
+    "sprite": "assets/sprites/bucket.png",
+    "audio": "assets/audio/bucket.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.314
+      },
+      {
+        "x": 0.3837,
+        "y": 0.3605
+      },
+      {
+        "x": 0.3372,
+        "y": 0.4302
+      },
+      {
+        "x": -0.314,
+        "y": 0.4302
+      },
+      {
+        "x": -0.5,
+        "y": 0.1977
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "trash can",
+    "image": "assets/large/trash-can.png",
+    "sprite": "assets/sprites/trash-can.png",
+    "audio": "assets/audio/trash-can.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.5
+      },
+      {
+        "x": 0.4767,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.3837
+      },
+      {
+        "x": 0.407,
+        "y": 0.4535
+      },
+      {
+        "x": 0.3605,
+        "y": 0.5
+      },
+      {
+        "x": -0.3837,
+        "y": 0.4767
+      },
+      {
+        "x": -0.5,
+        "y": -0.407
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "bathtub",
+    "image": "assets/large/bathtub.png",
+    "sprite": "assets/sprites/bathtub.png",
+    "audio": "assets/audio/bathtub.opus",
+    "hitbox": [
+      {
+        "x": -0.4884,
+        "y": -0.0116
+      },
+      {
+        "x": 0.093,
+        "y": -0.4767
+      },
+      {
+        "x": 0.3256,
+        "y": -0.4302
+      },
+      {
+        "x": 0.4884,
+        "y": 0.0116
+      },
+      {
+        "x": 0.2791,
+        "y": 0.5
+      },
+      {
+        "x": -0.3023,
+        "y": 0.5
+      },
+      {
+        "x": -0.4884,
+        "y": 0.0581
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "toilet",
+    "image": "assets/large/toilet.png",
+    "sprite": "assets/sprites/toilet.png",
+    "audio": "assets/audio/toilet.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.0116
+      },
+      {
+        "x": -0.4302,
+        "y": -0.0814
+      },
+      {
+        "x": 0.1977,
+        "y": -0.5
+      },
+      {
+        "x": 0.4535,
+        "y": -0.5
+      },
+      {
+        "x": 0.4767,
+        "y": -0.0581
+      },
+      {
+        "x": 0.314,
+        "y": 0.4767
+      },
+      {
+        "x": -0.2907,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "door",
+    "image": "assets/large/door.png",
+    "sprite": "assets/sprites/door.png",
+    "audio": "assets/audio/door.opus",
+    "hitbox": [
+      {
+        "x": -0.2907,
+        "y": -0.4535
+      },
+      {
+        "x": -0.2442,
+        "y": -0.5
+      },
+      {
+        "x": 0.2907,
+        "y": -0.4767
+      },
+      {
+        "x": 0.2907,
+        "y": 0.4535
+      },
+      {
+        "x": 0.2442,
+        "y": 0.5
+      },
+      {
+        "x": -0.2442,
+        "y": 0.5
+      },
+      {
+        "x": -0.2907,
+        "y": 0.4535
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "window",
+    "image": "assets/large/window.png",
+    "sprite": "assets/sprites/window.png",
+    "audio": "assets/audio/window.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.5
+      },
+      {
+        "x": 0.4302,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": 0.4302
+      },
+      {
+        "x": 0.407,
+        "y": 0.5
+      },
+      {
+        "x": -0.407,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.407
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "trumpet",
+    "image": "assets/large/trumpet.png",
+    "sprite": "assets/sprites/trumpet.png",
+    "audio": "assets/audio/trumpet.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.3256
+      },
+      {
+        "x": -0.314,
+        "y": 0.0698
+      },
+      {
+        "x": 0.2442,
+        "y": -0.4884
+      },
+      {
+        "x": 0.5,
+        "y": -0.2326
+      },
+      {
+        "x": 0.3372,
+        "y": 0.2558
+      },
+      {
+        "x": 0.0814,
+        "y": 0.4884
+      },
+      {
+        "x": -0.407,
+        "y": 0.4651
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "flute",
+    "image": "assets/large/flute.png",
+    "sprite": "assets/sprites/flute.png",
+    "audio": "assets/audio/flute.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": 0.2907
+      },
+      {
+        "x": 0.2209,
+        "y": -0.4302
+      },
+      {
+        "x": 0.407,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.407
+      },
+      {
+        "x": 0.4535,
+        "y": -0.2442
+      },
+      {
+        "x": -0.2907,
+        "y": 0.4767
+      },
+      {
+        "x": -0.5,
+        "y": 0.4302
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "horn",
+    "image": "assets/large/horn.png",
+    "sprite": "assets/sprites/horn.png",
+    "audio": "assets/audio/horn.opus",
+    "hitbox": [
+      {
+        "x": -0.4186,
+        "y": 0.1977
+      },
+      {
+        "x": -0.2558,
+        "y": -0.1977
+      },
+      {
+        "x": 0.0465,
+        "y": -0.5
+      },
+      {
+        "x": 0.4186,
+        "y": -0.5
+      },
+      {
+        "x": 0.2791,
+        "y": 0.0581
+      },
+      {
+        "x": 0.093,
+        "y": 0.4767
+      },
+      {
+        "x": -0.0698,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "raccoon",
+    "image": "assets/large/raccoon.png",
+    "sprite": "assets/sprites/raccoon.png",
+    "audio": "assets/audio/raccoon.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.0233
+      },
+      {
+        "x": -0.3605,
+        "y": -0.4186
+      },
+      {
+        "x": 0.4302,
+        "y": -0.3953
+      },
+      {
+        "x": 0.5,
+        "y": 0.1163
+      },
+      {
+        "x": 0.1279,
+        "y": 0.4186
+      },
+      {
+        "x": -0.1047,
+        "y": 0.4186
+      },
+      {
+        "x": -0.4535,
+        "y": 0.186
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "hedgehog",
+    "image": "assets/large/hedgehog.png",
+    "sprite": "assets/sprites/hedgehog.png",
+    "audio": "assets/audio/hedgehog.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.1047
+      },
+      {
+        "x": -0.3605,
+        "y": -0.1279
+      },
+      {
+        "x": 0.0581,
+        "y": -0.3837
+      },
+      {
+        "x": 0.4302,
+        "y": -0.314
+      },
+      {
+        "x": 0.5,
+        "y": 0.1512
+      },
+      {
+        "x": 0.4302,
+        "y": 0.3837
+      },
+      {
+        "x": -0.2674,
+        "y": 0.3837
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "kangaroo",
+    "image": "assets/large/kangaroo.png",
+    "sprite": "assets/sprites/kangaroo.png",
+    "audio": "assets/audio/kangaroo.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.3953
+      },
+      {
+        "x": -0.1512,
+        "y": -0.4651
+      },
+      {
+        "x": 0.1977,
+        "y": -0.3488
+      },
+      {
+        "x": 0.5,
+        "y": -0.093
+      },
+      {
+        "x": 0.5,
+        "y": 0.2326
+      },
+      {
+        "x": -0.1047,
+        "y": 0.4651
+      },
+      {
+        "x": -0.5,
+        "y": -0.2326
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "llama",
+    "image": "assets/large/llama.png",
+    "sprite": "assets/sprites/llama.png",
+    "audio": "assets/audio/llama.opus",
+    "hitbox": [
+      {
+        "x": -0.4651,
+        "y": -0.2907
+      },
+      {
+        "x": -0.3023,
+        "y": -0.5
+      },
+      {
+        "x": -0.2326,
+        "y": -0.5
+      },
+      {
+        "x": 0.4651,
+        "y": -0.0814
+      },
+      {
+        "x": 0.4651,
+        "y": 0.5
+      },
+      {
+        "x": -0.2093,
+        "y": 0.5
+      },
+      {
+        "x": -0.4651,
+        "y": -0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "sloth",
+    "image": "assets/large/sloth.png",
+    "sprite": "assets/sprites/sloth.png",
+    "audio": "assets/audio/sloth.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.4651
+      },
+      {
+        "x": 0.5,
+        "y": -0.4651
+      },
+      {
+        "x": 0.5,
+        "y": 0.093
+      },
+      {
+        "x": 0.1512,
+        "y": 0.4419
+      },
+      {
+        "x": -0.1047,
+        "y": 0.4419
+      },
+      {
+        "x": -0.2907,
+        "y": 0.3256
+      },
+      {
+        "x": -0.5,
+        "y": 0.0233
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "skunk",
+    "image": "assets/large/skunk.png",
+    "sprite": "assets/sprites/skunk.png",
+    "audio": "assets/audio/skunk.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": 0.1047
+      },
+      {
+        "x": -0.2442,
+        "y": -0.3605
+      },
+      {
+        "x": 0.1047,
+        "y": -0.5
+      },
+      {
+        "x": 0.314,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.314
+      },
+      {
+        "x": 0.4302,
+        "y": 0.5
+      },
+      {
+        "x": -0.3372,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "badger",
+    "image": "assets/large/badger.png",
+    "sprite": "assets/sprites/badger.png",
+    "audio": "assets/audio/badger.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1047
+      },
+      {
+        "x": -0.2674,
+        "y": -0.2907
+      },
+      {
+        "x": 0.3605,
+        "y": -0.2674
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.5,
+        "y": 0.2209
+      },
+      {
+        "x": 0.407,
+        "y": 0.2907
+      },
+      {
+        "x": -0.314,
+        "y": 0.2907
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "beaver",
+    "image": "assets/large/beaver.png",
+    "sprite": "assets/sprites/beaver.png",
+    "audio": "assets/audio/beaver.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.3488
+      },
+      {
+        "x": -0.0349,
+        "y": -0.4651
+      },
+      {
+        "x": 0.3372,
+        "y": -0.2791
+      },
+      {
+        "x": 0.5,
+        "y": 0.1395
+      },
+      {
+        "x": 0.2907,
+        "y": 0.4651
+      },
+      {
+        "x": -0.3372,
+        "y": 0.4651
+      },
+      {
+        "x": -0.4302,
+        "y": 0.3488
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "bison",
+    "image": "assets/large/bison.png",
+    "sprite": "assets/sprites/bison.png",
+    "audio": "assets/audio/bison.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.2907
+      },
+      {
+        "x": -0.314,
+        "y": -0.4302
+      },
+      {
+        "x": -0.0116,
+        "y": -0.4302
+      },
+      {
+        "x": 0.5,
+        "y": -0.1512
+      },
+      {
+        "x": 0.4302,
+        "y": 0.4302
+      },
+      {
+        "x": -0.1977,
+        "y": 0.4302
+      },
+      {
+        "x": -0.4767,
+        "y": -0.0116
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "mammoth",
+    "image": "assets/large/mammoth.png",
+    "sprite": "assets/sprites/mammoth.png",
+    "audio": "assets/audio/mammoth.opus",
+    "hitbox": [
+      {
+        "x": -0.5,
+        "y": -0.1163
+      },
+      {
+        "x": -0.3372,
+        "y": -0.4651
+      },
+      {
+        "x": 0.0581,
+        "y": -0.4651
+      },
+      {
+        "x": 0.5,
+        "y": -0.1628
+      },
+      {
+        "x": 0.4767,
+        "y": 0.4651
+      },
+      {
+        "x": -0.1977,
+        "y": 0.4651
+      },
+      {
+        "x": -0.4302,
+        "y": 0.2791
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "flamingo",
+    "image": "assets/large/flamingo.png",
+    "sprite": "assets/sprites/flamingo.png",
+    "audio": "assets/audio/flamingo.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.4302
+      },
+      {
+        "x": -0.1279,
+        "y": -0.5
+      },
+      {
+        "x": 0.2674,
+        "y": -0.1977
+      },
+      {
+        "x": 0.3837,
+        "y": 0.1047
+      },
+      {
+        "x": 0.0349,
+        "y": 0.5
+      },
+      {
+        "x": -0.0581,
+        "y": 0.5
+      },
+      {
+        "x": -0.3837,
+        "y": -0.0349
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "peacock",
+    "image": "assets/large/peacock.png",
+    "sprite": "assets/sprites/peacock.png",
+    "audio": "assets/audio/peacock.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.1395
+      },
+      {
+        "x": -0.1977,
+        "y": -0.4419
+      },
+      {
+        "x": 0.1977,
+        "y": -0.4419
+      },
+      {
+        "x": 0.4767,
+        "y": -0.1628
+      },
+      {
+        "x": 0.4535,
+        "y": 0.2558
+      },
+      {
+        "x": -0.1279,
+        "y": 0.4651
+      },
+      {
+        "x": -0.4302,
+        "y": 0.2558
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "turkey",
+    "image": "assets/large/turkey.png",
+    "sprite": "assets/sprites/turkey.png",
+    "audio": "assets/audio/turkey.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.314
+      },
+      {
+        "x": -0.3605,
+        "y": -0.407
+      },
+      {
+        "x": 0.5,
+        "y": -0.4767
+      },
+      {
+        "x": 0.5,
+        "y": 0.2907
+      },
+      {
+        "x": 0.1512,
+        "y": 0.5
+      },
+      {
+        "x": -0.2674,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": 0.1512
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "dodo",
+    "image": "assets/large/dodo.png",
+    "sprite": "assets/sprites/dodo.png",
+    "audio": "assets/audio/dodo.opus",
+    "hitbox": [
+      {
+        "x": -0.4535,
+        "y": -0.3837
+      },
+      {
+        "x": -0.0814,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.0814
+      },
+      {
+        "x": 0.4767,
+        "y": 0.1744
+      },
+      {
+        "x": 0.2442,
+        "y": 0.5
+      },
+      {
+        "x": -0.1279,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": -0.2442
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "goose",
+    "image": "assets/large/goose.png",
+    "sprite": "assets/sprites/goose.png",
+    "audio": "assets/audio/goose.opus",
+    "hitbox": [
+      {
+        "x": -0.3605,
+        "y": -0.3837
+      },
+      {
+        "x": -0.0581,
+        "y": -0.5
+      },
+      {
+        "x": 0.3605,
+        "y": -0.0814
+      },
+      {
+        "x": 0.3605,
+        "y": 0.1512
+      },
+      {
+        "x": 0.1744,
+        "y": 0.5
+      },
+      {
+        "x": -0.0814,
+        "y": 0.5
+      },
+      {
+        "x": -0.314,
+        "y": 0.1047
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "lizard",
+    "image": "assets/large/lizard.png",
+    "sprite": "assets/sprites/lizard.png",
+    "audio": "assets/audio/lizard.opus",
+    "hitbox": [
+      {
+        "x": -0.2558,
+        "y": -0.407
+      },
+      {
+        "x": -0.1163,
+        "y": -0.5
+      },
+      {
+        "x": 0.3256,
+        "y": -0.1512
+      },
+      {
+        "x": 0.3721,
+        "y": 0.3837
+      },
+      {
+        "x": 0.1395,
+        "y": 0.5
+      },
+      {
+        "x": -0.186,
+        "y": 0.3372
+      },
+      {
+        "x": -0.3721,
+        "y": -0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "snake",
+    "image": "assets/large/snake.png",
+    "sprite": "assets/sprites/snake.png",
+    "audio": "assets/audio/snake.opus",
+    "hitbox": [
+      {
+        "x": -0.3372,
+        "y": -0.2907
+      },
+      {
+        "x": 0.0349,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.4535
+      },
+      {
+        "x": 0.5,
+        "y": 0.5
+      },
+      {
+        "x": -0.0814,
+        "y": 0.5
+      },
+      {
+        "x": -0.3372,
+        "y": 0.3837
+      },
+      {
+        "x": -0.5,
+        "y": 0.1279
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "lobster",
+    "image": "assets/large/lobster.png",
+    "sprite": "assets/sprites/lobster.png",
+    "audio": "assets/audio/lobster.opus",
+    "hitbox": [
+      {
+        "x": -0.4302,
+        "y": -0.5
+      },
+      {
+        "x": 0.4535,
+        "y": -0.5
+      },
+      {
+        "x": 0.5,
+        "y": -0.1977
+      },
+      {
+        "x": 0.3605,
+        "y": 0.2209
+      },
+      {
+        "x": 0.1512,
+        "y": 0.5
+      },
+      {
+        "x": -0.1512,
+        "y": 0.5
+      },
+      {
+        "x": -0.5,
+        "y": -0.2209
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "squid",
+    "image": "assets/large/squid.png",
+    "sprite": "assets/sprites/squid.png",
+    "audio": "assets/audio/squid.opus",
+    "hitbox": [
+      {
+        "x": -0.4767,
+        "y": -0.2674
+      },
+      {
+        "x": -0.407,
+        "y": -0.3605
+      },
+      {
+        "x": 0.0581,
+        "y": -0.5
+      },
+      {
+        "x": 0.407,
+        "y": -0.3605
+      },
+      {
+        "x": 0.4767,
+        "y": -0.2674
+      },
+      {
+        "x": 0.407,
+        "y": 0.5
+      },
+      {
+        "x": -0.407,
+        "y": 0.5
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
+  },
+  {
+    "word": "octopus",
+    "image": "assets/large/octopus.png",
+    "sprite": "assets/sprites/octopus.png",
+    "audio": "assets/audio/octopus.opus",
+    "hitbox": [
+      {
+        "x": -0.407,
+        "y": -0.1395
+      },
+      {
+        "x": -0.1977,
+        "y": -0.4419
+      },
+      {
+        "x": 0.2907,
+        "y": -0.3721
+      },
+      {
+        "x": 0.5,
+        "y": 0.2326
+      },
+      {
+        "x": 0.314,
+        "y": 0.4884
+      },
+      {
+        "x": -0.314,
+        "y": 0.4884
+      },
+      {
+        "x": -0.5,
+        "y": 0.2326
+      }
+    ],
+    "hitboxSource": "generated-sprite-outline"
   }
 ]
