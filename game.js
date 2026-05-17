@@ -32,7 +32,7 @@ let cardVersion = 0;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
-const audioPools = new Map();
+const audioBufferPromises = new Map();
 const wordMeasureEl = document.createElement("div");
 wordMeasureEl.className = "word word-measure";
 wordMeasureEl.setAttribute("aria-hidden", "true");
@@ -48,45 +48,84 @@ const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 const MatterApi = () => window.Matter;
+const AudioContextApi = () => window.AudioContext || window.webkitAudioContext;
+let audioContext = null;
 
-function createAudio(src) {
-  const audio = new Audio(src);
-  audio.preload = "auto";
-  audio.load();
-  return audio;
-}
-
-function getAudioPool(src, size = 1) {
-  if (!src) return [];
-  if (!audioPools.has(src)) {
-    audioPools.set(src, []);
-  }
-  const pool = audioPools.get(src);
-  while (pool.length < size) {
-    pool.push(createAudio(src));
-  }
-  return pool;
-}
-
-function preloadAudio(src, size = 1) {
-  getAudioPool(src, size);
-}
-
-function playAudio(src, size = 1) {
-  const pool = getAudioPool(src, size);
-  if (!pool.length) return Promise.resolve(false);
-
-  const audio = pool.find((candidate) => candidate.paused || candidate.ended) || pool[0];
-  audio.pause();
+function getAudioContext() {
+  if (audioContext || !AudioContextApi()) return audioContext;
   try {
-    audio.currentTime = 0;
+    audioContext = new (AudioContextApi())();
   } catch {
-    audio.load();
+    audioContext = null;
   }
-  return audio.play().then(
-    () => true,
-    () => false
-  );
+  return audioContext;
+}
+
+async function resumeAudioContext() {
+  const context = getAudioContext();
+  if (!context) return null;
+  if (context.state === "suspended") {
+    try {
+      await context.resume();
+    } catch {
+      return null;
+    }
+  }
+  return context;
+}
+
+function decodeAudioData(context, arrayBuffer) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (buffer) => {
+      if (settled) return;
+      settled = true;
+      resolve(buffer || null);
+    };
+
+    const maybePromise = context.decodeAudioData(arrayBuffer, finish, () => finish(null));
+    if (maybePromise && typeof maybePromise.then === "function") {
+      maybePromise.then(finish, () => finish(null));
+    }
+  });
+}
+
+function preloadAudio(src) {
+  const context = getAudioContext();
+  if (!src || !context) return Promise.resolve(null);
+  if (!audioBufferPromises.has(src)) {
+    audioBufferPromises.set(
+      src,
+      fetch(src)
+        .then((response) => {
+          if (!response.ok) throw new Error(`Unable to load audio: ${src}`);
+          return response.arrayBuffer();
+        })
+        .then((arrayBuffer) => decodeAudioData(context, arrayBuffer))
+        .catch(() => null)
+    );
+  }
+  return audioBufferPromises.get(src);
+}
+
+async function playAudio(src) {
+  const context = await resumeAudioContext();
+  const buffer = await preloadAudio(src);
+  if (!context || !buffer) return false;
+
+  const source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+  try {
+    source.start(0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function unlockAudio() {
+  resumeAudioContext();
 }
 
 function waitForImageLoad(image) {
@@ -108,12 +147,12 @@ function letterAudioSrc(letter) {
 
 function preloadLetterAudio(word) {
   for (const letter of Array.from(word)) {
-    preloadAudio(letterAudioSrc(letter), 3);
+    preloadAudio(letterAudioSrc(letter));
   }
 }
 
 function playLetterAudio(letter) {
-  playAudio(letterAudioSrc(letter), 3);
+  playAudio(letterAudioSrc(letter));
 }
 
 function activateLetter(letter, letterCell) {
@@ -325,6 +364,8 @@ function blockNonPrimaryPointer(event) {
 window.addEventListener("contextmenu", blockContextMenu, { capture: true });
 window.addEventListener("auxclick", blockContextMenu, { capture: true });
 window.addEventListener("pointerdown", blockNonPrimaryPointer, { capture: true, passive: false });
+window.addEventListener("pointerdown", unlockAudio, { capture: true });
+window.addEventListener("keydown", unlockAudio, { capture: true });
 window.addEventListener("selectstart", blockContextMenu, { capture: true });
 window.addEventListener("dragstart", (event) => event.preventDefault());
 
