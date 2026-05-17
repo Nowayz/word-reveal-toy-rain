@@ -47,6 +47,8 @@ const MAX_FRAME_DELTA = 100;
 const MAX_WORD_FONT_SIZE = 136;
 const MIN_WORD_FONT_SIZE = 24;
 const ACTIVE_LETTER_SCALE = 1.25;
+const BASE_GRAVITY_Y = 0.8;
+const ACCEL_FORCE_SCALE = 0.00045;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -495,17 +497,32 @@ function setupPhysics() {
   if (!MatterApi()) return;
   const { Engine } = MatterApi();
   physics = Engine.create();
-  physics.gravity.y = 0.8;
+  physics.gravity.y = BASE_GRAVITY_Y;
   rebuildWalls();
 }
 
 function handleMotion(event) {
-  const acc = event.accelerationIncludingGravity;
+  const acc = event.acceleration;
   if (!acc || !Number.isFinite(acc.x) || !Number.isFinite(acc.y)) return;
 
   const smoothing = 0.15;
   accelSmoothX += (acc.x - accelSmoothX) * smoothing;
   accelSmoothY += (acc.y - accelSmoothY) * smoothing;
+}
+
+function applyAccelerometerForces(stepMs) {
+  if (!accelEnabled || !bodies.length || !MatterApi()) return;
+  const { Body } = MatterApi();
+  const frameScale = stepMs / FIXED_TIMESTEP;
+  const xForce = Math.max(-1, Math.min(1, -accelSmoothX)) * ACCEL_FORCE_SCALE * frameScale;
+  const yForce = Math.max(-1, Math.min(1, accelSmoothY)) * ACCEL_FORCE_SCALE * frameScale;
+
+  for (const entry of bodies) {
+    Body.applyForce(entry.body, entry.body.position, {
+      x: xForce * entry.body.mass,
+      y: yForce * entry.body.mass,
+    });
+  }
 }
 
 function setupAccelerometer() {
@@ -712,13 +729,9 @@ function renderPhysics(now) {
       entry.previous.y = entry.current.y;
       entry.previous.angle = entry.current.angle;
     }
-    if (accelEnabled && bodies.length) {
-      physics.gravity.x = Math.max(-0.35, Math.min(0.35, -accelSmoothX * 0.015));
-      physics.gravity.y = Math.max(0.45, Math.min(1.15, 0.8 + accelSmoothY * 0.015));
-    } else {
-      physics.gravity.x = 0;
-      physics.gravity.y = 0.8;
-    }
+    physics.gravity.x = 0;
+    physics.gravity.y = BASE_GRAVITY_Y;
+    applyAccelerometerForces(FIXED_TIMESTEP);
     Engine.update(physics, FIXED_TIMESTEP);
     for (const entry of bodies) {
       entry.current.x = entry.body.position.x;
