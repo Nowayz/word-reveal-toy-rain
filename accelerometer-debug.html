@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Accelerometer Debug</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f5f1e8;
+        color: #21313a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        padding: 14px;
+        background:
+          linear-gradient(90deg, rgba(0, 178, 202, 0.12) 1px, transparent 1px),
+          linear-gradient(rgba(247, 178, 103, 0.18) 1px, transparent 1px),
+          #f5f1e8;
+        background-size: 34px 34px;
+      }
+
+      main {
+        width: min(760px, 100%);
+        margin: 0 auto;
+        display: grid;
+        gap: 12px;
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(1.6rem, 8vw, 3rem);
+        line-height: 1;
+      }
+
+      .version {
+        color: rgba(33, 49, 58, 0.52);
+        font-size: 0.85rem;
+        font-weight: 800;
+      }
+
+      .panel {
+        border: 3px solid #21313a;
+        border-radius: 8px;
+        background: #fffaf0;
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      button {
+        min-height: 54px;
+        border: 3px solid #21313a;
+        border-radius: 8px;
+        background: #fee440;
+        color: #21313a;
+        font: inherit;
+        font-size: 1.2rem;
+        font-weight: 900;
+        box-shadow: 0 5px 0 #21313a;
+      }
+
+      button:active {
+        transform: translateY(3px);
+        box-shadow: 0 2px 0 #21313a;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .metric {
+        border: 2px solid rgba(33, 49, 58, 0.2);
+        border-radius: 6px;
+        padding: 8px;
+        background: white;
+      }
+
+      .label {
+        color: rgba(33, 49, 58, 0.62);
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .value {
+        margin-top: 3px;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 1.05rem;
+        font-weight: 800;
+        word-break: break-word;
+      }
+
+      .stage {
+        aspect-ratio: 1;
+        width: min(100%, 420px);
+        justify-self: center;
+        position: relative;
+        overflow: hidden;
+        border: 3px solid #21313a;
+        border-radius: 8px;
+        background:
+          linear-gradient(90deg, rgba(33, 49, 58, 0.12) 1px, transparent 1px),
+          linear-gradient(rgba(33, 49, 58, 0.12) 1px, transparent 1px),
+          #ffffff;
+        background-size: 24px 24px;
+      }
+
+      .dot {
+        width: 34px;
+        height: 34px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border: 3px solid #21313a;
+        border-radius: 50%;
+        background: #00b2ca;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 4px 0 rgba(33, 49, 58, 0.22);
+      }
+
+      .log {
+        max-height: 180px;
+        overflow: auto;
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 520px) {
+        body {
+          padding: 10px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Accelerometer Debug</h1>
+        <p class="version">v2026.05.16.1953</p>
+      </header>
+
+      <section class="panel">
+        <button id="startButton">Start motion test</button>
+        <div class="grid">
+          <div class="metric">
+            <div class="label">DeviceMotionEvent</div>
+            <div id="support" class="value">Checking</div>
+          </div>
+          <div class="metric">
+            <div class="label">Permission</div>
+            <div id="permission" class="value">Not requested</div>
+          </div>
+          <div class="metric">
+            <div class="label">Events</div>
+            <div id="events" class="value">0</div>
+          </div>
+          <div class="metric">
+            <div class="label">Event rate</div>
+            <div id="rate" class="value">0 Hz</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="stage" aria-label="Accelerometer direction preview">
+          <div id="dot" class="dot"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="grid">
+          <div class="metric">
+            <div class="label">Raw X</div>
+            <div id="rawX" class="value">0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Raw Y</div>
+            <div id="rawY" class="value">0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Raw Z</div>
+            <div id="rawZ" class="value">0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Interval</div>
+            <div id="interval" class="value">0 ms</div>
+          </div>
+          <div class="metric">
+            <div class="label">Smooth X</div>
+            <div id="smoothX" class="value">0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Smooth Y</div>
+            <div id="smoothY" class="value">0.00</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="label">Log</div>
+        <div id="log" class="log"></div>
+      </section>
+    </main>
+
+    <script>
+      const startButton = document.querySelector("#startButton");
+      const supportEl = document.querySelector("#support");
+      const permissionEl = document.querySelector("#permission");
+      const eventsEl = document.querySelector("#events");
+      const rateEl = document.querySelector("#rate");
+      const rawXEl = document.querySelector("#rawX");
+      const rawYEl = document.querySelector("#rawY");
+      const rawZEl = document.querySelector("#rawZ");
+      const smoothXEl = document.querySelector("#smoothX");
+      const smoothYEl = document.querySelector("#smoothY");
+      const intervalEl = document.querySelector("#interval");
+      const dot = document.querySelector("#dot");
+      const logEl = document.querySelector("#log");
+
+      let eventCount = 0;
+      let lastRateCount = 0;
+      let lastRateTime = performance.now();
+      let smoothX = 0;
+      let smoothY = 0;
+      let listening = false;
+
+      function log(message) {
+        const line = `[${new Date().toLocaleTimeString()}] ${message}`;
+        logEl.textContent = `${line}\n${logEl.textContent}`.slice(0, 4000);
+      }
+
+      function fmt(value) {
+        return Number.isFinite(value) ? value.toFixed(2) : "n/a";
+      }
+
+      function setSupportStatus() {
+        if ("DeviceMotionEvent" in window) {
+          const requestType = typeof DeviceMotionEvent.requestPermission;
+          supportEl.textContent =
+            requestType === "function" ? "Supported, permission required" : "Supported";
+        } else {
+          supportEl.textContent = "Not supported";
+          startButton.disabled = true;
+        }
+      }
+
+      function handleMotion(event) {
+        const acc = event.accelerationIncludingGravity || event.acceleration;
+        if (!acc) {
+          log("Motion event fired without acceleration data.");
+          return;
+        }
+
+        const x = Number(acc.x);
+        const y = Number(acc.y);
+        const z = Number(acc.z);
+        const smoothing = 0.18;
+        smoothX += ((Number.isFinite(x) ? x : 0) - smoothX) * smoothing;
+        smoothY += ((Number.isFinite(y) ? y : 0) - smoothY) * smoothing;
+        eventCount += 1;
+
+        rawXEl.textContent = fmt(x);
+        rawYEl.textContent = fmt(y);
+        rawZEl.textContent = fmt(z);
+        smoothXEl.textContent = fmt(smoothX);
+        smoothYEl.textContent = fmt(smoothY);
+        intervalEl.textContent = `${fmt(event.interval)} ms`;
+        eventsEl.textContent = String(eventCount);
+
+        const maxOffset = 42;
+        const xOffset = Math.max(-maxOffset, Math.min(maxOffset, -smoothX * 5));
+        const yOffset = Math.max(-maxOffset, Math.min(maxOffset, smoothY * 5));
+        dot.style.transform = `translate(calc(-50% + ${xOffset}px), calc(-50% + ${yOffset}px))`;
+      }
+
+      function enableListening() {
+        if (listening) return;
+        window.addEventListener("devicemotion", handleMotion);
+        listening = true;
+        startButton.textContent = "Listening";
+        log("Listening for devicemotion events.");
+      }
+
+      async function startMotion() {
+        if (!("DeviceMotionEvent" in window)) {
+          permissionEl.textContent = "Unsupported";
+          log("DeviceMotionEvent is not available in this browser.");
+          return;
+        }
+
+        if (typeof DeviceMotionEvent.requestPermission === "function") {
+          permissionEl.textContent = "Requesting";
+          try {
+            const response = await DeviceMotionEvent.requestPermission();
+            permissionEl.textContent = response;
+            log(`Permission response: ${response}`);
+            if (response === "granted") enableListening();
+          } catch (error) {
+            permissionEl.textContent = "Error";
+            log(`Permission error: ${error && error.message ? error.message : error}`);
+          }
+        } else {
+          permissionEl.textContent = "Not required";
+          enableListening();
+        }
+      }
+
+      window.setInterval(() => {
+        const now = performance.now();
+        const elapsed = Math.max(1, now - lastRateTime) / 1000;
+        const rate = (eventCount - lastRateCount) / elapsed;
+        rateEl.textContent = `${rate.toFixed(1)} Hz`;
+        lastRateCount = eventCount;
+        lastRateTime = now;
+      }, 1000);
+
+      setSupportStatus();
+      startButton.addEventListener("click", startMotion);
+      log(`Loaded ${location.href}`);
+    </script>
+  </body>
+</html>
