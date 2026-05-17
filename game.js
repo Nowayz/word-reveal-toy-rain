@@ -9,8 +9,7 @@ const restartButton = document.querySelector("#restartButton");
 const done = document.querySelector("#done");
 const finalScore = document.querySelector("#finalScore");
 const stageEl = document.querySelector(".stage");
-const canvas = document.querySelector("#rain");
-const ctx = canvas.getContext("2d");
+let canvas = document.querySelector("#rain");
 
 let deck = [];
 let index = 0;
@@ -24,6 +23,7 @@ let physics;
 let walls = [];
 let floorWall = null;
 let simulationStartedAt = 0;
+let simulationElapsed = 0;
 let lastPhysicsTime = 0;
 let physicsAccumulator = 0;
 let releasingSprites = false;
@@ -53,6 +53,347 @@ const ORIENTED_GRAVITY_SCALE = 0.8;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+
+class WebGLSpriteRenderer {
+  constructor(canvasElement, glContext) {
+    if (!glContext) {
+      throw new Error("WebGL2 is required for sprite rendering.");
+    }
+
+    this.canvas = canvasElement;
+    this.gl = glContext;
+    this.program = this.createProgram();
+    this.quadBuffer = glContext.createBuffer();
+    this.instanceBuffer = glContext.createBuffer();
+    this.vao = glContext.createVertexArray();
+    this.texture = glContext.createTexture();
+    this.textureImage = null;
+    this.textureWidth = 1;
+    this.textureHeight = 1;
+    this.instanceCapacity = 0;
+    this.instanceData = new Float32Array(0);
+    this.uniforms = {
+      viewSize: glContext.getUniformLocation(this.program, "u_viewSize"),
+      pass: glContext.getUniformLocation(this.program, "u_pass"),
+      sprite: glContext.getUniformLocation(this.program, "u_sprite"),
+      texelSize: glContext.getUniformLocation(this.program, "u_texelSize"),
+    };
+
+    this.configureState();
+    this.configureGeometry();
+  }
+
+  createShader(type, source) {
+    const { gl } = this;
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      const log = gl.getShaderInfoLog(shader);
+      gl.deleteShader(shader);
+      throw new Error(log || "Unable to compile WebGL shader.");
+    }
+    return shader;
+  }
+
+  createProgram() {
+    const vertex = `#version 300 es
+      precision highp float;
+      precision highp int;
+
+      layout(location = 0) in vec2 a_corner;
+      layout(location = 1) in vec2 a_uv;
+      layout(location = 2) in vec4 a_instance;
+
+      uniform vec2 u_viewSize;
+      uniform int u_pass;
+
+      out vec2 v_uv;
+
+      void main() {
+        float angle = a_instance.z;
+        float size = a_instance.w;
+        vec2 local = a_corner * size;
+
+        if (u_pass == 0) {
+          local *= 1.34;
+        }
+
+        float s = sin(angle);
+        float c = cos(angle);
+        vec2 rotated = vec2(
+          local.x * c - local.y * s,
+          local.x * s + local.y * c
+        );
+        vec2 world = a_instance.xy + rotated;
+
+        if (u_pass == 0) {
+          world += vec2(5.0, 9.0);
+        }
+
+        vec2 clip = vec2(
+          world.x / u_viewSize.x * 2.0 - 1.0,
+          1.0 - world.y / u_viewSize.y * 2.0
+        );
+
+        gl_Position = vec4(clip, 0.0, 1.0);
+        v_uv = a_uv;
+      }
+    `;
+
+    const fragment = `#version 300 es
+      precision highp float;
+      precision highp int;
+
+      uniform sampler2D u_sprite;
+      uniform int u_pass;
+      uniform vec2 u_texelSize;
+
+      in vec2 v_uv;
+      out vec4 outColor;
+
+      float sampleAlpha(vec2 offset) {
+        return texture(u_sprite, v_uv + offset * u_texelSize).a;
+      }
+
+      void main() {
+        if (u_pass == 1) {
+          outColor = texture(u_sprite, v_uv);
+          return;
+        }
+
+        float radius = 5.5;
+        float alpha =
+          sampleAlpha(vec2(0.0, 0.0)) * 0.12 +
+          sampleAlpha(vec2(radius, 0.0)) * 0.07 +
+          sampleAlpha(vec2(-radius, 0.0)) * 0.07 +
+          sampleAlpha(vec2(0.0, radius)) * 0.07 +
+          sampleAlpha(vec2(0.0, -radius)) * 0.07 +
+          sampleAlpha(vec2(radius, radius)) * 0.05 +
+          sampleAlpha(vec2(-radius, radius)) * 0.05 +
+          sampleAlpha(vec2(radius, -radius)) * 0.05 +
+          sampleAlpha(vec2(-radius, -radius)) * 0.05 +
+          sampleAlpha(vec2(radius * 1.8, 0.0)) * 0.035 +
+          sampleAlpha(vec2(-radius * 1.8, 0.0)) * 0.035 +
+          sampleAlpha(vec2(0.0, radius * 1.8)) * 0.035 +
+          sampleAlpha(vec2(0.0, -radius * 1.8)) * 0.035 +
+          sampleAlpha(vec2(radius * 2.6, radius * 0.8)) * 0.02 +
+          sampleAlpha(vec2(-radius * 2.6, radius * 0.8)) * 0.02 +
+          sampleAlpha(vec2(radius * 0.8, radius * 2.6)) * 0.02 +
+          sampleAlpha(vec2(-radius * 0.8, radius * 2.6)) * 0.02;
+
+        alpha = min(alpha * 0.087, 0.039);
+        outColor = vec4(vec3(0.055, 0.07, 0.09) * alpha, alpha);
+      }
+    `;
+
+    const { gl } = this;
+    const program = gl.createProgram();
+    const vertexShader = this.createShader(gl.VERTEX_SHADER, vertex);
+    const fragmentShader = this.createShader(gl.FRAGMENT_SHADER, fragment);
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      const log = gl.getProgramInfoLog(program);
+      gl.deleteProgram(program);
+      throw new Error(log || "Unable to link WebGL program.");
+    }
+
+    return program;
+  }
+
+  configureState() {
+    const { gl } = this;
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.disable(gl.DEPTH_TEST);
+    gl.disable(gl.CULL_FACE);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+
+    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      1,
+      1,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 0, 0])
+    );
+  }
+
+  configureGeometry() {
+    const { gl } = this;
+    const quad = new Float32Array([
+      -0.5, -0.5, 0.0, 0.0,
+       0.5, -0.5, 1.0, 0.0,
+      -0.5,  0.5, 0.0, 1.0,
+      -0.5,  0.5, 0.0, 1.0,
+       0.5, -0.5, 1.0, 0.0,
+       0.5,  0.5, 1.0, 1.0,
+    ]);
+
+    gl.bindVertexArray(this.vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 16, 0);
+    gl.enableVertexAttribArray(1);
+    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 16, 8);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.instanceBuffer);
+    gl.enableVertexAttribArray(2);
+    gl.vertexAttribPointer(2, 4, gl.FLOAT, false, 16, 0);
+    gl.vertexAttribDivisor(2, 1);
+    gl.bindVertexArray(null);
+  }
+
+  resize() {
+    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  clear() {
+    const { gl } = this;
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  }
+
+  setTexture(image) {
+    if (!image || !image.complete || !image.naturalWidth || image === this.textureImage) return;
+
+    const { gl } = this;
+    this.textureImage = image;
+    this.textureWidth = image.naturalWidth;
+    this.textureHeight = image.naturalHeight;
+    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+  }
+
+  ensureInstanceCapacity(count) {
+    if (count <= this.instanceCapacity) return;
+    this.instanceCapacity = Math.max(count, this.instanceCapacity * 2, 128);
+    this.instanceData = new Float32Array(this.instanceCapacity * 4);
+  }
+
+  render(entries, alpha, sprite) {
+    this.setTexture(sprite);
+    this.clear();
+    if (!entries.length || !this.textureImage) return;
+
+    const { gl } = this;
+    this.ensureInstanceCapacity(entries.length);
+
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      const offset = i * 4;
+      this.instanceData[offset] = lerp(entry.previous.x, entry.current.x, alpha);
+      this.instanceData[offset + 1] = lerp(entry.previous.y, entry.current.y, alpha);
+      this.instanceData[offset + 2] = lerpAngle(entry.previous.angle, entry.current.angle, alpha);
+      this.instanceData[offset + 3] = entry.size;
+    }
+
+    gl.useProgram(this.program);
+    gl.bindVertexArray(this.vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.instanceBuffer);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      this.instanceData.subarray(0, entries.length * 4),
+      gl.DYNAMIC_DRAW
+    );
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+    gl.uniform1i(this.uniforms.sprite, 0);
+    gl.uniform2f(this.uniforms.viewSize, this.canvas.clientWidth, this.canvas.clientHeight);
+    gl.uniform2f(this.uniforms.texelSize, 1 / this.textureWidth, 1 / this.textureHeight);
+
+    gl.uniform1i(this.uniforms.pass, 0);
+    gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, entries.length);
+    gl.uniform1i(this.uniforms.pass, 1);
+    gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, entries.length);
+    gl.bindVertexArray(null);
+  }
+}
+
+class CanvasSpriteRenderer {
+  constructor(canvasElement) {
+    this.canvas = canvasElement;
+    this.ctx = canvasElement.getContext("2d");
+    this.pixelRatio = 1;
+  }
+
+  resize() {
+    if (!this.ctx) return;
+    this.pixelRatio = window.devicePixelRatio || 1;
+    this.ctx.setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
+  }
+
+  clear() {
+    if (!this.ctx) return;
+    this.ctx.clearRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
+  }
+
+  render(entries, alpha, sprite) {
+    const { ctx } = this;
+    if (!ctx) return;
+    this.clear();
+    if (!entries.length || !sprite.complete || !sprite.naturalWidth) return;
+
+    for (const entry of entries) {
+      const x = lerp(entry.previous.x, entry.current.x, alpha);
+      const y = lerp(entry.previous.y, entry.current.y, alpha);
+      const angle = lerpAngle(entry.previous.angle, entry.current.angle, alpha);
+      const size = entry.size;
+
+      ctx.save();
+      ctx.translate(x + 5, y + 9);
+      ctx.rotate(angle);
+      ctx.globalAlpha = 0.033;
+      ctx.filter = "blur(7px)";
+      ctx.drawImage(sprite, -size * 0.67, -size * 0.67, size * 1.34, size * 1.34);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.globalAlpha = 1;
+      ctx.filter = "none";
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(sprite, -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
+  }
+}
+
+function createSpriteRenderer(canvasElement) {
+  try {
+    const glContext = canvasElement.getContext("webgl2", {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: true,
+    });
+    if (glContext) return new WebGLSpriteRenderer(canvasElement, glContext);
+  } catch (error) {
+    console.warn("WebGL2 sprite renderer unavailable; falling back to canvas.", error);
+    const replacement = canvasElement.cloneNode(false);
+    canvasElement.replaceWith(replacement);
+    canvas = replacement;
+    return new CanvasSpriteRenderer(replacement);
+  }
+  return new CanvasSpriteRenderer(canvasElement);
+}
+
+const spriteRenderer = createSpriteRenderer(canvas);
 
 const MatterApi = () => window.Matter;
 const AudioContextApi = () => window.AudioContext || window.webkitAudioContext;
@@ -414,7 +755,7 @@ function resizeCanvas() {
   const height = Math.max(1, Math.floor(rect.height * ratio));
   if (canvas.width !== width) canvas.width = width;
   if (canvas.height !== height) canvas.height = height;
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  spriteRenderer.resize();
   rebuildWalls();
 }
 
@@ -637,7 +978,7 @@ function resetWalls() {
 function clearPhysics() {
   cancelAnimationFrame(raf);
   raf = 0;
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  spriteRenderer.clear();
   releasingSprites = false;
   releaseComplete = null;
   if (!physics || !MatterApi()) {
@@ -707,6 +1048,7 @@ function explodeSprites(expectedVersion) {
   nextButton.disabled = false;
   simulationStartedAt = performance.now();
   lastPhysicsTime = simulationStartedAt;
+  simulationElapsed = 0;
   physicsAccumulator = 0;
   cancelAnimationFrame(raf);
   raf = requestAnimationFrame(renderPhysics);
@@ -737,54 +1079,50 @@ function releaseSprites(onComplete) {
   if (!raf) {
     simulationStartedAt = performance.now();
     lastPhysicsTime = simulationStartedAt;
+    simulationElapsed = 0;
     physicsAccumulator = 0;
     raf = requestAnimationFrame(renderPhysics);
   }
 }
 
+function stepPhysics() {
+  const { Engine } = MatterApi();
+  for (const entry of bodies) {
+    entry.previous.x = entry.current.x;
+    entry.previous.y = entry.current.y;
+    entry.previous.angle = entry.current.angle;
+    if (simulationElapsed < 600) {
+      entry.body.torque += entry.torque;
+    }
+  }
+
+  const gravity = getOrientedGravity();
+  physics.gravity.x = gravity.x;
+  physics.gravity.y = gravity.y;
+  Engine.update(physics, FIXED_TIMESTEP);
+  simulationElapsed += FIXED_TIMESTEP;
+
+  for (const entry of bodies) {
+    entry.current.x = entry.body.position.x;
+    entry.current.y = entry.body.position.y;
+    entry.current.angle = entry.body.angle;
+  }
+}
+
 function renderPhysics(now) {
   if (!physics || !MatterApi()) return;
-  const { Engine, Composite } = MatterApi();
+  const { Composite } = MatterApi();
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
-  const elapsed = now - simulationStartedAt;
-  const frameDelta = Math.min(MAX_FRAME_DELTA, now - lastPhysicsTime);
+  const frameDelta = clamp(now - lastPhysicsTime, 0, MAX_FRAME_DELTA);
   lastPhysicsTime = now;
   physicsAccumulator += frameDelta;
   while (physicsAccumulator >= FIXED_TIMESTEP) {
-    for (const entry of bodies) {
-      entry.previous.x = entry.current.x;
-      entry.previous.y = entry.current.y;
-      entry.previous.angle = entry.current.angle;
-    }
-    const gravity = getOrientedGravity();
-    physics.gravity.x = gravity.x;
-    physics.gravity.y = gravity.y;
-    Engine.update(physics, FIXED_TIMESTEP);
-    for (const entry of bodies) {
-      entry.current.x = entry.body.position.x;
-      entry.current.y = entry.body.position.y;
-      entry.current.angle = entry.body.angle;
-    }
+    stepPhysics();
     physicsAccumulator -= FIXED_TIMESTEP;
   }
-  ctx.clearRect(0, 0, w, h);
   const alpha = physicsAccumulator / FIXED_TIMESTEP;
-
-  for (const entry of bodies) {
-    if (elapsed < 600) entry.body.torque += entry.torque;
-    const x = lerp(entry.previous.x, entry.current.x, alpha);
-    const y = lerp(entry.previous.y, entry.current.y, alpha);
-    const angle = lerpAngle(entry.previous.angle, entry.current.angle, alpha);
-    const size = entry.size;
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(spriteImage, -size / 2, -size / 2, size, size);
-    ctx.restore();
-  }
+  spriteRenderer.render(bodies, alpha, spriteImage);
 
   const expired = bodies.filter((entry) => entry.body.position.y > h + 220);
   if (expired.length) {
@@ -795,7 +1133,7 @@ function renderPhysics(now) {
   if (bodies.length) raf = requestAnimationFrame(renderPhysics);
   else {
     raf = 0;
-    ctx.clearRect(0, 0, w, h);
+    spriteRenderer.clear();
     if (releasingSprites && releaseComplete) {
       const complete = releaseComplete;
       releasingSprites = false;
