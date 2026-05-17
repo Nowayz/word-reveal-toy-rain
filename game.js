@@ -879,8 +879,12 @@ function getOrientedGravity() {
   const deviceX = Math.sin(gamma);
   const deviceY = Math.sin(beta) * Math.cos(gamma);
   const screenAngle = (getScreenOrientationAngle() * Math.PI) / 180;
-  const screenX = deviceX * Math.cos(screenAngle) - deviceY * Math.sin(screenAngle);
-  const screenY = deviceX * Math.sin(screenAngle) + deviceY * Math.cos(screenAngle);
+  const cos = Math.cos(screenAngle);
+  const sin = Math.sin(screenAngle);
+  // DeviceOrientation is reported in the device's natural axes; rotate the tilt
+  // vector back into the current screen axes so the lower screen edge is downhill.
+  const screenX = deviceX * cos + deviceY * sin;
+  const screenY = -deviceX * sin + deviceY * cos;
   const x = clamp(screenX, -1, 1) * ORIENTED_GRAVITY_SCALE;
   const y = clamp(screenY, -1, 1) * ORIENTED_GRAVITY_SCALE;
 
