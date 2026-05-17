@@ -33,7 +33,6 @@ let orientationEnabled = false;
 let orientationPermissionStarted = false;
 let orientationBeta = 90;
 let orientationGamma = 0;
-let orientationHeading = 0;
 let orientationHasTilt = false;
 let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
@@ -510,12 +509,23 @@ function setupPhysics() {
 function handleOrientation(event) {
   if (!Number.isFinite(event.beta) || !Number.isFinite(event.gamma)) return;
 
-  const heading =
-    Number.isFinite(event.webkitCompassHeading) ? event.webkitCompassHeading : event.alpha;
   orientationBeta = event.beta;
   orientationGamma = event.gamma;
-  if (Number.isFinite(heading)) orientationHeading = heading;
   orientationHasTilt = true;
+}
+
+function getScreenOrientationAngle() {
+  if (
+    typeof screen !== "undefined" &&
+    screen.orientation &&
+    Number.isFinite(screen.orientation.angle)
+  ) {
+    return screen.orientation.angle;
+  }
+  if (Number.isFinite(window.orientation)) {
+    return window.orientation;
+  }
+  return 0;
 }
 
 function getOrientedGravity() {
@@ -525,8 +535,13 @@ function getOrientedGravity() {
 
   const beta = (clamp(orientationBeta, -90, 90) * Math.PI) / 180;
   const gamma = (clamp(orientationGamma, -90, 90) * Math.PI) / 180;
-  const x = clamp(Math.sin(gamma), -1, 1) * ORIENTED_GRAVITY_SCALE;
-  const y = clamp(Math.sin(beta), -1, 1) * ORIENTED_GRAVITY_SCALE;
+  const deviceX = Math.sin(gamma);
+  const deviceY = Math.sin(beta) * Math.cos(gamma);
+  const screenAngle = (getScreenOrientationAngle() * Math.PI) / 180;
+  const screenX = deviceX * Math.cos(screenAngle) + deviceY * Math.sin(screenAngle);
+  const screenY = -deviceX * Math.sin(screenAngle) + deviceY * Math.cos(screenAngle);
+  const x = clamp(screenX, -1, 1) * ORIENTED_GRAVITY_SCALE;
+  const y = clamp(screenY, -1, 1) * ORIENTED_GRAVITY_SCALE;
 
   return { x, y };
 }
