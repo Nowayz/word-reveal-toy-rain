@@ -306,6 +306,11 @@ function fitAndSyncWord() {
   return fontSize;
 }
 
+function syncLayoutToViewport() {
+  fitAndSyncWord();
+  scheduleCanvasResize();
+}
+
 function preloadAsset(src, kind = "image") {
   if (!src) return;
   if (kind === "audio") {
@@ -329,6 +334,7 @@ function preloadCard(card) {
   preloadLetterAudio(card.word);
 
   requestAnimationFrame(() => {
+    wordMeasureEl.style.width = `${wordEl.clientWidth || stageEl.clientWidth}px`;
     renderWordInto(wordMeasureEl, card.word);
     entry.fontSize = fitWord(wordMeasureEl);
   });
@@ -771,8 +777,11 @@ bindTouchButton(revealButton, () => reveal(false));
 bindTouchButton(missButton, () => reveal(true));
 bindTouchButton(nextButton, () => nextCard());
 restartButton.addEventListener("click", restart);
-window.addEventListener("resize", resizeCanvas);
-window.addEventListener("resize", fitAndSyncWord);
+window.addEventListener("resize", syncLayoutToViewport);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", syncLayoutToViewport);
+  window.visualViewport.addEventListener("scroll", scheduleCanvasResize);
+}
 window.addEventListener("keydown", (event) => {
   if (event.key === " " || event.key === "Enter") {
     event.preventDefault();
