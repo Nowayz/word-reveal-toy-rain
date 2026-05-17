@@ -76,6 +76,19 @@ html {
   box-shadow: 0 14px 0 #21313a18;
 }
 
+.version-badge {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  color: rgba(255, 250, 240, 0.72);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  pointer-events: none;
+}
+
 .progress {
   display: flex;
   justify-content: space-between;
@@ -317,12 +330,12 @@ button:disabled {
   }
 
   .controls {
-    grid-template-columns: 1fr 78px 1fr;
+    grid-template-columns: 1fr 88px;
     gap: 8px;
   }
 
   #nextButton {
-    grid-column: auto;
+    grid-column: 1 / -1;
   }
 
   button {
@@ -362,7 +375,7 @@ button:disabled {
   }
 
   .controls {
-    grid-template-columns: 1fr 70px 1fr;
+    grid-template-columns: 1fr 76px;
     gap: 6px;
   }
 
