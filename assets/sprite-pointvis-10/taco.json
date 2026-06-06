@@ -1,10 +1,119 @@
 {
-  "area": 1096.167626,
+  "name": "taco",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 921.873014445352,
+  "sprite_area_pixels2": 911,
+  "sides": 23,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [1.351203, 37.634544],
-    [0.221377, 23.283291],
-    [17.872799, 7.735690],
-    [42.240147, 13.317954],
-    [46.610351, 37.637414]
+    [
+      20.881966,
+      9.5
+    ],
+    [
+      18.70382,
+      10.589073
+    ],
+    [
+      13.792893,
+      15.5
+    ],
+    [
+      9.881966,
+      15.5
+    ],
+    [
+      5.5,
+      17.690983
+    ],
+    [
+      5.5,
+      18.792893
+    ],
+    [
+      3.5,
+      20.792893
+    ],
+    [
+      3.5,
+      26.207107
+    ],
+    [
+      4.5,
+      27.207107
+    ],
+    [
+      4.5,
+      34.651388
+    ],
+    [
+      6.399075,
+      37.5
+    ],
+    [
+      40.600925,
+      37.5
+    ],
+    [
+      42.5,
+      34.651388
+    ],
+    [
+      42.5,
+      29.792893
+    ],
+    [
+      41.843398,
+      29.136291
+    ],
+    [
+      43.5,
+      26.651388
+    ],
+    [
+      43.5,
+      20.792893
+    ],
+    [
+      41.5,
+      18.792893
+    ],
+    [
+      41.5,
+      17.5
+    ],
+    [
+      40.207107,
+      17.5
+    ],
+    [
+      35.207107,
+      12.5
+    ],
+    [
+      30.833333,
+      12.5
+    ],
+    [
+      26.833333,
+      9.5
+    ]
   ]
 }

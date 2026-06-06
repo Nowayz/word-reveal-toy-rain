@@ -1,10 +1,131 @@
 {
-  "area": 1630.236035,
+  "name": "party-hat",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "dilated-rdp",
+  "area": 1408.0,
+  "sprite_area_pixels2": 1290,
+  "sides": 26,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.7310530896456736,
+    "epsilon_fraction": 0.004477987421383648,
+    "scale": 1.0,
+    "dilation_kernel": 3,
+    "dilation_iterations": 1,
+    "dilated_contour_count": 1,
+    "dilated_contour_source": "largest"
+  },
   "vertices": [
-    [4.564995, 44.270085],
-    [0.121543, 4.270681],
-    [41.427682, 4.386946],
-    [45.225955, 34.277208],
-    [43.558209, 43.428760]
+    [
+      36.0,
+      3.0
+    ],
+    [
+      33.0,
+      3.0
+    ],
+    [
+      31.0,
+      6.0
+    ],
+    [
+      30.0,
+      5.0
+    ],
+    [
+      4.0,
+      5.0
+    ],
+    [
+      3.0,
+      6.0
+    ],
+    [
+      3.0,
+      30.0
+    ],
+    [
+      6.0,
+      37.0
+    ],
+    [
+      8.0,
+      39.0
+    ],
+    [
+      8.0,
+      43.0
+    ],
+    [
+      12.0,
+      43.0
+    ],
+    [
+      13.0,
+      42.0
+    ],
+    [
+      17.0,
+      44.0
+    ],
+    [
+      28.0,
+      44.0
+    ],
+    [
+      34.0,
+      41.0
+    ],
+    [
+      36.0,
+      44.0
+    ],
+    [
+      39.0,
+      44.0
+    ],
+    [
+      39.0,
+      40.0
+    ],
+    [
+      37.0,
+      39.0
+    ],
+    [
+      44.0,
+      28.0
+    ],
+    [
+      44.0,
+      22.0
+    ],
+    [
+      42.0,
+      20.0
+    ],
+    [
+      40.0,
+      14.0
+    ],
+    [
+      41.0,
+      8.0
+    ],
+    [
+      37.0,
+      9.0
+    ],
+    [
+      36.0,
+      8.0
+    ]
   ]
 }

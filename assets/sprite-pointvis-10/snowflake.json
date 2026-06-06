@@ -1,11 +1,107 @@
 {
-  "area": 1353.168129,
+  "name": "snowflake",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "particle-wrap-rdp",
+  "area": 1241.78345,
+  "sprite_area_pixels2": 593,
+  "sides": 20,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.13700000000000037
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.12205598831176757,
+    "epsilon_fraction": 0.001,
+    "scale": 1.03,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [23.498815, 1.657293],
-    [42.925505, 12.051869],
-    [43.947764, 35.222308],
-    [23.499677, 46.340542],
-    [4.073746, 35.944400],
-    [3.050806, 12.775250]
+    [
+      42.5715,
+      28.1335
+    ],
+    [
+      40.5115,
+      34.3135
+    ],
+    [
+      36.3915,
+      38.4335
+    ],
+    [
+      29.1815,
+      42.5535
+    ],
+    [
+      24.0315,
+      43.5835
+    ],
+    [
+      21.9715,
+      43.5835
+    ],
+    [
+      16.8215,
+      42.5535
+    ],
+    [
+      9.6115,
+      38.4335
+    ],
+    [
+      5.4915,
+      33.2835
+    ],
+    [
+      3.4315,
+      28.1335
+    ],
+    [
+      3.4315,
+      18.8635
+    ],
+    [
+      5.4915,
+      13.7135
+    ],
+    [
+      9.6115,
+      8.5635
+    ],
+    [
+      15.7915,
+      5.4735
+    ],
+    [
+      21.9715,
+      3.4135
+    ],
+    [
+      24.0315,
+      3.4135
+    ],
+    [
+      29.1815,
+      4.4435
+    ],
+    [
+      36.3915,
+      8.5635
+    ],
+    [
+      40.5115,
+      12.6835
+    ],
+    [
+      42.5715,
+      18.8635
+    ]
   ]
 }

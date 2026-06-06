@@ -1,17 +1,55 @@
 {
-  "area": 751.656250,
+  "name": "crayon",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 633.1221185635152,
+  "sprite_area_pixels2": 608,
+  "sides": 7,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [11.232333, 46.806470],
-    [10.122435, 46.799352],
-    [0.130679, 41.206867],
-    [0.123676, 40.099312],
-    [1.218778, 38.998204],
-    [1.211486, 37.889160],
-    [1.204309, 36.779326],
-    [2.298524, 35.675805],
-    [37.952947, 0.044242],
-    [39.068260, 1.152951],
-    [46.850839, 7.835355],
-    [47.959841, 8.950063]
+    [
+      33.792893,
+      3.5
+    ],
+    [
+      5.881851,
+      31.411042
+    ],
+    [
+      2.646149,
+      44.353851
+    ],
+    [
+      15.588958,
+      41.118149
+    ],
+    [
+      43.5,
+      13.207107
+    ],
+    [
+      43.5,
+      11.792893
+    ],
+    [
+      35.207107,
+      3.5
+    ]
   ]
 }

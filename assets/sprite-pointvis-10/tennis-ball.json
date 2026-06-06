@@ -1,19 +1,67 @@
 {
-  "area": 804.876628,
+  "name": "tennis-ball",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "particle-wrap-rdp",
+  "area": 765.1716,
+  "sprite_area_pixels2": 414,
+  "sides": 10,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.12950109891618733
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.6364745696895527,
+    "epsilon_fraction": 0.005968553459119497,
+    "scale": 1.06,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [27.550321, 2.153636],
-    [35.686153, 3.203610],
-    [41.808669, 11.335005],
-    [40.849455, 19.480475],
-    [34.780963, 27.708710],
-    [26.549700, 31.846453],
-    [19.409255, 40.838031],
-    [12.345083, 45.813848],
-    [11.291921, 38.781431],
-    [14.236917, 29.730841],
-    [6.173629, 27.626419],
-    [8.152256, 18.460327],
-    [16.168801, 17.386832],
-    [19.355003, 8.181447]
+    [
+      36.552,
+      5.31
+    ],
+    [
+      39.732,
+      10.61
+    ],
+    [
+      39.732,
+      15.91
+    ],
+    [
+      36.552,
+      22.27
+    ],
+    [
+      13.232,
+      44.53
+    ],
+    [
+      11.112,
+      43.47
+    ],
+    [
+      6.872,
+      22.27
+    ],
+    [
+      24.892,
+      4.25
+    ],
+    [
+      27.012,
+      3.19
+    ],
+    [
+      32.312,
+      3.19
+    ]
   ]
 }

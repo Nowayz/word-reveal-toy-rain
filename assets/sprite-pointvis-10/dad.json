@@ -1,0 +1,99 @@
+{
+  "name": "dad",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1137.810263487585,
+  "sprite_area_pixels2": 1083,
+  "sides": 18,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.8781512605042017,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
+  "vertices": [
+    [
+      16.374919,
+      2.917974
+    ],
+    [
+      5.646268,
+      13.646625
+    ],
+    [
+      7.915829,
+      22.724869
+    ],
+    [
+      6.5,
+      24.848612
+    ],
+    [
+      6.5,
+      28.75
+    ],
+    [
+      9.909499,
+      31.307125
+    ],
+    [
+      10.810854,
+      38.517961
+    ],
+    [
+      15.70786,
+      43.414967
+    ],
+    [
+      29.852926,
+      44.357972
+    ],
+    [
+      36.082058,
+      39.374666
+    ],
+    [
+      37.090501,
+      31.307125
+    ],
+    [
+      40.5,
+      28.75
+    ],
+    [
+      40.5,
+      24.792893
+    ],
+    [
+      38.820362,
+      23.113256
+    ],
+    [
+      40.909409,
+      13.712545
+    ],
+    [
+      37.642857,
+      9.357143
+    ],
+    [
+      28.859612,
+      2.769709
+    ],
+    [
+      24.302674,
+      3.908943
+    ]
+  ]
+}

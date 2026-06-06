@@ -1,14 +1,95 @@
 {
-  "area": 1483.177486,
+  "name": "apple",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1289.4799531357512,
+  "sprite_area_pixels2": 1248,
+  "sides": 17,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 1.0672268907563025,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [41.810524, 44.285553],
-    [4.805770, 43.281918],
-    [3.597811, 41.101604],
-    [3.576882, 13.034555],
-    [5.794399, 9.932220],
-    [8.301288, 0.085888],
-    [26.212792, 7.033783],
-    [27.291111, 7.672683],
-    [46.664787, 15.429167]
+    [
+      6.109612,
+      3.5
+    ],
+    [
+      7.215185,
+      7.922291
+    ],
+    [
+      10.292893,
+      11.0
+    ],
+    [
+      5.562984,
+      15.729909
+    ],
+    [
+      3.5,
+      21.918861
+    ],
+    [
+      3.5,
+      31.769296
+    ],
+    [
+      6.713185,
+      39.266727
+    ],
+    [
+      12.639767,
+      43.5
+    ],
+    [
+      33.118034,
+      43.5
+    ],
+    [
+      39.068121,
+      40.524956
+    ],
+    [
+      43.5,
+      33.138492
+    ],
+    [
+      43.5,
+      21.230704
+    ],
+    [
+      40.201022,
+      13.53309
+    ],
+    [
+      34.650128,
+      9.832493
+    ],
+    [
+      24.286076,
+      10.868899
+    ],
+    [
+      22.412166,
+      6.184125
+    ],
+    [
+      18.833333,
+      3.5
+    ]
   ]
 }

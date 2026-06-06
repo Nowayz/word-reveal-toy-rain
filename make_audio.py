@@ -15,7 +15,6 @@ MANIFEST = ASSETS / "manifest.json"
 QWEN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
 PREFERRED_SPEAKERS = ("vivian", "sohee", "serena", "ono_anna")
 INSTRUCTION = "Speak clearly and slowly, sounding each word out carefully, as if teaching it to a child."
-SENTENCE_TEMPLATE = "It's a {item}"
 LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
 
@@ -81,8 +80,8 @@ def encode_opus(wav_path, opus_path):
     subprocess.run(command, check=True)
 
 
-def build_sentence(word: str) -> str:
-    return SENTENCE_TEMPLATE.format(item=word)
+def build_sentence(item: dict) -> str:
+    return item.get("revealSentence") or f"It's a {item['word']}"
 
 
 def generate_audio(tts, text: str, speaker: str, wav_path: Path, opus_path: Path):
@@ -143,7 +142,7 @@ def main():
         selected = not targets or slug in targets or item["word"] in targets
 
         if selected and (force or not opus_path.exists()):
-            text = build_sentence(item["word"])
+            text = build_sentence(item)
             print(f"[{i}/{len(manifest)}] {text}")
             generate_audio(tts, text, speaker, wav_path, opus_path)
 

@@ -1,13 +1,91 @@
 {
-  "area": 1502.134450,
+  "name": "stop-sign",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1340.1968073080511,
+  "sprite_area_pixels2": 1328,
+  "sides": 16,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [16.384720, 2.169530],
-    [31.615280, 2.169530],
-    [45.830470, 16.384720],
-    [45.830470, 31.615280],
-    [31.615280, 45.830470],
-    [16.384720, 45.830470],
-    [2.169530, 31.615280],
-    [2.169530, 16.384720]
+    [
+      15.881966,
+      3.5
+    ],
+    [
+      13.70382,
+      4.589073
+    ],
+    [
+      4.589073,
+      13.70382
+    ],
+    [
+      3.5,
+      15.881966
+    ],
+    [
+      3.5,
+      31.118034
+    ],
+    [
+      4.589073,
+      33.29618
+    ],
+    [
+      13.70382,
+      42.410927
+    ],
+    [
+      15.881966,
+      43.5
+    ],
+    [
+      31.118034,
+      43.5
+    ],
+    [
+      33.29618,
+      42.410927
+    ],
+    [
+      42.410927,
+      33.29618
+    ],
+    [
+      43.5,
+      31.118034
+    ],
+    [
+      43.5,
+      15.881966
+    ],
+    [
+      42.410927,
+      13.70382
+    ],
+    [
+      33.29618,
+      4.589073
+    ],
+    [
+      31.118034,
+      3.5
+    ]
   ]
 }

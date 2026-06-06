@@ -1,15 +1,83 @@
 {
-  "area": 1136.956415,
+  "name": "peas",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1022.4252202323191,
+  "sprite_area_pixels2": 922,
+  "sides": 14,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.5
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.75,
+    "normal_sign": -1,
+    "rdp_epsilon": 1.004201680672269,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [31.610380, 2.167861],
-    [43.738547, 3.243884],
-    [45.824349, 15.368478],
-    [39.845652, 26.554995],
-    [29.618238, 38.829423],
-    [16.374709, 44.826806],
-    [4.256154, 44.751076],
-    [3.175485, 32.631110],
-    [9.159808, 20.417724],
-    [21.428712, 10.157337]
+    [
+      31.355563,
+      3.25
+    ],
+    [
+      26.911858,
+      5.027482
+    ],
+    [
+      24.25,
+      7.68934
+    ],
+    [
+      24.25,
+      10.036475
+    ],
+    [
+      17.555731,
+      13.383609
+    ],
+    [
+      7.867538,
+      23.071802
+    ],
+    [
+      3.25,
+      33.846057
+    ],
+    [
+      3.25,
+      41.31066
+    ],
+    [
+      6.314016,
+      44.374676
+    ],
+    [
+      19.275648,
+      42.214404
+    ],
+    [
+      33.140526,
+      33.301268
+    ],
+    [
+      43.75,
+      17.869306
+    ],
+    [
+      43.75,
+      5.68934
+    ],
+    [
+      41.31066,
+      3.25
+    ]
   ]
 }

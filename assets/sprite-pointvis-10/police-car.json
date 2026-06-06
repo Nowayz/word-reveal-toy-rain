@@ -1,11 +1,103 @@
 {
-  "area": 1056.317964,
+  "name": "police-car",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 855.4409352574065,
+  "sprite_area_pixels2": 817,
+  "sides": 19,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.9411764705882353,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [-0.142309, 28.749787],
-    [25.618110, 4.073052],
-    [43.609981, 20.888571],
-    [43.553688, 39.962287],
-    [19.954965, 38.998607],
-    [11.026232, 43.347634]
+    [
+      23.777214,
+      6.82959
+    ],
+    [
+      22.781654,
+      10.81183
+    ],
+    [
+      16.103638,
+      11.765833
+    ],
+    [
+      10.17764,
+      22.630163
+    ],
+    [
+      3.5,
+      23.743103
+    ],
+    [
+      3.5,
+      34.257309
+    ],
+    [
+      11.541899,
+      40.001522
+    ],
+    [
+      16.22422,
+      39.065058
+    ],
+    [
+      18.600925,
+      35.5
+    ],
+    [
+      28.732408,
+      35.5
+    ],
+    [
+      31.160395,
+      39.141981
+    ],
+    [
+      35.458101,
+      40.001522
+    ],
+    [
+      43.5,
+      34.257309
+    ],
+    [
+      43.5,
+      24.316905
+    ],
+    [
+      38.742039,
+      21.462128
+    ],
+    [
+      36.171642,
+      15.464535
+    ],
+    [
+      32.207107,
+      11.5
+    ],
+    [
+      27.36038,
+      11.5
+    ],
+    [
+      26.208849,
+      8.045407
+    ]
   ]
 }

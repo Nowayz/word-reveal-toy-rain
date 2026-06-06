@@ -1,9 +1,87 @@
 {
-  "area": 1305.097631,
+  "name": "bus",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1213.7910377385545,
+  "sprite_area_pixels2": 1134,
+  "sides": 15,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -1.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 1.0,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [4.666786, 38.472106],
-    [0.679296, 7.647006],
-    [47.325230, 8.226605],
-    [42.924843, 38.882499]
+    [
+      4.585786,
+      7.0
+    ],
+    [
+      3.0,
+      8.585786
+    ],
+    [
+      3.0,
+      34.280776
+    ],
+    [
+      7.259178,
+      35.345571
+    ],
+    [
+      10.0,
+      39.0
+    ],
+    [
+      16.0,
+      39.0
+    ],
+    [
+      19.0,
+      35.0
+    ],
+    [
+      28.131483,
+      35.0
+    ],
+    [
+      29.815258,
+      37.525663
+    ],
+    [
+      32.763932,
+      39.0
+    ],
+    [
+      36.414214,
+      39.0
+    ],
+    [
+      40.040182,
+      35.374032
+    ],
+    [
+      44.0,
+      34.054093
+    ],
+    [
+      44.0,
+      8.585786
+    ],
+    [
+      42.414214,
+      7.0
+    ]
   ]
 }

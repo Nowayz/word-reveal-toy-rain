@@ -1,4 +1,7 @@
 elephant 🐘
+mom 👩🏻
+dad 👨🏻
+baby sister 👶🏻
 whale 🐳
 shark 🦈
 owl 🦉
@@ -58,7 +61,6 @@ gloves 🧤
 scarf 🧣
 boots 👢
 sandals 👡
-tie 👔
 mask 😷
 glasses 👓
 helmet ⛑️
@@ -90,7 +92,6 @@ mammoth 🦣
 flamingo 🦩
 peacock 🦚
 turkey 🦃
-dodo 🦤
 goose 🪿
 turtle 🐢
 lizard 🦎

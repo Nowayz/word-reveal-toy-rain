@@ -1,13 +1,83 @@
 {
-  "area": 1073.339243,
+  "name": "egg",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 958.3775774915881,
+  "sprite_area_pixels2": 925,
+  "sides": 14,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.6890756302521008,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [20.429602, 1.985427],
-    [34.773584, 7.075999],
-    [39.966368, 21.411696],
-    [38.896912, 35.790617],
-    [26.572111, 46.006401],
-    [12.225455, 41.923105],
-    [7.037651, 28.614712],
-    [9.108124, 14.219604]
+    [
+      18.981705,
+      3.5
+    ],
+    [
+      13.222942,
+      8.436082
+    ],
+    [
+      10.198671,
+      14.484624
+    ],
+    [
+      8.5,
+      20.429973
+    ],
+    [
+      8.5,
+      32.118034
+    ],
+    [
+      11.935232,
+      38.988498
+    ],
+    [
+      17.187884,
+      43.19062
+    ],
+    [
+      24.553931,
+      44.009069
+    ],
+    [
+      30.099856,
+      42.160428
+    ],
+    [
+      34.584119,
+      38.573017
+    ],
+    [
+      37.5,
+      31.769296
+    ],
+    [
+      37.5,
+      19.411913
+    ],
+    [
+      33.840139,
+      9.347294
+    ],
+    [
+      27.018295,
+      3.5
+    ]
   ]
 }

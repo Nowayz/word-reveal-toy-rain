@@ -1,9 +1,43 @@
 {
-  "area": 1749.375503,
+  "name": "piano",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1600.0,
+  "sprite_area_pixels2": 1600,
+  "sides": 4,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [4.709867, 1.581737],
-    [46.418263, 4.709867],
-    [43.290133, 46.418263],
-    [1.581737, 43.290133]
+    [
+      3.5,
+      3.5
+    ],
+    [
+      3.5,
+      43.5
+    ],
+    [
+      43.5,
+      43.5
+    ],
+    [
+      43.5,
+      3.5
+    ]
   ]
 }

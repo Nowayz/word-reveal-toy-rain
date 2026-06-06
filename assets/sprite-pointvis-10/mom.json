@@ -1,0 +1,99 @@
+{
+  "name": "mom",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "particle-wrap-rdp",
+  "area": 1375.9873000000002,
+  "sprite_area_pixels2": 1322,
+  "sides": 18,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.08666666666667305
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.13162826299667357,
+    "epsilon_fraction": 0.001,
+    "scale": 1.03,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
+  "vertices": [
+    [
+      42.555,
+      39.423333
+    ],
+    [
+      39.465,
+      42.513333
+    ],
+    [
+      37.405,
+      43.543333
+    ],
+    [
+      9.595,
+      43.543333
+    ],
+    [
+      7.535,
+      42.513333
+    ],
+    [
+      4.445,
+      39.423333
+    ],
+    [
+      3.415,
+      37.363333
+    ],
+    [
+      3.415,
+      23.973333
+    ],
+    [
+      6.505,
+      13.673333
+    ],
+    [
+      7.535,
+      11.613333
+    ],
+    [
+      10.625,
+      8.523333
+    ],
+    [
+      20.925,
+      3.373333
+    ],
+    [
+      26.075,
+      3.373333
+    ],
+    [
+      36.375,
+      8.523333
+    ],
+    [
+      39.465,
+      11.613333
+    ],
+    [
+      40.495,
+      13.673333
+    ],
+    [
+      43.585,
+      23.973333
+    ],
+    [
+      43.585,
+      37.363333
+    ]
+  ]
+}

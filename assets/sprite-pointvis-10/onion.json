@@ -1,15 +1,91 @@
 {
-  "area": 1128.376855,
+  "name": "onion",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 942.7514130993687,
+  "sprite_area_pixels2": 896,
+  "sides": 16,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.9411764705882353,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [20.454317, 2.152994],
-    [29.601077, 5.164913],
-    [38.783440, 14.294666],
-    [41.849299, 26.522140],
-    [38.771991, 37.720275],
-    [26.551407, 45.846204],
-    [15.351829, 42.817089],
-    [6.184292, 33.651091],
-    [5.157771, 21.426655],
-    [12.282302, 11.225942]
+    [
+      19.5,
+      2.792893
+    ],
+    [
+      19.5,
+      7.732408
+    ],
+    [
+      12.331926,
+      12.511124
+    ],
+    [
+      6.801135,
+      18.963714
+    ],
+    [
+      5.890302,
+      28.072045
+    ],
+    [
+      8.240544,
+      33.947651
+    ],
+    [
+      13.693794,
+      39.400901
+    ],
+    [
+      20.867218,
+      43.5
+    ],
+    [
+      27.511815,
+      43.5
+    ],
+    [
+      37.06502,
+      35.683741
+    ],
+    [
+      39.5,
+      29.596291
+    ],
+    [
+      39.5,
+      20.881966
+    ],
+    [
+      36.487403,
+      14.856771
+    ],
+    [
+      27.480124,
+      7.85111
+    ],
+    [
+      26.473734,
+      2.819159
+    ],
+    [
+      23.0,
+      6.292893
+    ]
   ]
 }

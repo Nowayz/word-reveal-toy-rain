@@ -1,12 +1,123 @@
 {
-  "area": 1241.629700,
+  "name": "melon",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "dilated-rdp",
+  "area": 1004.0,
+  "sprite_area_pixels2": 887,
+  "sides": 24,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.2074667100435419
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.8606787618376174,
+    "epsilon_fraction": 0.005471698113207547,
+    "scale": 1.0,
+    "dilation_kernel": 3,
+    "dilation_iterations": 1,
+    "dilated_contour_count": 1,
+    "dilated_contour_source": "largest"
+  },
   "vertices": [
-    [6.956423, -0.040507],
-    [24.664707, 5.602066],
-    [41.706636, 17.944276],
-    [40.773047, 39.306962],
-    [20.271933, 47.642912],
-    [4.157717, 34.939494],
-    [8.302172, 13.895455]
+    [
+      7.0,
+      3.0
+    ],
+    [
+      7.0,
+      6.0
+    ],
+    [
+      9.0,
+      8.0
+    ],
+    [
+      13.0,
+      8.0
+    ],
+    [
+      15.0,
+      11.0
+    ],
+    [
+      10.0,
+      15.0
+    ],
+    [
+      6.0,
+      22.0
+    ],
+    [
+      6.0,
+      32.0
+    ],
+    [
+      9.0,
+      38.0
+    ],
+    [
+      18.0,
+      44.0
+    ],
+    [
+      28.0,
+      44.0
+    ],
+    [
+      34.0,
+      41.0
+    ],
+    [
+      40.0,
+      32.0
+    ],
+    [
+      40.0,
+      23.0
+    ],
+    [
+      36.0,
+      15.0
+    ],
+    [
+      27.0,
+      10.0
+    ],
+    [
+      18.0,
+      10.0
+    ],
+    [
+      16.0,
+      7.0
+    ],
+    [
+      17.0,
+      6.0
+    ],
+    [
+      22.0,
+      8.0
+    ],
+    [
+      22.0,
+      5.0
+    ],
+    [
+      20.0,
+      3.0
+    ],
+    [
+      16.0,
+      3.0
+    ],
+    [
+      13.0,
+      5.0
+    ]
   ]
 }

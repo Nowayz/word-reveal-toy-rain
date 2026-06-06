@@ -1,9 +1,91 @@
 {
-  "area": 1215.585878,
+  "name": "camera",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1046.8994949366117,
+  "sprite_area_pixels2": 1045,
+  "sides": 16,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [0.834881, 37.583284],
-    [3.169493, 9.259327],
-    [42.907181, 8.368676],
-    [47.168480, 36.492414]
+    [
+      8.792893,
+      9.5
+    ],
+    [
+      7.792893,
+      10.5
+    ],
+    [
+      5.792893,
+      10.5
+    ],
+    [
+      3.5,
+      12.792893
+    ],
+    [
+      3.5,
+      35.207107
+    ],
+    [
+      4.792893,
+      36.5
+    ],
+    [
+      42.207107,
+      36.5
+    ],
+    [
+      43.5,
+      35.207107
+    ],
+    [
+      43.5,
+      12.792893
+    ],
+    [
+      41.207107,
+      10.5
+    ],
+    [
+      39.207107,
+      10.5
+    ],
+    [
+      38.207107,
+      9.5
+    ],
+    [
+      30.792893,
+      9.5
+    ],
+    [
+      29.792893,
+      10.5
+    ],
+    [
+      14.207107,
+      10.5
+    ],
+    [
+      13.207107,
+      9.5
+    ]
   ]
 }

@@ -1,9 +1,55 @@
 {
-  "area": 1444.794248,
+  "name": "book",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1237.492640687119,
+  "sprite_area_pixels2": 1237,
+  "sides": 7,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [38.719832, 47.373314],
-    [5.006250, 43.081708],
-    [8.280168, 0.626686],
-    [39.176804, 0.629519]
+    [
+      8.792893,
+      3.5
+    ],
+    [
+      7.5,
+      4.792893
+    ],
+    [
+      7.5,
+      42.207107
+    ],
+    [
+      8.792893,
+      43.5
+    ],
+    [
+      38.5,
+      43.5
+    ],
+    [
+      38.5,
+      4.792893
+    ],
+    [
+      37.207107,
+      3.5
+    ]
   ]
 }

@@ -1,10 +1,103 @@
 {
-  "area": 1658.554680,
+  "name": "butterfly",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1447.5854606826872,
+  "sprite_area_pixels2": 1290,
+  "sides": 19,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 2.3907563025210083,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [3.720010, 44.413638],
-    [3.859527, 1.303658],
-    [32.918614, 4.917999],
-    [43.419431, 0.964847],
-    [44.888256, 43.805266]
+    [
+      4.110034,
+      0.17843
+    ],
+    [
+      1.765383,
+      22.452619
+    ],
+    [
+      7.362545,
+      26.930348
+    ],
+    [
+      2.71967,
+      31.573223
+    ],
+    [
+      4.052621,
+      40.903879
+    ],
+    [
+      13.678306,
+      45.181962
+    ],
+    [
+      25.160026,
+      35.787827
+    ],
+    [
+      29.360431,
+      43.138537
+    ],
+    [
+      38.591035,
+      44.061597
+    ],
+    [
+      45.359515,
+      35.600996
+    ],
+    [
+      40.627981,
+      26.137928
+    ],
+    [
+      43.5,
+      23.840312
+    ],
+    [
+      43.5,
+      4.690983
+    ],
+    [
+      39.181122,
+      2.531544
+    ],
+    [
+      27.800995,
+      12.014983
+    ],
+    [
+      29.034269,
+      -0.317753
+    ],
+    [
+      23.730937,
+      8.963079
+    ],
+    [
+      18.106376,
+      1.088693
+    ],
+    [
+      19.084989,
+      10.874826
+    ]
   ]
 }

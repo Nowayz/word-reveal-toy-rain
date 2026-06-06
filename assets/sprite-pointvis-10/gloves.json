@@ -1,12 +1,115 @@
 {
-  "area": 1243.138129,
+  "name": "gloves",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "dilated-rdp",
+  "area": 1100.0,
+  "sprite_area_pixels2": 1002,
+  "sides": 22,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.20792079207920716
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.0,
+    "normal_sign": 0,
+    "rdp_epsilon": 0.6881496076831278,
+    "epsilon_fraction": 0.004974842767295598,
+    "scale": 1.0,
+    "dilation_kernel": 3,
+    "dilation_iterations": 1,
+    "dilated_contour_count": 1,
+    "dilated_contour_source": "largest"
+  },
   "vertices": [
-    [17.879986, 47.781448],
-    [3.499379, 13.536490],
-    [21.189748, 0.274666],
-    [22.294906, 0.272624],
-    [40.008003, 9.091873],
-    [42.269005, 29.037254],
-    [44.397805, 36.748315]
+    [
+      9.0,
+      9.0
+    ],
+    [
+      9.0,
+      13.0
+    ],
+    [
+      5.0,
+      15.0
+    ],
+    [
+      5.0,
+      20.0
+    ],
+    [
+      7.0,
+      22.0
+    ],
+    [
+      13.0,
+      35.0
+    ],
+    [
+      15.0,
+      42.0
+    ],
+    [
+      17.0,
+      44.0
+    ],
+    [
+      25.0,
+      44.0
+    ],
+    [
+      38.0,
+      38.0
+    ],
+    [
+      40.0,
+      38.0
+    ],
+    [
+      41.0,
+      33.0
+    ],
+    [
+      38.0,
+      26.0
+    ],
+    [
+      41.0,
+      18.0
+    ],
+    [
+      41.0,
+      13.0
+    ],
+    [
+      39.0,
+      11.0
+    ],
+    [
+      34.0,
+      11.0
+    ],
+    [
+      32.0,
+      5.0
+    ],
+    [
+      30.0,
+      3.0
+    ],
+    [
+      16.0,
+      3.0
+    ],
+    [
+      13.0,
+      8.0
+    ],
+    [
+      10.0,
+      8.0
+    ]
   ]
 }

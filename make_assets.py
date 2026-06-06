@@ -13,12 +13,13 @@ OBJECTS = [
     ("backpack", "🎒"), ("lunchbox", "🍱"), ("apple", "🍎"), ("banana", "🍌"),
     ("strawberry", "🍓"), ("grapes", "🍇"), ("watermelon", "🍉"), ("cookie", "🍪"),
     ("cupcake", "🧁"), ("ice cream", "🍦"), ("pizza", "🍕"), ("sandwich", "🥪"),
-    ("milk", "🥛"), ("spoon", "🥄"), ("toothbrush", "🪥"), ("soap", "🧼"),
+    ("milk", "🥛"), ("spoon", "🥄"), ("toothbrush", "🪥"),
     ("shoe", "👟"), ("hat", "🧢"), ("shirt", "👕"), ("socks", "🧦"),
     ("umbrella", "☂️"), ("sun", "☀️"), ("moon", "🌙"), ("star", "⭐"),
     ("cloud", "☁️"), ("rainbow", "🌈"), ("snowflake", "❄️"), ("flower", "🌸"),
     ("tree", "🌳"), ("leaf", "🍃"), ("dog", "🐶"), ("cat", "🐱"),
     ("rabbit", "🐰"), ("mouse", "🐭"), ("monkey", "🐵"), ("lion", "🦁"),
+    ("mom", "👩🏻"), ("dad", "👨🏻"), ("baby sister", "👶🏻"),
     ("tiger", "🐯"), ("bear", "🐻"), ("panda", "🐼"), ("frog", "🐸"),
     ("duck", "🦆"), ("chicken", "🐔"), ("penguin", "🐧"), ("fish", "🐟"),
     ("turtle", "🐢"), ("butterfly", "🦋"), ("bee", "🐝"), ("ladybug", "🐞"),
@@ -29,7 +30,7 @@ OBJECTS = [
     ("basketball", "🏀"), ("baseball", "⚾"), ("football", "🏈"), ("tennis ball", "🎾"),
     ("medal", "🏅"), ("flag", "🚩"), ("fire truck", "🚒"), ("police car", "🚓"),
     ("bus", "🚌"), ("tractor", "🚜"), ("ambulance", "🚑"), ("traffic light", "🚦"),
-    ("stop sign", "🛑"), ("castle", "🏰"), ("beach ball", "🏐"), ("rubber duck", "🦆"),
+    ("stop sign", "🛑"), ("castle", "🏰"), ("beach ball", "🏐"),
 ]
 
 
@@ -41,6 +42,26 @@ COLORS = [
 
 def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+NO_ARTICLE_WORDS = {
+    "blocks", "scissors", "grapes", "ice cream", "milk", "socks",
+    "peas", "broccoli", "corn", "bread", "cheese", "butter", "honey",
+    "popcorn", "candy", "noodles", "rice", "soup", "salad", "gloves",
+    "boots", "sandals", "glasses", "mom", "dad", "baby sister",
+}
+
+AN_ARTICLE_WORDS = {
+    "airplane", "apple", "umbrella", "ambulance", "elephant", "owl",
+    "otter", "eagle", "orange", "onion", "egg", "ant", "octopus",
+}
+
+
+def reveal_sentence(word):
+    if word in NO_ARTICLE_WORDS:
+        return f"It's {word}"
+    article = "an" if word in AN_ARTICLE_WORDS else "a"
+    return f"It's {article} {word}"
 
 
 def font(size):
@@ -212,6 +233,7 @@ def main():
             "image": str(large).replace("\\", "/"),
             "sprite": str(sprite).replace("\\", "/"),
             "audio": str((audio_dir / f"{slug}.opus")).replace("\\", "/"),
+            "revealSentence": reveal_sentence(word),
             "hitbox": sprite_outline(sprite),
         })
 

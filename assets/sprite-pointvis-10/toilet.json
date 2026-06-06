@@ -1,14 +1,95 @@
 {
-  "area": 1077.588647,
+  "name": "toilet",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 822.7958906700806,
+  "sprite_area_pixels2": 813,
+  "sides": 17,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [39.906604, 40.729184],
-    [39.880650, 43.445819],
-    [7.597362, 43.942653],
-    [9.752850, 38.052781],
-    [2.034768, 21.482361],
-    [25.666918, 18.400759],
-    [28.765535, 16.119411],
-    [28.724721, 3.894077],
-    [43.939500, 0.651834]
+    [
+      29.5,
+      3.5
+    ],
+    [
+      29.5,
+      20.792893
+    ],
+    [
+      28.792893,
+      21.5
+    ],
+    [
+      5.5,
+      21.5
+    ],
+    [
+      5.5,
+      25.207107
+    ],
+    [
+      5.881851,
+      25.588958
+    ],
+    [
+      6.881851,
+      29.588958
+    ],
+    [
+      11.70382,
+      34.410927
+    ],
+    [
+      13.5,
+      35.309017
+    ],
+    [
+      13.5,
+      36.194841
+    ],
+    [
+      10.1204,
+      41.827507
+    ],
+    [
+      11.792893,
+      43.5
+    ],
+    [
+      34.207107,
+      43.5
+    ],
+    [
+      35.5,
+      42.207107
+    ],
+    [
+      35.5,
+      28.567521
+    ],
+    [
+      41.5,
+      23.567521
+    ],
+    [
+      41.5,
+      3.5
+    ]
   ]
 }

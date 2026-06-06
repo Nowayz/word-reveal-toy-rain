@@ -1,11 +1,123 @@
 {
-  "area": 1220.410172,
+  "name": "ambulance",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1031.8846782260155,
+  "sprite_area_pixels2": 983,
+  "sides": 24,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": -0.5
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.75,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [5.356158, 39.124426],
-    [-0.213727, 29.071214],
-    [18.713217, 6.637252],
-    [43.322925, 4.507883],
-    [44.431590, 4.516062],
-    [43.350536, 39.147957]
+    [
+      22.68934,
+      7.25
+    ],
+    [
+      20.25,
+      9.68934
+    ],
+    [
+      20.25,
+      11.68934
+    ],
+    [
+      20.0,
+      11.93934
+    ],
+    [
+      18.31066,
+      10.25
+    ],
+    [
+      16.68934,
+      10.25
+    ],
+    [
+      13.68934,
+      13.25
+    ],
+    [
+      12.280954,
+      13.25
+    ],
+    [
+      3.25,
+      24.287833
+    ],
+    [
+      3.25,
+      33.31066
+    ],
+    [
+      4.68934,
+      34.75
+    ],
+    [
+      7.68934,
+      34.75
+    ],
+    [
+      12.169938,
+      39.230598
+    ],
+    [
+      16.4632,
+      38.157282
+    ],
+    [
+      18.734721,
+      34.75
+    ],
+    [
+      28.68934,
+      34.75
+    ],
+    [
+      32.68934,
+      38.75
+    ],
+    [
+      36.177051,
+      38.75
+    ],
+    [
+      38.75,
+      37.463525
+    ],
+    [
+      38.75,
+      36.31066
+    ],
+    [
+      39.905136,
+      35.155524
+    ],
+    [
+      43.75,
+      33.873903
+    ],
+    [
+      43.75,
+      8.68934
+    ],
+    [
+      42.31066,
+      7.25
+    ]
   ]
 }

@@ -1,10 +1,99 @@
 {
-  "area": 1126.402260,
+  "name": "pizza",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 951.7768762521684,
+  "sprite_area_pixels2": 928,
+  "sides": 18,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [0.562253, 23.542382],
-    [4.043297, 16.495193],
-    [39.259825, -1.079751],
-    [40.428500, -1.072702],
-    [41.585905, 49.302455]
+    [
+      34.792893,
+      3.5
+    ],
+    [
+      33.792893,
+      4.5
+    ],
+    [
+      30.792893,
+      4.5
+    ],
+    [
+      30.253494,
+      5.039399
+    ],
+    [
+      25.012907,
+      6.087517
+    ],
+    [
+      16.445964,
+      10.84693
+    ],
+    [
+      5.5,
+      21.792893
+    ],
+    [
+      5.5,
+      25.207107
+    ],
+    [
+      9.229909,
+      28.937016
+    ],
+    [
+      11.14556,
+      29.575566
+    ],
+    [
+      18.212933,
+      34.62369
+    ],
+    [
+      23.212933,
+      36.62369
+    ],
+    [
+      28.074638,
+      40.096336
+    ],
+    [
+      34.881966,
+      43.5
+    ],
+    [
+      38.207107,
+      43.5
+    ],
+    [
+      40.5,
+      41.207107
+    ],
+    [
+      40.5,
+      5.792893
+    ],
+    [
+      38.207107,
+      3.5
+    ]
   ]
 }

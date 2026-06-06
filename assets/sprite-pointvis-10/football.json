@@ -1,13 +1,115 @@
 {
-  "area": 1387.637667,
+  "name": "football",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 1220.3480413316906,
+  "sprite_area_pixels2": 1202,
+  "sides": 22,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [27.556236, 2.154547],
-    [44.761215, 5.483701],
-    [44.959784, 23.379755],
-    [36.080718, 38.412025],
-    [20.443764, 45.845453],
-    [3.238785, 42.516299],
-    [3.040216, 24.620245],
-    [11.919282, 9.587975]
+    [
+      27.792893,
+      3.5
+    ],
+    [
+      26.792893,
+      4.5
+    ],
+    [
+      23.881966,
+      4.5
+    ],
+    [
+      15.70382,
+      8.589073
+    ],
+    [
+      8.589073,
+      15.70382
+    ],
+    [
+      4.5,
+      23.881966
+    ],
+    [
+      4.5,
+      26.792893
+    ],
+    [
+      3.5,
+      27.792893
+    ],
+    [
+      3.5,
+      38.833333
+    ],
+    [
+      5.87082,
+      41.994427
+    ],
+    [
+      8.881966,
+      43.5
+    ],
+    [
+      19.207107,
+      43.5
+    ],
+    [
+      20.207107,
+      42.5
+    ],
+    [
+      23.118034,
+      42.5
+    ],
+    [
+      31.29618,
+      38.410927
+    ],
+    [
+      38.410927,
+      31.29618
+    ],
+    [
+      42.5,
+      23.118034
+    ],
+    [
+      42.5,
+      20.207107
+    ],
+    [
+      43.5,
+      19.207107
+    ],
+    [
+      43.5,
+      8.166667
+    ],
+    [
+      41.12918,
+      5.005573
+    ],
+    [
+      38.118034,
+      3.5
+    ]
   ]
 }

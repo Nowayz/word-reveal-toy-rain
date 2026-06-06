@@ -1,11 +1,107 @@
 {
-  "area": 971.764310,
+  "name": "cloud",
+  "algorithm": "bounded support-line search, dilated approxPolyDP fallback, particle-wrap fallback",
+  "method": "support-line",
+  "area": 836.2151609290012,
+  "sprite_area_pixels2": 820,
+  "sides": 20,
+  "alpha_threshold": 128,
+  "verification": {
+    "missing_sprite_pixels": 0,
+    "largest_edge_max_sdf": 0.0
+  },
+  "parameters": {
+    "max_sides": 32,
+    "support_margin": 0.5,
+    "normal_sign": -1,
+    "rdp_epsilon": 0.5,
+    "epsilon_fraction": null,
+    "scale": null,
+    "dilation_kernel": null,
+    "dilation_iterations": null,
+    "dilated_contour_count": null,
+    "dilated_contour_source": null
+  },
   "vertices": [
-    [2.063200, 36.736268],
-    [2.056539, 35.619966],
-    [-0.183395, 24.423136],
-    [21.049155, 10.831672],
-    [43.506697, 10.970246],
-    [43.527104, 36.766100]
+    [
+      27.792893,
+      10.5
+    ],
+    [
+      26.792893,
+      11.5
+    ],
+    [
+      24.5,
+      11.5
+    ],
+    [
+      20.5,
+      14.5
+    ],
+    [
+      15.792893,
+      14.5
+    ],
+    [
+      13.253494,
+      17.039399
+    ],
+    [
+      7.390011,
+      18.212096
+    ],
+    [
+      3.5,
+      23.074609
+    ],
+    [
+      3.5,
+      30.207107
+    ],
+    [
+      5.5,
+      32.207107
+    ],
+    [
+      5.5,
+      33.75
+    ],
+    [
+      9.166667,
+      36.5
+    ],
+    [
+      34.118034,
+      36.5
+    ],
+    [
+      38.29618,
+      34.410927
+    ],
+    [
+      41.410927,
+      31.29618
+    ],
+    [
+      43.5,
+      27.118034
+    ],
+    [
+      43.5,
+      19.881966
+    ],
+    [
+      41.410927,
+      15.70382
+    ],
+    [
+      38.29618,
+      12.589073
+    ],
+    [
+      34.118034,
+      10.5
+    ]
   ]
 }
