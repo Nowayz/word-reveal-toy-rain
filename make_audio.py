@@ -13,7 +13,7 @@ ASSETS = Path("assets")
 AUDIO_DIR = ASSETS / "audio"
 MANIFEST = ASSETS / "manifest.json"
 QWEN_MODEL = "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
-PREFERRED_SPEAKERS = ("vivian", "sohee", "serena", "ono_anna")
+PREFERRED_SPEAKERS = ("ryan", "vivian", "sohee", "serena", "ono_anna")
 INSTRUCTION = "Speak clearly and slowly, sounding each word out carefully, as if teaching it to a child."
 LETTERS = "abcdefghijklmnopqrstuvwxyz"
 
