@@ -44,6 +44,7 @@ let canvasResizeRaf = 0;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
 const audioBufferPromises = new Map();
+const REMOVED_WORDS = new Set(["dodo", "rubber duck", "tie", "soap"]);
 const wordMeasureEl = document.createElement("div");
 wordMeasureEl.className = "word word-measure";
 wordMeasureEl.setAttribute("aria-hidden", "true");
@@ -1309,7 +1310,7 @@ async function init() {
   resizeCanvas();
   setupPhysics();
   const response = await fetch("assets/manifest.json", { cache: "no-store" });
-  manifest = await response.json();
+  manifest = (await response.json()).filter((item) => !REMOVED_WORDS.has(item.word));
   restart();
 }
 
