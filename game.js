@@ -42,7 +42,9 @@ let motionHasGravity = false;
 let motionGravityEnabled = false;
 let canvasResizeRaf = 0;
 let gamepadRaf = 0;
-let gamepadActionWasPressed = false;
+let gamepadActionButtonDown = false;
+let gamepadLetterButtonDown = false;
+let letterSequencePlaying = false;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
 const audioBufferPromises = new Map();
@@ -60,6 +62,8 @@ const BASE_GRAVITY_Y = 0.8;
 const ORIENTED_GRAVITY_SCALE = 0.8;
 const MIN_GRAVITY_SENSOR_MAGNITUDE = 0.1;
 const GAMEPAD_STICK_DEADZONE = 0.15;
+const GAMEPAD_ACTION_EVENT = "gamepad-action-press";
+const GAMEPAD_LETTER_SEQUENCE_EVENT = "gamepad-letter-sequence-press";
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -482,6 +486,24 @@ async function playAudio(src) {
   } catch {
     return false;
   }
+}
+
+async function playAudioAndWait(src) {
+  const context = await resumeAudioContext();
+  const buffer = await preloadAudio(src);
+  if (!context || !buffer) return false;
+
+  return new Promise((resolve) => {
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(context.destination);
+    source.addEventListener("ended", () => resolve(true), { once: true });
+    try {
+      source.start(0);
+    } catch {
+      resolve(false);
+    }
+  });
 }
 
 function unlockAudio() {
@@ -1004,6 +1026,30 @@ function handleGamepadAction() {
   }
 }
 
+async function handleGamepadLetterSequence() {
+  if (letterSequencePlaying || !deck.length || done.hidden === false) return;
+
+  const letters = Array.from(current().word).filter((letter) => letterAudioSrc(letter));
+  const letterCells = Array.from(wordEl.querySelectorAll(".letter-cell"));
+  if (!letters.length) return;
+
+  letterSequencePlaying = true;
+  try {
+    for (let i = 0; i < letters.length; i++) {
+      const letterCell = letterCells[i];
+      letterCell?.classList.add("active");
+      await playAudioAndWait(letterAudioSrc(letters[i]));
+      letterCell?.classList.remove("active");
+      await delay(70);
+    }
+  } finally {
+    for (const letterCell of letterCells) {
+      letterCell.classList.remove("active");
+    }
+    letterSequencePlaying = false;
+  }
+}
+
 function pollGamepads() {
   const pad = getPrimaryGamepad();
   const actionPressed = Boolean(
@@ -1011,11 +1057,21 @@ function pollGamepads() {
       ((pad.buttons[0] && pad.buttons[0].pressed) ||
         (pad.buttons[1] && pad.buttons[1].pressed))
   );
+  const letterSequencePressed = Boolean(
+    pad &&
+      ((pad.buttons[2] && pad.buttons[2].pressed) ||
+        (pad.buttons[3] && pad.buttons[3].pressed))
+  );
 
-  if (actionPressed && !gamepadActionWasPressed) {
-    handleGamepadAction();
+  if (actionPressed && !gamepadActionButtonDown) {
+    window.dispatchEvent(new Event(GAMEPAD_ACTION_EVENT));
   }
-  gamepadActionWasPressed = actionPressed;
+  gamepadActionButtonDown = actionPressed;
+
+  if (letterSequencePressed && !gamepadLetterButtonDown) {
+    window.dispatchEvent(new Event(GAMEPAD_LETTER_SEQUENCE_EVENT));
+  }
+  gamepadLetterButtonDown = letterSequencePressed;
   gamepadRaf = requestAnimationFrame(pollGamepads);
 }
 
@@ -1385,6 +1441,8 @@ async function init() {
 revealButton.addEventListener("click", () => reveal(false));
 missButton.addEventListener("click", () => reveal(true));
 nextButton.addEventListener("click", nextCard);
+window.addEventListener(GAMEPAD_ACTION_EVENT, handleGamepadAction);
+window.addEventListener(GAMEPAD_LETTER_SEQUENCE_EVENT, handleGamepadLetterSequence);
 bindTouchButton(revealButton, () => reveal(false));
 bindTouchButton(missButton, () => reveal(true));
 bindTouchButton(nextButton, () => nextCard());
