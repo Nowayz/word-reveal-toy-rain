@@ -41,6 +41,8 @@ let motionGravityZ = 0;
 let motionHasGravity = false;
 let motionGravityEnabled = false;
 let canvasResizeRaf = 0;
+let gamepadRaf = 0;
+let gamepadActionWasPressed = false;
 const letterActivationState = new WeakMap();
 const preloadCache = new Map();
 const audioBufferPromises = new Map();
@@ -57,6 +59,7 @@ const ACTIVE_LETTER_SCALE = 1.25;
 const BASE_GRAVITY_Y = 0.8;
 const ORIENTED_GRAVITY_SCALE = 0.8;
 const MIN_GRAVITY_SENSOR_MAGNITUDE = 0.1;
+const GAMEPAD_STICK_DEADZONE = 0.15;
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -948,13 +951,78 @@ function getOrientationGravityProjection() {
   };
 }
 
+function getPrimaryGamepad() {
+  if (typeof navigator === "undefined" || !navigator.getGamepads) return null;
+  const pads = navigator.getGamepads();
+  for (const pad of pads) {
+    if (pad && pad.connected) return pad;
+  }
+  return null;
+}
+
+function getGamepadGravity() {
+  const pad = getPrimaryGamepad();
+  if (!pad || pad.axes.length < 4) return null;
+
+  const x = pad.axes[2] || 0;
+  const y = pad.axes[3] || 0;
+  const magnitude = Math.hypot(x, y);
+  if (magnitude <= GAMEPAD_STICK_DEADZONE) {
+    return { x: 0, y: BASE_GRAVITY_Y };
+  }
+
+  const adjustedMagnitude = clamp(
+    (magnitude - GAMEPAD_STICK_DEADZONE) / (1 - GAMEPAD_STICK_DEADZONE),
+    0,
+    1
+  );
+  const directionScale = adjustedMagnitude / magnitude;
+  return {
+    x: x * directionScale * ORIENTED_GRAVITY_SCALE,
+    y: y * directionScale * ORIENTED_GRAVITY_SCALE,
+  };
+}
+
 function getOrientedGravity() {
+  const gamepadGravity = getGamepadGravity();
+  if (gamepadGravity) return gamepadGravity;
+
   const projection = getMotionGravityProjection() || getOrientationGravityProjection();
   if (!projection) {
     return { x: 0, y: BASE_GRAVITY_Y };
   }
 
   return rotateNaturalGravityToScreen(projection.naturalX, projection.naturalY);
+}
+
+function handleGamepadAction() {
+  if (!deck.length || done.hidden === false) return;
+  if (!revealed) {
+    reveal(false);
+  } else {
+    nextCard();
+  }
+}
+
+function pollGamepads() {
+  const pad = getPrimaryGamepad();
+  const actionPressed = Boolean(
+    pad &&
+      ((pad.buttons[0] && pad.buttons[0].pressed) ||
+        (pad.buttons[1] && pad.buttons[1].pressed))
+  );
+
+  if (actionPressed && !gamepadActionWasPressed) {
+    handleGamepadAction();
+  }
+  gamepadActionWasPressed = actionPressed;
+  gamepadRaf = requestAnimationFrame(pollGamepads);
+}
+
+function startGamepadPolling() {
+  if (!gamepadRaf) {
+    gamepadRaf = requestAnimationFrame(pollGamepads);
+  }
 }
 
 function setupOrientation() {
@@ -1308,6 +1376,7 @@ function bindTouchButton(button, handler) {
 async function init() {
   resizeCanvas();
   setupPhysics();
+  startGamepadPolling();
   const response = await fetch("assets/manifest.json", { cache: "no-store" });
   manifest = await response.json();
   restart();
