@@ -64,6 +64,9 @@ const MIN_GRAVITY_SENSOR_MAGNITUDE = 0.1;
 const GAMEPAD_STICK_DEADZONE = 0.15;
 const GAMEPAD_ACTION_EVENT = "gamepad-action-press";
 const GAMEPAD_LETTER_SEQUENCE_EVENT = "gamepad-letter-sequence-press";
+const LETTER_AUDIO_OVERRIDES = {
+  g: "assets/audio/g-20260720.opus",
+};
 const AUDIO_VISUAL_SYNC_FALLBACK_MS = 650;
 const EMPTY_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
@@ -529,6 +532,7 @@ function delay(ms) {
 
 function letterAudioSrc(letter) {
   const normalized = letter.trim().toLowerCase();
+  if (LETTER_AUDIO_OVERRIDES[normalized]) return LETTER_AUDIO_OVERRIDES[normalized];
   return /^[a-z]$/.test(normalized) ? `assets/audio/${normalized}.opus` : null;
 }
 
